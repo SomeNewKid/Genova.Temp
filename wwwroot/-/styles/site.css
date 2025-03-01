@@ -1,0 +1,3 @@
+﻿#target-css::after {
+    content: "Hello from CSS";
+}

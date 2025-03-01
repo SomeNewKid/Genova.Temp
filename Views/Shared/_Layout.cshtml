@@ -1,0 +1,38 @@
+﻿@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - My ASP.NET Core App</title>
+
+    <link rel="stylesheet" href="~/-/styles/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <h1>My ASP.NET Core App</h1>
+        <nav>
+            <ul>
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li><a asp-controller="About" asp-action="Index">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer>
+        <p>&copy; @DateTime.Now.Year - My Website</p>
+        <p id="target-css"></p>
+        <p id="target-js"></p>
+    </footer>
+
+    <script src="~/-/scripts/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

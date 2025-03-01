@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "An Error Has Occurred";
+    string? errorMessage = ViewData["ErrorMessage"] as string;
+}
+<h1>Oops! Something went wrong.</h1>
+<p>We encountered an unexpected error. Please try again later.</p>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div style="color: red; font-weight: bold; margin-top: 20px;">
+        <p>Error Details: @errorMessage</p>
+    </div>
+}
