@@ -27,7 +27,8 @@ public class HelloController : Controller
         html.Append("<body>");
         html.Append("  <h1>Hello</h1>");
         html.Append("  <p>Hello, world!</p>");
-        if (_localizationService.CurrentPageCulture != null)
+        if (_localizationService != null &&
+            _localizationService.CurrentPageCulture != null)
         {
             html.Append($"  <p>Current culture: {_localizationService.CurrentPageCulture.DisplayName}</p>");
         }

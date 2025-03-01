@@ -1,4 +1,5 @@
 using Genova.Temp.Localization;
+using Genova.Temp.ResponseModifiers;
 
 namespace Genova.Temp;
 
@@ -15,7 +16,6 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Configure localization services
         LocalizationMiddleware.ConfigureLocalizationServices(builder);
 
         builder.Services.AddControllersWithViews();
@@ -27,13 +27,14 @@ public class Program
     {
         var app = builder.Build();
 
+        app.UseResponseModifications();
+
         app.UseStaticFiles();
 
         app.UseLocalization();
 
         app.UseRouting();
 
-        // Use localization middleware
         LocalizationMiddleware.UseLocalization(app);
 
         app.UseStatusCodePagesWithReExecute("/Error/{0}"); // Handles 404 and other errors

@@ -14,4 +14,6 @@ public class LocalizationService : ILocalizationService
     public CultureInfo CurrentPageCulture { get; set; } = CultureInfo.CurrentCulture;
 
     public IList<CultureInfo> SupportedUICultures { get; }
+
+    public Guid Guid { get; } = Guid.NewGuid();
 }
