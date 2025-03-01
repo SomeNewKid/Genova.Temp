@@ -1,25 +1,54 @@
+using Genova.Temp.Localization;
+
 namespace Genova.Temp;
 
 public class Program
 {
     public static void Main(string[] args)
     {
+        var builder = CreateWebApplicationBuilder(args);
+        var app = BuildWebApplication(builder);
+        app.Run();
+    }
+
+    private static WebApplicationBuilder CreateWebApplicationBuilder(string[] args)
+    {
         var builder = WebApplication.CreateBuilder(args);
+
+        // Configure localization services
+        LocalizationMiddleware.ConfigureLocalizationServices(builder);
 
         builder.Services.AddControllersWithViews();
 
+        return builder;
+    }
+
+    private static WebApplication BuildWebApplication(WebApplicationBuilder builder)
+    {
         var app = builder.Build();
 
         app.UseStaticFiles();
 
-        app.UseExceptionHandler("/Error"); // Redirects unhandled exceptions to ErrorController.GeneralError()
+        app.UseLocalization();
+
+        app.UseRouting();
+
+        // Use localization middleware
+        LocalizationMiddleware.UseLocalization(app);
+
         app.UseStatusCodePagesWithReExecute("/Error/{0}"); // Handles 404 and other errors
+
+        app.UseExceptionHandler(new ExceptionHandlerOptions
+        {
+            ExceptionHandlingPath = "/Error",
+            AllowStatusCode404Response = true
+        });
 
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}"
-            );
+        );
 
-        app.Run();
+        return app;
     }
 }

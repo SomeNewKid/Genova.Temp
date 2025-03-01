@@ -1,10 +1,18 @@
 ﻿using System.Text;
+using Genova.Temp.Localization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Genova.Temp.Controllers;
 
 public class HelloController : Controller
 {
+    private readonly ILocalizationService _localizationService;
+
+    public HelloController(ILocalizationService localizationService)
+    {
+        _localizationService = localizationService;
+    }
+
     public IActionResult Index()
     {
         StringBuilder html = new StringBuilder();
@@ -19,6 +27,10 @@ public class HelloController : Controller
         html.Append("<body>");
         html.Append("  <h1>Hello</h1>");
         html.Append("  <p>Hello, world!</p>");
+        if (_localizationService.CurrentPageCulture != null)
+        {
+            html.Append($"  <p>Current culture: {_localizationService.CurrentPageCulture.DisplayName}</p>");
+        }
         html.Append("</body>");
         html.Append("</html>");
 

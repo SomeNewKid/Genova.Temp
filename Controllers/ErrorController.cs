@@ -5,8 +5,8 @@ namespace Genova.Temp.Controllers;
 
 public class ErrorController : Controller
 {
-    [Route("Error/{statusCode}")]
-    public IActionResult HandleError(int statusCode)
+    [Route("Error/{statusCode?}")]
+    public IActionResult HandleError(int? statusCode)
     {
         if (statusCode == 404)
         {

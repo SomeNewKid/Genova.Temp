@@ -1,0 +1,82 @@
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
+
+namespace Genova.Temp.Localization;
+
+public class LocalizationMiddleware
+{
+    private readonly RequestDelegate _next;
+    private readonly RequestLocalizationOptions _localizationOptions;
+    private readonly string _defaultCulture;
+    private CultureInfo _culture = CultureInfo.CurrentCulture;
+
+    public LocalizationMiddleware(RequestDelegate next, IOptions<RequestLocalizationOptions> localizationOptions)
+    {
+        _next = next;
+        _localizationOptions = localizationOptions.Value;
+        _defaultCulture = _localizationOptions.DefaultRequestCulture.Culture.Name;
+    }
+
+    public async Task Invoke(HttpContext context, ILocalizationService localizationService)
+    {
+        string? path = context.Request.Path.Value?.Trim('/');
+        string[] slugs = path?.Split('/') ?? Array.Empty<string>();
+        string? cultureSlug = slugs?.FirstOrDefault();
+        List<string>? supportedCultures = _localizationOptions.SupportedCultures?.Select(c => c.Name).ToList();
+         
+        CultureInfo cultureToSet = _localizationOptions.DefaultRequestCulture.Culture;
+
+        if (!string.IsNullOrEmpty(cultureSlug) && supportedCultures != null)
+        {
+            var matchingCulture = supportedCultures
+                .FirstOrDefault(c => string.Equals(c, cultureSlug, StringComparison.OrdinalIgnoreCase));
+
+            if (matchingCulture != null)
+            {
+                cultureToSet = new CultureInfo(matchingCulture);
+
+                // Remove the culture slug from the path
+                if (slugs != null)
+                {
+                    string newPath = string.Join('/', slugs.Skip(1));
+                    context.Request.Path = new PathString("/" + newPath);
+                }
+            }
+        }
+
+        localizationService.CurrentPageCulture = cultureToSet;
+
+        await _next(context);
+    }
+
+    public static void ConfigureLocalizationServices(WebApplicationBuilder builder)
+    {
+        IConfiguration configuration = builder.Configuration;
+
+        // Load localization settings from appsettings.json
+        var supportedCultures = configuration.GetSection("Localization:SupportedCultures").Get<string[]>() ?? Array.Empty<string>();
+        var defaultCulture = supportedCultures.FirstOrDefault() ?? "en";
+
+        // Define supported cultures
+        var supportedCultureInfos = supportedCultures.Select(c => new CultureInfo(c)).ToArray();
+
+        // Add localization services
+        builder.Services.Configure<RequestLocalizationOptions>(options =>
+        {
+            options.DefaultRequestCulture = new RequestCulture(defaultCulture);
+            options.SupportedCultures = supportedCultureInfos;
+            options.SupportedUICultures = supportedCultureInfos;
+        });
+
+        // Register the localization service as scoped
+        builder.Services.AddScoped<ILocalizationService, LocalizationService>();
+    }
+
+    public static void UseLocalization(WebApplication app)
+    {
+        // Enable request localization middleware
+        var localizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
+        app.UseRequestLocalization(localizationOptions);
+    }
+}
