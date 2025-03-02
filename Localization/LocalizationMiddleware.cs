@@ -57,42 +57,4 @@ public class LocalizationMiddleware
 
         await _next(context);
     }
-
-    public static void ConfigureLocalizationServices(WebApplicationBuilder builder)
-    {
-        IConfiguration configuration = builder.Configuration;
-
-        // Load localization settings from appsettings.json
-        var supportedCultures = configuration.GetSection("Localization:SupportedCultures").Get<string[]>() ?? Array.Empty<string>();
-        var defaultCulture = supportedCultures.FirstOrDefault() ?? "en";
-
-        // Define supported cultures
-        var supportedCultureInfos = supportedCultures.Select(c => new CultureInfo(c)).ToArray();
-
-        // Add localization services
-        builder.Services.Configure<RequestLocalizationOptions>(options =>
-        {
-            options.DefaultRequestCulture = new RequestCulture(defaultCulture);
-            options.SupportedCultures = supportedCultureInfos;
-            options.SupportedUICultures = supportedCultureInfos;
-            options.FallBackToParentCultures = true;
-            options.FallBackToParentUICultures = true;
-        });
-
-        // Register the localization service as scoped
-        builder.Services.AddScoped<ILocalizationService, LocalizationService>();
-
-        // Register the custom CompositeStringLocalizerFactory
-        builder.Services.AddSingleton<IStringLocalizerFactory, CompositeStringLocalizerFactory>(sp =>
-        {
-            var innerFactory = new ResourceManagerStringLocalizerFactory(
-                sp.GetRequiredService<IOptions<LocalizationOptions>>(),
-                sp.GetRequiredService<ILoggerFactory>());
-            var localizationOptions = sp.GetRequiredService<IOptions<RequestLocalizationOptions>>();
-            var fallbackFactory = new FallbackStringLocalizerFactory(innerFactory, localizationOptions);
-            var datastoreFactory = new DatastoreStringLocalizerFactory();
-            var factories = new List<IStringLocalizerFactory> { fallbackFactory, datastoreFactory };
-            return new CompositeStringLocalizerFactory(factories);
-        });
-    }
 }

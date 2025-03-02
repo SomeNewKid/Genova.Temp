@@ -17,21 +17,26 @@ public class Program
     private static WebApplicationBuilder CreateWebApplicationBuilder(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        var services = builder.Services;
+        var configuration = builder.Configuration;
 
-        // Add MVC with lowercase URLs
-        builder.Services.AddRouting(options =>
+        // Configure localization
+
+        services.ConfigureLocalization(configuration);
+        
+        services.AddLocalization(options => options.ResourcesPath = "Resources");
+        
+        // Configure MVC
+
+        services.AddControllersWithViews();   
+        
+        services.AddHttpContextAccessor();
+
+        services.AddRouting(options =>
         {
             options.LowercaseUrls = true; // Force lowercase URLs
             options.LowercaseQueryStrings = false; // Keep query strings case-sensitive
         });
-
-        LocalizationMiddleware.ConfigureLocalizationServices(builder);
-
-        builder.Services.AddControllersWithViews();
-
-        builder.Services.AddHttpContextAccessor();
-
-        builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
         return builder;
     }
