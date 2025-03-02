@@ -11,9 +11,12 @@ public class LocalizationService : ILocalizationService
         SupportedUICultures = options.SupportedUICultures ?? new List<CultureInfo>();
     }
 
-    public CultureInfo CurrentPageCulture { get; set; } = CultureInfo.CurrentCulture;
+    public CultureInfo CurrentPageCulture { get; set; } = CultureInfo.CurrentUICulture;
+
+    public CultureInfo DefaultCulture => 
+        SupportedUICultures.Count > 0 
+        ? SupportedUICultures[0] 
+        : CultureInfo.CurrentUICulture;
 
     public IList<CultureInfo> SupportedUICultures { get; }
-
-    public Guid Guid { get; } = Guid.NewGuid();
 }

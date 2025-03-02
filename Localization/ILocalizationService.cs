@@ -6,5 +6,7 @@ public interface ILocalizationService
 {
     CultureInfo CurrentPageCulture { get; set; }
 
+    CultureInfo DefaultCulture { get; }
+
     IList<CultureInfo> SupportedUICultures { get; }
 }

@@ -1,5 +1,6 @@
 using Genova.Temp.Localization;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Genova.Temp.ResponseModifiers;
 
@@ -36,15 +37,15 @@ public class HtmlResponseModifier : TextResponseModifier
         {
             string cultureSlug = ResponseContext.CurrentPageCulture.Name;
             string defaultCultureSlug = CultureInfo.CurrentUICulture.Name.ToLowerInvariant();
+            string dir = cultureSlug == "ar" ? " dir=\"rtl\"" : string.Empty;
+
             if (!cultureSlug.Equals(defaultCultureSlug, StringComparison.OrdinalIgnoreCase))
             {
                 modifiedBody = PrependLinkSlug(modifiedBody, cultureSlug.ToLowerInvariant());
-                modifiedHead = modifiedHead.Replace(" lang=\"en\"", $" lang=\"{cultureSlug}\"");
-                if (cultureSlug == "ar")
-                {
-                    modifiedHead = modifiedHead.Replace(" lang=\"ar\"", " lang=\"ar\" dir=\"rtl\"");
-                }
             }
+
+            // Use regular expression to replace the lang attribute and inject the dir attribute
+            modifiedHead = Regex.Replace(modifiedHead, @"\s+lang=""[^""]*""", $" lang=\"{cultureSlug}\"{dir}");
         }
         return modifiedHead + modifiedBody;
     }

@@ -1,8 +1,26 @@
 ﻿@using Microsoft.Extensions.Localization
 @inject IStringLocalizer<Genova.Temp. SharedResource> Localizer
+@inject Genova.Temp.Localization.ILocalizationService LocalizationService
+
 @{
-}<!DOCTYPE html>
-<html lang="en">
+    var defaultCulture = LocalizationService.DefaultCulture.Name;
+    var enPrefix = defaultCulture.Equals("en", StringComparison.InvariantCultureIgnoreCase) ? "" : "en";
+    var zhPrefix = defaultCulture.Equals("zh", StringComparison.InvariantCultureIgnoreCase) ? "" : "zh";
+    var zhhkPrefix = defaultCulture.Equals("zh-HK", StringComparison.InvariantCultureIgnoreCase) ? "" : "zh-hk";
+    var arPrefix = defaultCulture.Equals("ar", StringComparison.InvariantCultureIgnoreCase) ? "" : "ar";
+
+    var selectorTitles = new string[,]
+    {
+        { "zh-HK", "語言選擇" },
+        { "zh", "语言选择" },
+        { "ar", "اختيار اللغة" },
+        { "en", "Language selection" }
+    };
+
+    var selectorTitle = LocalizationHelper.GetLocalizedValue(selectorTitles);
+}
+<!DOCTYPE html>
+<html lang="@defaultCulture.ToLowerInvariant()">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,12 +30,12 @@
 </head>
 <body>
     <header>
-        <nav aria-label="Language selection">
+        <nav aria-label="@selectorTitle">
             <ul dir="ltr">
-                <li><a href="/" lang="en">English</a></li>
-                <li><a href="/zh" lang="zh">简体中文</a></li>
-                <li><a href="/zh-hk" lang="zh-HK">繁體中文</a></li>
-                <li><a href="/ar" lang="ar" dir="rtl">العربية</a></li>
+                <li><a href="/@enPrefix" lang="en">English</a></li>
+                <li><a href="/@zhPrefix" lang="zh">简体中文</a></li>
+                <li><a href="/@zhhkPrefix" lang="zh-HK">繁體中文</a></li>
+                <li><a href="/@arPrefix" lang="ar" dir="rtl">العربية</a></li>
             </ul>
         </nav>
         <hr />

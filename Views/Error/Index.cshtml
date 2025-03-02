@@ -1,13 +1,39 @@
 ﻿@{
-    ViewData["Title"] = "An Error Has Occurred";
+    var localizedTitles = new string[,]
+    {
+        { "zh-HK", "發生錯誤" },
+        { "zh", "发生错误" },
+        { "ar", "حدث خطأ" },
+        { "en", "An Error Has Occurred" }
+    };
+
+    ViewData["Title"] = LocalizationHelper.GetLocalizedValue(localizedTitles);
+
     string? errorMessage = ViewData["ErrorMessage"] as string;
 }
-<h1>Oops! Something went wrong.</h1>
-<p>We encountered an unexpected error. Please try again later.</p>
+
+<localize>
+    <case culture="zh-HK">
+        <h1>糟糕！發生了錯誤。</h1>
+        <p>我們遇到了一個意想不到的錯誤，請稍後再試。</p>
+    </case>
+    <case culture="zh">
+        <h1>糟糕！发生了错误。</h1>
+        <p>我们遇到了一个意想不到的错误，请稍后再试。</p>
+    </case>
+    <case culture="ar">
+        <h1>عذرًا! حدث خطأ.</h1>
+        <p>لقد واجهنا خطأ غير متوقع. الرجاء المحاولة لاحقًا.</p>
+    </case>
+    <case culture="en">
+        <h1>Oops! Something went wrong.</h1>
+        <p>We encountered an unexpected error. Please try again later.</p>
+    </case>
+</localize>
 
 @if (!string.IsNullOrEmpty(errorMessage))
 {
     <div style="color: red; font-weight: bold; margin-top: 20px;">
-        <p>Error Details: @errorMessage</p>
+        <p dir="ltr">Error Details: @errorMessage</p>
     </div>
 }
