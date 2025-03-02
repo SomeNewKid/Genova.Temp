@@ -1,3 +1,19 @@
-﻿#target-css::after {
+﻿/* Default (English) */
+#target-css::after {
     content: "Hello from CSS";
+}
+
+/* Traditional Chinese (Hong Kong) */
+html[lang="zh-HK"] #target-css::after {
+    content: "來自自定義樣式的問候"; /* "Greetings from custom styling" */
+}
+
+/* Simplified Chinese */
+html[lang="zh"] #target-css::after {
+    content: "来自自定义样式的问候"; /* "Greetings from custom styling" */
+}
+
+/* Arabic */
+html[lang="ar"] #target-css::after {
+    content: "تحية من التنسيق المخصص"; /* "Greetings from custom styling" */
 }

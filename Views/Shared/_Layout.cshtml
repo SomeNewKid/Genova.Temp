@@ -18,6 +18,7 @@
     };
 
     var selectorTitle = LocalizationHelper.GetLocalizedValue(selectorTitles);
+
 }
 <!DOCTYPE html>
 <html lang="@defaultCulture.ToLowerInvariant()">
@@ -83,24 +84,118 @@
             <case culture="ar">حقوق النشر &copy; @DateTime.Today.Year</case>
             <case culture="en">Copyright &copy; @DateTime.Today.Year</case>
         </p>
+
         <p>@Localizer["SPECIFIC_TEXT"]</p>
-        @*
         <p id="target-css"></p>
         <p id="target-js"></p>
-        <p>Current culture: @System.Globalization.CultureInfo.CurrentCulture</p>
-        <p>Current UI culture: @System.Globalization.CultureInfo.CurrentUICulture</p>
-        <p>Date: @DateTime.Today</p>
-        <p>Time: @DateTime.Now</p>
-        <p>Short Date: @DateTime.Today.ToShortDateString()</p>
-        <p>Short Time: @DateTime.Now.ToShortTimeString()</p>
-        <p>Long Date: @DateTime.Today.ToLongDateString()</p>
-        <p>Long Time: @DateTime.Now.ToLongTimeString()</p>
-        <p>Localized specific text: @Localizer["SPECIFIC_TEXT"]</p>
-        <p>Localized neutral text: @Localizer["NEUTRAL_TEXT"]</p>
-        <p>Localized default text: @Localizer["DEFAULT_TEXT"]</p>
-        <p>Localized default text: @Localizer["DATABASE_TEXT"]</p>
-        <p>Localized default text: @Localizer["MISSING_TEXT"]</p>
-        *@
+
+        <localize>
+            <case culture="zh-HK">
+                <p>日期: @DateTime.Today</p>
+                <p>時間: @DateTime.Now</p>
+                <p>短日期: @DateTime.Today.ToShortDateString()</p>
+                <p>短時間: @DateTime.Now.ToShortTimeString()</p>
+                <p>長日期: @DateTime.Today.ToLongDateString()</p>
+                <p>長時間: @DateTime.Now.ToLongTimeString()</p>
+            </case>
+
+            <case culture="zh">
+                <p>日期: @DateTime.Today</p>
+                <p>时间: @DateTime.Now</p>
+                <p>短日期: @DateTime.Today.ToShortDateString()</p>
+                <p>短时间: @DateTime.Now.ToShortTimeString()</p>
+                <p>长日期: @DateTime.Today.ToLongDateString()</p>
+                <p>长时间: @DateTime.Now.ToLongTimeString()</p>
+            </case>
+
+            <case culture="ar">
+                <p>التاريخ: @DateTime.Today</p>
+                <p>الوقت: @DateTime.Now</p>
+                <p>التاريخ المختصر: @DateTime.Today.ToShortDateString()</p>
+                <p>الوقت المختصر: @DateTime.Now.ToShortTimeString()</p>
+                <p>التاريخ الطويل: @DateTime.Today.ToLongDateString()</p>
+                <p>الوقت الطويل: @DateTime.Now.ToLongTimeString()</p>
+            </case>
+
+            <case culture="en">
+                <p>Date: @DateTime.Today</p>
+                <p>Time: @DateTime.Now</p>
+                <p>Short Date: @DateTime.Today.ToShortDateString()</p>
+                <p>Short Time: @DateTime.Now.ToShortTimeString()</p>
+                <p>Long Date: @DateTime.Today.ToLongDateString()</p>
+                <p>Long Time: @DateTime.Now.ToLongTimeString()</p>
+            </case>
+        </localize>
+
+        <localize>
+            <case culture="zh-HK">
+                <p>當前文化: @System.Globalization.CultureInfo.CurrentCulture</p>
+                <p>當前 UI 文化: @System.Globalization.CultureInfo.CurrentUICulture</p>
+                <p>本地化特定文本: @Localizer["SPECIFIC_TEXT"]</p>
+                <p>本地化中性文本: @Localizer["NEUTRAL_TEXT"]</p>
+                <p>本地化默認文本: @Localizer["DEFAULT_TEXT"]</p>
+                <p>本地化數據庫文本: @Localizer["DATABASE_TEXT"]</p>
+                <p>本地化缺失文本: @Localizer["MISSING_TEXT"]</p>
+            </case>
+
+            <case culture="zh">
+                <p>当前文化: @System.Globalization.CultureInfo.CurrentCulture</p>
+                <p>当前 UI 文化: @System.Globalization.CultureInfo.CurrentUICulture</p>
+                <p>本地化特定文本: @Localizer["SPECIFIC_TEXT"]</p>
+                <p>本地化中性文本: @Localizer["NEUTRAL_TEXT"]</p>
+                <p>本地化默认文本: @Localizer["DEFAULT_TEXT"]</p>
+                <p>本地化数据库文本: @Localizer["DATABASE_TEXT"]</p>
+                <p>本地化缺失文本: @Localizer["MISSING_TEXT"]</p>
+            </case>
+
+            <case culture="ar">
+                <p>الثقافة الحالية: @System.Globalization.CultureInfo.CurrentCulture</p>
+                <p>ثقافة واجهة المستخدم الحالية: @System.Globalization.CultureInfo.CurrentUICulture</p>
+                <p>النص المحدد المترجم: @Localizer["SPECIFIC_TEXT"]</p>
+                <p>النص المحايد المترجم: @Localizer["NEUTRAL_TEXT"]</p>
+                <p>النص الافتراضي المترجم: @Localizer["DEFAULT_TEXT"]</p>
+                <p>نص قاعدة البيانات المترجم: @Localizer["DATABASE_TEXT"]</p>
+                <p>النص المفقود المترجم: @Localizer["MISSING_TEXT"]</p>
+            </case>
+
+            <case culture="en">
+                <p>Current culture: @System.Globalization.CultureInfo.CurrentCulture</p>
+                <p>Current UI culture: @System.Globalization.CultureInfo.CurrentUICulture</p>
+                <p>Localized specific text: @Localizer["SPECIFIC_TEXT"]</p>
+                <p>Localized neutral text: @Localizer["NEUTRAL_TEXT"]</p>
+                <p>Localized default text: @Localizer["DEFAULT_TEXT"]</p>
+                <p>Localized database text: @Localizer["DATABASE_TEXT"]</p>
+                <p>Localized missing text: @Localizer["MISSING_TEXT"]</p>
+            </case>
+        </localize>
+
+        @{
+            decimal sampleNumber = 1234567.89m;
+            decimal sampleCurrency = 1234.56m;
+        }
+
+        <localize>
+            <case culture="zh-HK">
+                <p>數字格式: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("zh-HK"))</p>
+                <p>貨幣格式: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("zh-HK"))</p>
+            </case>
+
+            <case culture="zh">
+                <p>数字格式: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("zh-CN"))</p>
+                <p>货币格式: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("zh-CN"))</p>
+            </case>
+
+            <case culture="ar">
+                <p>تنسيق الأرقام: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("ar"))</p>
+                <p>تنسيق العملة: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("ar"))</p>
+            </case>
+
+            <case culture="en">
+                <p>Number Format: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("en-US"))</p>
+                <p>Currency Format: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("en-US"))</p>
+            </case>
+        </localize>
+
     </footer>
 
     <script src="~/-/scripts/site.js" asp-append-version="true"></script>
