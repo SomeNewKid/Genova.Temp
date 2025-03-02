@@ -1,54 +1,43 @@
 ﻿@using Microsoft.Extensions.Localization
-@inject IStringLocalizer<Genova.Temp. SharedResource> Localizer
+@inject IStringLocalizer<Genova.Temp.SharedResource> Localizer
 @inject Genova.Temp.Localization.ILocalizationService LocalizationService
 
 @{
-    var defaultCulture = LocalizationService.DefaultCulture.Name;
-    var enPrefix = defaultCulture.Equals("en", StringComparison.InvariantCultureIgnoreCase) ? "" : "en";
-    var zhPrefix = defaultCulture.Equals("zh", StringComparison.InvariantCultureIgnoreCase) ? "" : "zh";
-    var zhhkPrefix = defaultCulture.Equals("zh-HK", StringComparison.InvariantCultureIgnoreCase) ? "" : "zh-hk";
-    var arPrefix = defaultCulture.Equals("ar", StringComparison.InvariantCultureIgnoreCase) ? "" : "ar";
-
-    var selectorTitles = new string[,]
-    {
-        { "zh-HK", "語言選擇" },
-        { "zh", "语言选择" },
-        { "ar", "اختيار اللغة" },
-        { "en", "Language selection" }
-    };
-
-    var selectorTitle = LocalizationHelper.GetLocalizedValue(selectorTitles);
-
+    var defaultCulture = LocalizationService.DefaultCulture.Name.ToLowerInvariant();
+    var currentPageCulture = LocalizationService.CurrentPageCulture.Name.ToLowerInvariant();
+    var supportedCultures = LocalizationService.SupportedUICultures;
+    var htmlLangAtt = $"lang=\"{currentPageCulture}\"";
+    var htmlDirAtt = (System.Globalization.CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft) ? "dir=\"rtl\"" : "dir=\"ltr\"";
 }
+
 <!DOCTYPE html>
-<html lang="@defaultCulture.ToLowerInvariant()">
+<html @Html.Raw(htmlLangAtt)>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
-
+    <title>@Html.Raw(ViewData["Title"])</title>
     <link rel="stylesheet" href="~/-/styles/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav aria-label="@selectorTitle">
-            <ul dir="ltr">
-                <li><a href="/@enPrefix" lang="en">English</a></li>
-                <li><a href="/@zhPrefix" lang="zh">简体中文</a></li>
-                <li><a href="/@zhhkPrefix" lang="zh-HK">繁體中文</a></li>
-                <li><a href="/@arPrefix" lang="ar" dir="rtl">العربية</a></li>
-            </ul>
-        </nav>
+        @await Html.PartialAsync("_LanguageSwitcher")
         <hr />
         <h1>
             <localize>
                 <case culture="zh-HK">測試網站</case>
                 <case culture="zh">测试网站</case>
                 <case culture="ar">موقع اختبار</case>
+                <case culture="he">אתר בדיקה</case>
+                <case culture="fa">وب سایت آزمایشی</case>
+                <case culture="ur">ٹیسٹ ویب سائٹ</case>
+                <case culture="ja">テストウェブサイト</case>
+                <case culture="th">เว็บไซต์ทดสอบ</case>
+                <case culture="ko">테스트 웹사이트</case>
+                <case culture="el">Ιστότοπος δοκιμών</case>
+                <case culture="hi">परीक्षण वेबसाइट</case>
                 <case culture="en">Test Website</case>
             </localize>
         </h1>
-
         <nav>
             <ul>
                 <li>
@@ -56,6 +45,14 @@
                         <case culture="zh-HK">首頁</case>
                         <case culture="zh">首页</case>
                         <case culture="ar">الرئيسية</case>
+                        <case culture="he">דף הבית</case>
+                        <case culture="fa">خانه</case>
+                        <case culture="ur">ہوم</case>
+                        <case culture="ja">ホーム</case>
+                        <case culture="th">หน้าหลัก</case>
+                        <case culture="ko">홈</case>
+                        <case culture="el">Αρχική</case>
+                        <case culture="hi">होम</case>
                         <case culture="en">Home</case>
                     </a>
                 </li>
@@ -64,12 +61,20 @@
                         <case culture="zh-HK">關於我們</case>
                         <case culture="zh">关于我们</case>
                         <case culture="ar">من نحن</case>
+                        <case culture="he">אודות</case>
+                        <case culture="fa">درباره ما</case>
+                        <case culture="ur">ہمارے بارے میں</case>
+                        <case culture="ja">私たちについて</case>
+                        <case culture="th">เกี่ยวกับเรา</case>
+                        <case culture="ko">소개</case>
+                        <case culture="el">Σχετικά με εμάς</case>
+                        <case culture="hi">हमारे बारे में</case>
                         <case culture="en">About</case>
                     </a>
                 </li>
             </ul>
         </nav>
-        <hr />
+        <hr/>
     </header>
 
     <main>
@@ -82,6 +87,14 @@
             <case culture="zh-HK">版權所有 &copy; @DateTime.Today.Year</case>
             <case culture="zh">版权所有 &copy; @DateTime.Today.Year</case>
             <case culture="ar">حقوق النشر &copy; @DateTime.Today.Year</case>
+            <case culture="he">כל הזכויות שמורות &copy; @DateTime.Today.Year</case>
+            <case culture="fa">حق چاپ &copy; @DateTime.Today.Year</case>
+            <case culture="ur">کاپی رائٹ &copy; @DateTime.Today.Year</case>
+            <case culture="ja">著作権 &copy; @DateTime.Today.Year</case>
+            <case culture="th">ลิขสิทธิ์ &copy; @DateTime.Today.Year</case>
+            <case culture="ko">저작권 &copy; @DateTime.Today.Year</case>
+            <case culture="el">Πνευματικά δικαιώματα &copy; @DateTime.Today.Year</case>
+            <case culture="hi">कॉपीराइट &copy; @DateTime.Today.Year</case>
             <case culture="en">Copyright &copy; @DateTime.Today.Year</case>
         </p>
 
@@ -117,6 +130,78 @@
                 <p>الوقت الطويل: @DateTime.Now.ToLongTimeString()</p>
             </case>
 
+            <case culture="he">
+                <p>תאריך: @DateTime.Today</p>
+                <p>זמן: @DateTime.Now</p>
+                <p>תאריך קצר: @DateTime.Today.ToShortDateString()</p>
+                <p>זמן קצר: @DateTime.Now.ToShortTimeString()</p>
+                <p>תאריך ארוך: @DateTime.Today.ToLongDateString()</p>
+                <p>זמן ארוך: @DateTime.Now.ToLongTimeString()</p>
+            </case>
+
+            <case culture="fa">
+                <p>تاریخ: @DateTime.Today</p>
+                <p>زمان: @DateTime.Now</p>
+                <p>تاریخ کوتاه: @DateTime.Today.ToShortDateString()</p>
+                <p>زمان کوتاه: @DateTime.Now.ToShortTimeString()</p>
+                <p>تاریخ بلند: @DateTime.Today.ToLongDateString()</p>
+                <p>زمان بلند: @DateTime.Now.ToLongTimeString()</p>
+            </case>
+
+            <case culture="ur">
+                <p>تاریخ: @DateTime.Today</p>
+                <p>وقت: @DateTime.Now</p>
+                <p>مختصر تاریخ: @DateTime.Today.ToShortDateString()</p>
+                <p>مختصر وقت: @DateTime.Now.ToShortTimeString()</p>
+                <p>طویل تاریخ: @DateTime.Today.ToLongDateString()</p>
+                <p>طویل وقت: @DateTime.Now.ToLongTimeString()</p>
+            </case>
+
+            <case culture="ja">
+                <p>日付: @DateTime.Today</p>
+                <p>時間: @DateTime.Now</p>
+                <p>短い日付: @DateTime.Today.ToShortDateString()</p>
+                <p>短い時間: @DateTime.Now.ToShortTimeString()</p>
+                <p>長い日付: @DateTime.Today.ToLongDateString()</p>
+                <p>長い時間: @DateTime.Now.ToLongTimeString()</p>
+            </case>
+
+            <case culture="th">
+                <p>วันที่: @DateTime.Today</p>
+                <p>เวลา: @DateTime.Now</p>
+                <p>วันที่แบบสั้น: @DateTime.Today.ToShortDateString()</p>
+                <p>เวลาที่แบบสั้น: @DateTime.Now.ToShortTimeString()</p>
+                <p>วันที่แบบยาว: @DateTime.Today.ToLongDateString()</p>
+                <p>เวลาที่แบบยาว: @DateTime.Now.ToLongTimeString()</p>
+            </case>
+
+            <case culture="ko">
+                <p>날짜: @DateTime.Today</p>
+                <p>시간: @DateTime.Now</p>
+                <p>짧은 날짜: @DateTime.Today.ToShortDateString()</p>
+                <p>짧은 시간: @DateTime.Now.ToShortTimeString()</p>
+                <p>긴 날짜: @DateTime.Today.ToLongDateString()</p>
+                <p>긴 시간: @DateTime.Now.ToLongTimeString()</p>
+            </case>
+
+            <case culture="el">
+                <p>Ημερομηνία: @DateTime.Today</p>
+                <p>Ώρα: @DateTime.Now</p>
+                <p>Σύντομη ημερομηνία: @DateTime.Today.ToShortDateString()</p>
+                <p>Σύντομη ώρα: @DateTime.Now.ToShortTimeString()</p>
+                <p>Μακρά ημερομηνία: @DateTime.Today.ToLongDateString()</p>
+                <p>Μακρά ώρα: @DateTime.Now.ToLongTimeString()</p>
+            </case>
+
+            <case culture="hi">
+                <p>तारीख: @DateTime.Today</p>
+                <p>समय: @DateTime.Now</p>
+                <p>संक्षिप्त तारीख: @DateTime.Today.ToShortDateString()</p>
+                <p>संक्षिप्त समय: @DateTime.Now.ToShortTimeString()</p>
+                <p>लंबी तारीख: @DateTime.Today.ToLongDateString()</p>
+                <p>लंबा समय: @DateTime.Now.ToLongTimeString()</p>
+            </case>
+
             <case culture="en">
                 <p>Date: @DateTime.Today</p>
                 <p>Time: @DateTime.Now</p>
@@ -129,8 +214,6 @@
 
         <localize>
             <case culture="zh-HK">
-                <p>當前文化: @System.Globalization.CultureInfo.CurrentCulture</p>
-                <p>當前 UI 文化: @System.Globalization.CultureInfo.CurrentUICulture</p>
                 <p>本地化特定文本: @Localizer["SPECIFIC_TEXT"]</p>
                 <p>本地化中性文本: @Localizer["NEUTRAL_TEXT"]</p>
                 <p>本地化默認文本: @Localizer["DEFAULT_TEXT"]</p>
@@ -139,8 +222,6 @@
             </case>
 
             <case culture="zh">
-                <p>当前文化: @System.Globalization.CultureInfo.CurrentCulture</p>
-                <p>当前 UI 文化: @System.Globalization.CultureInfo.CurrentUICulture</p>
                 <p>本地化特定文本: @Localizer["SPECIFIC_TEXT"]</p>
                 <p>本地化中性文本: @Localizer["NEUTRAL_TEXT"]</p>
                 <p>本地化默认文本: @Localizer["DEFAULT_TEXT"]</p>
@@ -149,8 +230,6 @@
             </case>
 
             <case culture="ar">
-                <p>الثقافة الحالية: @System.Globalization.CultureInfo.CurrentCulture</p>
-                <p>ثقافة واجهة المستخدم الحالية: @System.Globalization.CultureInfo.CurrentUICulture</p>
                 <p>النص المحدد المترجم: @Localizer["SPECIFIC_TEXT"]</p>
                 <p>النص المحايد المترجم: @Localizer["NEUTRAL_TEXT"]</p>
                 <p>النص الافتراضي المترجم: @Localizer["DEFAULT_TEXT"]</p>
@@ -158,14 +237,68 @@
                 <p>النص المفقود المترجم: @Localizer["MISSING_TEXT"]</p>
             </case>
 
-            <case culture="en">
-                <p>Current culture: @System.Globalization.CultureInfo.CurrentCulture</p>
-                <p>Current UI culture: @System.Globalization.CultureInfo.CurrentUICulture</p>
-                <p>Localized specific text: @Localizer["SPECIFIC_TEXT"]</p>
-                <p>Localized neutral text: @Localizer["NEUTRAL_TEXT"]</p>
-                <p>Localized default text: @Localizer["DEFAULT_TEXT"]</p>
-                <p>Localized database text: @Localizer["DATABASE_TEXT"]</p>
-                <p>Localized missing text: @Localizer["MISSING_TEXT"]</p>
+            <case culture="he">
+                <p>טקסט מסוים מתורגם: @Localizer["SPECIFIC_TEXT"]</p>
+                <p>טקסט נייטרלי מתורגם: @Localizer["NEUTRAL_TEXT"]</p>
+                <p>טקסט ברירת מחדל מתורגם: @Localizer["DEFAULT_TEXT"]</p>
+                <p>טקסט מסד נתונים מתורגם: @Localizer["DATABASE_TEXT"]</p>
+                <p>טקסט חסר מתורגם: @Localizer["MISSING_TEXT"]</p>
+            </case>
+
+            <case culture="fa">
+                <p>متن خاص ترجمه شده: @Localizer["SPECIFIC_TEXT"]</p>
+                <p>متن خنثی ترجمه شده: @Localizer["NEUTRAL_TEXT"]</p>
+                <p>متن پیش‌فرض ترجمه شده: @Localizer["DEFAULT_TEXT"]</p>
+                <p>متن پایگاه داده ترجمه شده: @Localizer["DATABASE_TEXT"]</p>
+                <p>متن گم‌شده ترجمه شده: @Localizer["MISSING_TEXT"]</p>
+            </case>
+
+            <case culture="ur">
+                <p>مخصوص مقامی متن: @Localizer["SPECIFIC_TEXT"]</p>
+                <p>غیر جانبدار مقامی متن: @Localizer["NEUTRAL_TEXT"]</p>
+                <p>پہلے سے طے شدہ مقامی متن: @Localizer["DEFAULT_TEXT"]</p>
+                <p>ڈیٹا بیس کا مقامی متن: @Localizer["DATABASE_TEXT"]</p>
+                <p>گمشدہ مقامی متن: @Localizer["MISSING_TEXT"]</p>
+            </case>
+
+            <case culture="ja">
+                <p>特定のローカライズテキスト: @Localizer["SPECIFIC_TEXT"]</p>
+                <p>ニュートラルローカライズテキスト: @Localizer["NEUTRAL_TEXT"]</p>
+                <p>デフォルトのローカライズテキスト: @Localizer["DEFAULT_TEXT"]</p>
+                <p>データベースのローカライズテキスト: @Localizer["DATABASE_TEXT"]</p>
+                <p>不足しているローカライズテキスト: @Localizer["MISSING_TEXT"]</p>
+            </case>
+
+            <case culture="th">
+                <p>ข้อความแปลเฉพาะ: @Localizer["SPECIFIC_TEXT"]</p>
+                <p>ข้อความแปลกลาง: @Localizer["NEUTRAL_TEXT"]</p>
+                <p>ข้อความแปลค่าเริ่มต้น: @Localizer["DEFAULT_TEXT"]</p>
+                <p>ข้อความแปลฐานข้อมูล: @Localizer["DATABASE_TEXT"]</p>
+                <p>ข้อความแปลที่ขาดหายไป: @Localizer["MISSING_TEXT"]</p>
+            </case>
+
+            <case culture="ko">
+                <p>특정 로컬라이징 텍스트: @Localizer["SPECIFIC_TEXT"]</p>
+                <p>중립 로컬라이징 텍스트: @Localizer["NEUTRAL_TEXT"]</p>
+                <p>기본 로컬라이징 텍스트: @Localizer["DEFAULT_TEXT"]</p>
+                <p>데이터베이스 로컬라이징 텍스트: @Localizer["DATABASE_TEXT"]</p>
+                <p>누락된 로컬라이징 텍스트: @Localizer["MISSING_TEXT"]</p>
+            </case>
+
+            <case culture="el">
+                <p>Μεταφρασμένο συγκεκριμένο κείμενο: @Localizer["SPECIFIC_TEXT"]</p>
+                <p>Μεταφρασμένο ουδέτερο κείμενο: @Localizer["NEUTRAL_TEXT"]</p>
+                <p>Μεταφρασμένο προεπιλεγμένο κείμενο: @Localizer["DEFAULT_TEXT"]</p>
+                <p>Μεταφρασμένο κείμενο βάσης δεδομένων: @Localizer["DATABASE_TEXT"]</p>
+                <p>Μεταφρασμένο κείμενο που λείπει: @Localizer["MISSING_TEXT"]</p>
+            </case>
+
+            <case culture="hi">
+                <p>स्थानीयकृत विशिष्ट पाठ: @Localizer["SPECIFIC_TEXT"]</p>
+                <p>स्थानीयकृत तटस्थ पाठ: @Localizer["NEUTRAL_TEXT"]</p>
+                <p>स्थानीयकृत डिफ़ॉल्ट पाठ: @Localizer["DEFAULT_TEXT"]</p>
+                <p>स्थानीयकृत डेटाबेस पाठ: @Localizer["DATABASE_TEXT"]</p>
+                <p>स्थानीयकृत गायब पाठ: @Localizer["MISSING_TEXT"]</p>
             </case>
         </localize>
 
@@ -190,11 +323,70 @@
                 <p>تنسيق العملة: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("ar"))</p>
             </case>
 
+            <case culture="he">
+                <p>פורמט מספר: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("he"))</p>
+                <p>פורמט מטבע: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("he"))</p>
+            </case>
+
+            <case culture="fa">
+                <p>قالب عددی: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("fa"))</p>
+                <p>قالب ارز: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("fa"))</p>
+            </case>
+
+            <case culture="ur">
+                <p>نمبر فارمیٹ: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("ur"))</p>
+                <p>کرنسی فارمیٹ: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("ur"))</p>
+            </case>
+
+            <case culture="ja">
+                <p>数値フォーマット: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("ja"))</p>
+                <p>通貨フォーマット: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("ja"))</p>
+            </case>
+
+            <case culture="th">
+                <p>รูปแบบตัวเลข: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("th"))</p>
+                <p>รูปแบบสกุลเงิน: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("th"))</p>
+            </case>
+
+            <case culture="ko">
+                <p>숫자 형식: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("ko"))</p>
+                <p>통화 형식: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("ko"))</p>
+            </case>
+
+            <case culture="el">
+                <p>Μορφή αριθμού: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("el"))</p>
+                <p>Μορφή νομίσματος: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("el"))</p>
+            </case>
+
+            <case culture="hi">
+                <p>संख्या स्वरूप: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("hi"))</p>
+                <p>मुद्रा स्वरूप: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("hi"))</p>
+            </case>
+
             <case culture="en">
                 <p>Number Format: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("en-US"))</p>
                 <p>Currency Format: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("en-US"))</p>
             </case>
         </localize>
+
+        <hr />
+        <p>
+            <localize>
+                <case culture="zh-HK">Chinese (Traditional) (Hong Kong, Taiwan, Macau)</case>
+                <case culture="zh">Chinese (Simplified) (China, Singapore, Malaysia)</case>
+                <case culture="ar">Arabic (Saudi Arabia, Egypt, UAE, Morocco)</case>
+                <case culture="he">Hebrew (Israel)</case>
+                <case culture="fa">Persian (Iran, Afghanistan, Tajikistan)</case>
+                <case culture="ur">Urdu (Pakistan, India)</case>
+                <case culture="ja">Japanese (Japan)</case>
+                <case culture="th">Thai (Thailand)</case>
+                <case culture="ko">Korean (South Korea, North Korea)</case>
+                <case culture="el">Greek (Greece, Cyprus)</case>
+                <case culture="hi">Hindi (India, Fiji, Nepal)</case>
+                <case culture="en">English (USA, UK, Canada, Australia)</case>
+            </localize>
+        </p>
+
 
     </footer>
 
@@ -203,4 +395,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-

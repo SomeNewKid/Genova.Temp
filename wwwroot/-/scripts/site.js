@@ -4,7 +4,15 @@
         "en": "Hello from JavaScript",
         "zh": "你好，來自瀏覽器的問候", // Simplified & fallback for Traditional
         "zh-hk": "你好，來自瀏覽器的問候", // Traditional Chinese (Hong Kong)
-        "ar": "مرحبًا من المتصفح" // Arabic
+        "ar": "مرحبًا من المتصفح", // Arabic
+        "he": "שלום מהדפדפן", // Hebrew
+        "fa": "سلام از مرورگر", // Persian
+        "ur": "براؤزر سے سلام", // Urdu
+        "ja": "ブラウザからこんにちは", // Japanese
+        "th": "สวัสดีจากเบราว์เซอร์", // Thai
+        "ko": "브라우저에서 안녕하세요", // Korean
+        "el": "Γεια σας από το πρόγραμμα περιήγησης", // Greek
+        "hi": "ब्राउज़र से नमस्ते" // Hindi
     };
 
     // Helper function to get the localized text

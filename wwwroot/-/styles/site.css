@@ -1,4 +1,11 @@
-﻿/* Default (English) */
+﻿nav a[aria-current="language"] {
+    border-bottom: 2px solid #007BFF;
+}
+
+
+
+
+/* Default (English) */
 #target-css::after {
     content: "Hello from CSS";
 }
@@ -16,4 +23,44 @@ html[lang="zh"] #target-css::after {
 /* Arabic */
 html[lang="ar"] #target-css::after {
     content: "تحية من التنسيق المخصص"; /* "Greetings from custom styling" */
+}
+
+/* Hebrew */
+html[lang="he"] #target-css::after {
+    content: "ברכות מעיצוב מותאם אישית"; /* "Greetings from custom styling" */
+}
+
+/* Persian */
+html[lang="fa"] #target-css::after {
+    content: "درود از سبک سفارشی"; /* "Greetings from custom styling" */
+}
+
+/* Urdu */
+html[lang="ur"] #target-css::after {
+    content: "حسب ضرورت اسٹائل سے سلام"; /* "Greetings from custom styling" */
+}
+
+/* Japanese */
+html[lang="ja"] #target-css::after {
+    content: "カスタムスタイルからの挨拶"; /* "Greetings from custom styling" */
+}
+
+/* Thai */
+html[lang="th"] #target-css::after {
+    content: "คำทักทายจากสไตล์ที่กำหนดเอง"; /* "Greetings from custom styling" */
+}
+
+/* Korean */
+html[lang="ko"] #target-css::after {
+    content: "사용자 정의 스타일의 인사말"; /* "Greetings from custom styling" */
+}
+
+/* Greek */
+html[lang="el"] #target-css::after {
+    content: "Χαιρετισμοί από την προσαρμοσμένη μορφοποίηση"; /* "Greetings from custom styling" */
+}
+
+/* Hindi */
+html[lang="hi"] #target-css::after {
+    content: "कस्टम स्टाइल से नमस्ते"; /* "Greetings from custom styling" */
 }

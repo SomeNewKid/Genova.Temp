@@ -1,0 +1,96 @@
+﻿@inject Genova.Temp.Localization.ILocalizationService LocalizationService
+
+@{
+    var defaultCulture = LocalizationService.DefaultCulture.Name.ToLowerInvariant();
+    var currentPageCulture = LocalizationService.CurrentPageCulture.Name.ToLowerInvariant();
+    var supportedCultures = LocalizationService.SupportedUICultures;
+    const string MODIFY_ATTRIBUTE_PREFIX = Genova.Temp.ResponseModifiers.HtmlResponseModifier.MODIFY_ATTRIBUTE_PREFIX;
+
+    var activeLanguages = new Dictionary<string, object?>
+    {
+        { "en", currentPageCulture.Equals("en", StringComparison.InvariantCultureIgnoreCase) ? new { aria_current = "language" } : default(object) },
+        { "zh", currentPageCulture.Equals("zh", StringComparison.InvariantCultureIgnoreCase) ? new { aria_current = "language" } : default(object) },
+        { "zh-HK", currentPageCulture.Equals("zh-HK", StringComparison.InvariantCultureIgnoreCase) ? new { aria_current = "language" } : default(object) },
+        { "ar", currentPageCulture.Equals("ar", StringComparison.InvariantCultureIgnoreCase) ? new { aria_current = "language" } : default(object) },
+        { "he", currentPageCulture.Equals("he", StringComparison.InvariantCultureIgnoreCase) ? new { aria_current = "language" } : default(object) },
+        { "fa", currentPageCulture.Equals("fa", StringComparison.InvariantCultureIgnoreCase) ? new { aria_current = "language" } : default(object) },
+        { "ur", currentPageCulture.Equals("ur", StringComparison.InvariantCultureIgnoreCase) ? new { aria_current = "language" } : default(object) },
+        { "ja", currentPageCulture.Equals("ja", StringComparison.InvariantCultureIgnoreCase) ? new { aria_current = "language" } : default(object) },
+        { "th", currentPageCulture.Equals("th", StringComparison.InvariantCultureIgnoreCase) ? new { aria_current = "language" } : default(object) },
+        { "ko", currentPageCulture.Equals("ko", StringComparison.InvariantCultureIgnoreCase) ? new { aria_current = "language" } : default(object) },
+        { "el", currentPageCulture.Equals("el", StringComparison.InvariantCultureIgnoreCase) ? new { aria_current = "language" } : default(object) },
+        { "hi", currentPageCulture.Equals("hi", StringComparison.InvariantCultureIgnoreCase) ? new { aria_current = "language" } : default(object) }
+    };
+
+    var langNames = new Dictionary<string, string>
+    {
+        { "en", "English" },
+        { "zh", "简体中文" },
+        { "zh-HK", "繁體中文" },
+        { "ar", "العربية" },
+        { "he", "עברית" },
+        { "fa", "فارسی" },
+        { "ur", "اردو" },
+        { "ja", "日本語" },
+        { "th", "ไทย" },
+        { "ko", "한국어" },
+        { "el", "Ελληνικά" },
+        { "hi", "हिन्दी" }
+    };
+
+    var englishNames = new Dictionary<string, string>
+    {
+        { "en", "English" },
+        { "zh", "Chinese (Simplified)" },
+        { "zh-HK", "Chinese (Traditional)" },
+        { "ar", "Arabic" },
+        { "he", "Hebrew" },
+        { "fa", "Persian" },
+        { "ur", "Urdu" },
+        { "ja", "Japanese" },
+        { "th", "Thai" },
+        { "ko", "Korean" },
+        { "el", "Greek" },
+        { "hi", "Hindi" }
+    };
+
+    var selectorTitles = new string[,]
+    {
+        { "zh-HK", "語言選擇" },
+        { "zh", "语言选择" },
+        { "ar", "اختيار اللغة" },
+        { "he", "בחירת שפה" },
+        { "fa", "انتخاب زبان" },
+        { "ur", "زبان کا انتخاب" },
+        { "ja", "言語の選択" },
+        { "th", "เลือกภาษา" },
+        { "ko", "언어 선택" },
+        { "el", "Επιλογή γλώσσας" },
+        { "hi", "भाषा चयन" },
+        { "en", "Language selection" }
+    };
+
+    var selectorTitle = LocalizationHelper.GetLocalizedValue(selectorTitles);
+}
+
+<nav aria-label="@Html.Raw(selectorTitle)">
+    <ul dir="ltr">
+        @foreach (var supportedCulture in supportedCultures)
+        {
+            var lang = supportedCulture.Name;
+            var langAtt = $"{MODIFY_ATTRIBUTE_PREFIX}lang=\"{lang}\"";
+            var prefix = lang.Equals(defaultCulture, StringComparison.InvariantCultureIgnoreCase) ? "" : lang;
+            var isRtlLang = supportedCulture.TextInfo.IsRightToLeft;
+            var dirAtt = isRtlLang ? $"{MODIFY_ATTRIBUTE_PREFIX}dir=\"rtl\"" : "";
+            var attributes = HtmlHelperExtensions.ConvertToHtmlAttributes(activeLanguages[lang]);
+            var ariaAtt = currentPageCulture.Equals(lang, StringComparison.InvariantCultureIgnoreCase) ? "aria-current=\"language\"" : "";
+
+            <li>
+                <a href="/@prefix" @Html.Raw(langAtt) @Html.Raw(dirAtt) @Html.Raw(ariaAtt)>
+                    @Html.Raw(langNames[lang])
+                </a>
+                <small>@englishNames[lang]</small>
+            </li>
+        }
+    </ul>
+</nav>

@@ -6,6 +6,8 @@ namespace Genova.Temp.ResponseModifiers;
 
 public class HtmlResponseModifier : TextResponseModifier
 {
+    public const string MODIFY_ATTRIBUTE_PREFIX = "MODIFY_ATTRIBUTE_PREFIX_";
+
     public HtmlResponseModifier(ResponseContext responseContext)
         : base(responseContext)
     {
@@ -37,7 +39,7 @@ public class HtmlResponseModifier : TextResponseModifier
         {
             string cultureSlug = ResponseContext.CurrentPageCulture.Name;
             string defaultCultureSlug = CultureInfo.CurrentUICulture.Name.ToLowerInvariant();
-            string dir = cultureSlug == "ar" ? " dir=\"rtl\"" : string.Empty;
+            string dir = ResponseContext.CurrentPageCulture.TextInfo.IsRightToLeft ? "dir=\"rtl\"" : "dir=\"ltr\"";
 
             if (!cultureSlug.Equals(defaultCultureSlug, StringComparison.OrdinalIgnoreCase))
             {
@@ -45,9 +47,12 @@ public class HtmlResponseModifier : TextResponseModifier
             }
 
             // Use regular expression to replace the lang attribute and inject the dir attribute
-            modifiedHead = Regex.Replace(modifiedHead, @"\s+lang=""[^""]*""", $" lang=\"{cultureSlug}\"{dir}");
+            modifiedHead = Regex.Replace(modifiedHead, @"\s+lang=""[^""]*""", $" lang=\"{cultureSlug}\" {dir}");
         }
-        return modifiedHead + modifiedBody;
+
+        modifiedHead = modifiedHead.Replace(MODIFY_ATTRIBUTE_PREFIX, ""); // the language switcher is considered part of the "head", so that its links are not changed
+
+        return modifiedHead.TrimStart() + modifiedBody.TrimEnd();
     }
 
     private string PrependLinkSlug(string content, string slug)
