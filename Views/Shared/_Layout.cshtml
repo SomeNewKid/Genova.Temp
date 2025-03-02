@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Genova.Temp. SharedResource> Localizer
+@{
 }<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,8 +15,8 @@
         <nav aria-label="Language selection">
             <ul>
                 <li><a href="/" lang="en">English</a></li>
-                <li><a href="/zh" lang="zh">中文 (Simplified)</a></li>
-                <li><a href="/zh-hk" lang="zh-HK">中文 (Hong Kong)</a></li>
+                <li><a href="/zh" lang="zh">简体中文</a></li>
+                <li><a href="/zh-hk" lang="zh-HK">繁體中文</a></li>
                 <li><a href="/ar" lang="ar" dir="rtl">العربية</a></li>
             </ul>
         </nav>
@@ -33,9 +35,20 @@
     </main>
 
     <footer>
-        <p>&copy; @DateTime.Now.Year - My Website</p>
+        <p>&copy; @DateTime.Today.Year - My Website</p>
         <p id="target-css"></p>
         <p id="target-js"></p>
+        <p>Current culture: @System.Globalization.CultureInfo.CurrentCulture</p>
+        <p>Current UI culture: @System.Globalization.CultureInfo.CurrentUICulture</p>
+        <p>Date: @DateTime.Today</p>
+        <p>Time: @DateTime.Now</p>
+        <p>Short Date: @DateTime.Today.ToShortDateString()</p>
+        <p>Short Time: @DateTime.Now.ToShortTimeString()</p>
+        <p>Long Date: @DateTime.Today.ToLongDateString()</p>
+        <p>Long Time: @DateTime.Now.ToLongTimeString()</p>
+        <p>Localized specific text: @Localizer["SPECIFIC_TEXT"]</p>
+        <p>Localized neutral text: @Localizer["NEUTRAL_TEXT"]</p>
+        <p>Localized default text: @Localizer["DEFAULT_TEXT"]</p>
     </footer>
 
     <script src="~/-/scripts/site.js" asp-append-version="true"></script>

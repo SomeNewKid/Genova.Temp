@@ -1,5 +1,7 @@
 using Genova.Temp.Localization;
 using Genova.Temp.ResponseModifiers;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 
 namespace Genova.Temp;
 
@@ -20,6 +22,18 @@ public class Program
 
         builder.Services.AddControllersWithViews();
 
+        builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+        // Register the custom FallbackStringLocalizerFactory
+        builder.Services.AddSingleton<IStringLocalizerFactory, FallbackStringLocalizerFactory>(sp =>
+        {
+            var innerFactory = new ResourceManagerStringLocalizerFactory(
+                sp.GetRequiredService<IOptions<LocalizationOptions>>(),
+                sp.GetRequiredService<ILoggerFactory>());
+            var localizationOptions = sp.GetRequiredService<IOptions<RequestLocalizationOptions>>();
+            return new FallbackStringLocalizerFactory(innerFactory, localizationOptions);
+        });
+
         return builder;
     }
 
@@ -31,11 +45,11 @@ public class Program
 
         app.UseStaticFiles();
 
+        LocalizationMiddleware.UseLocalization(app);
+
         app.UseLocalization();
 
         app.UseRouting();
-
-        LocalizationMiddleware.UseLocalization(app);
 
         app.UseStatusCodePagesWithReExecute("/Error/{0}"); // Handles 404 and other errors
 

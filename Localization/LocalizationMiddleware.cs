@@ -46,6 +46,12 @@ public class LocalizationMiddleware
         }
 
         localizationService.CurrentPageCulture = cultureToSet;
+        CultureInfo.CurrentCulture = cultureToSet;
+        CultureInfo.CurrentUICulture = cultureToSet;
+
+        var requestCulture = new RequestCulture(cultureToSet);
+        var customRequestCultureProvider = new LocalizationRequestCultureProvider(cultureToSet);
+        context.Features.Set<IRequestCultureFeature>(new RequestCultureFeature(requestCulture, customRequestCultureProvider));
 
         await _next(context);
     }
@@ -67,6 +73,8 @@ public class LocalizationMiddleware
             options.DefaultRequestCulture = new RequestCulture(defaultCulture);
             options.SupportedCultures = supportedCultureInfos;
             options.SupportedUICultures = supportedCultureInfos;
+            options.FallBackToParentCultures = true;
+            options.FallBackToParentUICultures = true;
         });
 
         // Register the localization service as scoped
