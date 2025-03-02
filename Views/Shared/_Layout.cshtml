@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"] - My ASP.NET Core App</title>
+    <title>@ViewData["Title"]</title>
 
     <link rel="stylesheet" href="~/-/styles/site.css" asp-append-version="true" />
 </head>
@@ -21,13 +21,22 @@
             </ul>
         </nav>
         <hr />
-        <h1>My ASP.NET Core App</h1>
+        <h1>
+            <localize>
+                <case culture="zh-HK">測試網站</case>
+                <case culture="zh">测试网站</case>
+                <case culture="ar">موقع اختبار</case>
+                <case culture="en">Test Website</case>
+            </localize>
+        </h1>
+
         <nav>
             <ul>
                 <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                 <li><a asp-controller="About" asp-action="Index">About</a></li>
             </ul>
         </nav>
+        <hr />
     </header>
 
     <main>
@@ -35,7 +44,8 @@
     </main>
 
     <footer>
-        <p>&copy; @DateTime.Today.Year - My Website</p>
+        <hr />
+        <p>Copyright &copy; @DateTime.Today.Year</p>
         <p id="target-css"></p>
         <p id="target-js"></p>
         <p>Current culture: @System.Globalization.CultureInfo.CurrentCulture</p>
@@ -49,6 +59,8 @@
         <p>Localized specific text: @Localizer["SPECIFIC_TEXT"]</p>
         <p>Localized neutral text: @Localizer["NEUTRAL_TEXT"]</p>
         <p>Localized default text: @Localizer["DEFAULT_TEXT"]</p>
+        <p>Localized default text: @Localizer["DATABASE_TEXT"]</p>
+        <p>Localized default text: @Localizer["MISSING_TEXT"]</p>
     </footer>
 
     <script src="~/-/scripts/site.js" asp-append-version="true"></script>

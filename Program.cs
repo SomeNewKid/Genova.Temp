@@ -22,16 +22,21 @@ public class Program
 
         builder.Services.AddControllersWithViews();
 
+        builder.Services.AddHttpContextAccessor();
+
         builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-        // Register the custom FallbackStringLocalizerFactory
-        builder.Services.AddSingleton<IStringLocalizerFactory, FallbackStringLocalizerFactory>(sp =>
+        // Register the custom CompositeStringLocalizerFactory
+        builder.Services.AddSingleton<IStringLocalizerFactory, CompositeStringLocalizerFactory>(sp =>
         {
             var innerFactory = new ResourceManagerStringLocalizerFactory(
                 sp.GetRequiredService<IOptions<LocalizationOptions>>(),
                 sp.GetRequiredService<ILoggerFactory>());
             var localizationOptions = sp.GetRequiredService<IOptions<RequestLocalizationOptions>>();
-            return new FallbackStringLocalizerFactory(innerFactory, localizationOptions);
+            var fallbackFactory = new FallbackStringLocalizerFactory(innerFactory, localizationOptions);
+            var datastoreFactory = new DatastoreStringLocalizerFactory();
+            var factories = new List<IStringLocalizerFactory> { fallbackFactory, datastoreFactory };
+            return new CompositeStringLocalizerFactory(factories);
         });
 
         return builder;
