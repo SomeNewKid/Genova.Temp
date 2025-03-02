@@ -5,31 +5,28 @@ using System.Threading.Tasks;
 
 namespace Genova.Temp.Localization;
 
-[HtmlTargetElement("localize")]
-public class LocalizeTagHelper : TagHelper
+public abstract class LocalizeTagHelper : TagHelper
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    protected readonly IHttpContextAccessor _httpContextAccessor;
 
     public LocalizeTagHelper(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+    public async Task<string> ProcessLocalizationAsync(TagHelperOutput output)
     {
         var httpContext = _httpContextAccessor.HttpContext;
         if (httpContext == null)
         {
-            output.SuppressOutput();
-            return;
+            return string.Empty;
         }
 
-        // Retrieve child content (this ensures we get <case> elements)
+        // Retrieve child content (ensures we get <case> elements)
         var childContent = (await output.GetChildContentAsync()).GetContent();
         if (string.IsNullOrWhiteSpace(childContent))
         {
-            output.SuppressOutput();
-            return;
+            return string.Empty;
         }
 
         // Determine the current culture
@@ -41,7 +38,7 @@ public class LocalizeTagHelper : TagHelper
 
         var neutralCulture = currentCulture.TwoLetterISOLanguageName; // Extract base language (e.g., "zh" from "zh-HK")
 
-        // Extract all <case> elements inside <localize>
+        // Extract all <case> elements inside
         var caseMatches = ExtractCases(childContent); // Parse <case> elements
 
         // Select the best matching case
@@ -53,9 +50,7 @@ public class LocalizeTagHelper : TagHelper
                     ? caseMatches["en"] // Default to English
                     : string.Empty; // No match found
 
-        // Replace content with the selected case + debugging output
-        output.Content.SetHtmlContent(string.IsNullOrEmpty(selectedContent) ? "" : selectedContent);
-        output.TagName = null; // Remove <localize> wrapper
+        return string.IsNullOrEmpty(selectedContent) ? "" : selectedContent;
     }
 
     private Dictionary<string, string> ExtractCases(string content)

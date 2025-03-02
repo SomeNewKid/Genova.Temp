@@ -1,6 +1,30 @@
 ﻿@{
-    ViewData["Title"] = "About";
+    var localizedTitles = new string[,]
+    {
+        { "zh-HK", "關於我們" },
+        { "zh", "关于我们" },
+        { "ar", "معلومات عنا" },
+        { "en", "About" }
+    };
+
+    ViewData["Title"] = LocalizationHelper.GetLocalizedValue(localizedTitles);
 }
 
-<h2>Welcome to the About Page!</h2>
-<p>This is the main content for the About page.</p>
+<localize>
+    <case culture="zh-HK">
+        <h2>歡迎來到關於頁面！</h2>
+        <p>這是關於頁面的主要內容。</p>
+    </case>
+    <case culture="zh">
+        <h2>欢迎来到关于页面！</h2>
+        <p>这是关于页面的主要内容。</p>
+    </case>
+    <case culture="ar">
+        <h2>مرحبًا بك في صفحة من نحن!</h2>
+        <p>هذا هو المحتوى الرئيسي لصفحة من نحن.</p>
+    </case>
+    <case culture="en">
+        <h2>Welcome to the About Page!</h2>
+        <p>This is the main content for the About page.</p>
+    </case>
+</localize>

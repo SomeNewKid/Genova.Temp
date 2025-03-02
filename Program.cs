@@ -18,6 +18,13 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        // Add MVC with lowercase URLs
+        builder.Services.AddRouting(options =>
+        {
+            options.LowercaseUrls = true; // Force lowercase URLs
+            options.LowercaseQueryStrings = false; // Keep query strings case-sensitive
+        });
+
         LocalizationMiddleware.ConfigureLocalizationServices(builder);
 
         builder.Services.AddControllersWithViews();
@@ -25,19 +32,6 @@ public class Program
         builder.Services.AddHttpContextAccessor();
 
         builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-
-        // Register the custom CompositeStringLocalizerFactory
-        builder.Services.AddSingleton<IStringLocalizerFactory, CompositeStringLocalizerFactory>(sp =>
-        {
-            var innerFactory = new ResourceManagerStringLocalizerFactory(
-                sp.GetRequiredService<IOptions<LocalizationOptions>>(),
-                sp.GetRequiredService<ILoggerFactory>());
-            var localizationOptions = sp.GetRequiredService<IOptions<RequestLocalizationOptions>>();
-            var fallbackFactory = new FallbackStringLocalizerFactory(innerFactory, localizationOptions);
-            var datastoreFactory = new DatastoreStringLocalizerFactory();
-            var factories = new List<IStringLocalizerFactory> { fallbackFactory, datastoreFactory };
-            return new CompositeStringLocalizerFactory(factories);
-        });
 
         return builder;
     }
@@ -49,8 +43,6 @@ public class Program
         app.UseResponseModifications();
 
         app.UseStaticFiles();
-
-        LocalizationMiddleware.UseLocalization(app);
 
         app.UseLocalization();
 

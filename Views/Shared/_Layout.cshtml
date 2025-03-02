@@ -13,7 +13,7 @@
 <body>
     <header>
         <nav aria-label="Language selection">
-            <ul>
+            <ul dir="ltr">
                 <li><a href="/" lang="en">English</a></li>
                 <li><a href="/zh" lang="zh">简体中文</a></li>
                 <li><a href="/zh-hk" lang="zh-HK">繁體中文</a></li>
@@ -32,8 +32,22 @@
 
         <nav>
             <ul>
-                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                <li><a asp-controller="About" asp-action="Index">About</a></li>
+                <li>
+                    <a asp-controller="Home" asp-action="Index" localize>
+                        <case culture="zh-HK">首頁</case>
+                        <case culture="zh">首页</case>
+                        <case culture="ar">الرئيسية</case>
+                        <case culture="en">Home</case>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="About" asp-action="Index" localize>
+                        <case culture="zh-HK">關於我們</case>
+                        <case culture="zh">关于我们</case>
+                        <case culture="ar">من نحن</case>
+                        <case culture="en">About</case>
+                    </a>
+                </li>
             </ul>
         </nav>
         <hr />
@@ -45,7 +59,14 @@
 
     <footer>
         <hr />
-        <p>Copyright &copy; @DateTime.Today.Year</p>
+        <p localize="true">
+            <case culture="zh-HK">版權所有 &copy; @DateTime.Today.Year</case>
+            <case culture="zh">版权所有 &copy; @DateTime.Today.Year</case>
+            <case culture="ar">حقوق النشر &copy; @DateTime.Today.Year</case>
+            <case culture="en">Copyright &copy; @DateTime.Today.Year</case>
+        </p>
+        <p>@Localizer["SPECIFIC_TEXT"]</p>
+        @*
         <p id="target-css"></p>
         <p id="target-js"></p>
         <p>Current culture: @System.Globalization.CultureInfo.CurrentCulture</p>
@@ -61,6 +82,7 @@
         <p>Localized default text: @Localizer["DEFAULT_TEXT"]</p>
         <p>Localized default text: @Localizer["DATABASE_TEXT"]</p>
         <p>Localized default text: @Localizer["MISSING_TEXT"]</p>
+        *@
     </footer>
 
     <script src="~/-/scripts/site.js" asp-append-version="true"></script>

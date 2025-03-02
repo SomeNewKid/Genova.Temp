@@ -1,4 +1,5 @@
 using Genova.Temp.Localization;
+using System.Globalization;
 
 namespace Genova.Temp.ResponseModifiers;
 
@@ -17,7 +18,7 @@ public class HtmlResponseModifier : TextResponseModifier
         {
             message = $"<p>Current culture: {ResponseContext.CurrentPageCulture.DisplayName}</p>";
         }
-        string modifiedContent = content.Replace("</body>", $"<p>Modified by Middleware</p>{message}</body>");
+        string modifiedContent = content; // content.Replace("</body>", $"<p>Modified by Middleware</p>{message}</body>");
 
         // Split the modified content into head and body parts
         string splitAt = "</nav>";
@@ -25,6 +26,7 @@ public class HtmlResponseModifier : TextResponseModifier
         string modifiedHead = modifiedContent.Substring(0, headEndIndex);
         string modifiedBody = modifiedContent.Substring(headEndIndex);
 
+        modifiedBody = RemoveLinkSlug(modifiedBody, "en");
         modifiedBody = RemoveLinkSlug(modifiedBody, "zh");
         modifiedBody = RemoveLinkSlug(modifiedBody, "zh-hk");
         modifiedBody = RemoveLinkSlug(modifiedBody, "ar");
@@ -33,7 +35,8 @@ public class HtmlResponseModifier : TextResponseModifier
             ResponseContext.CurrentPageCulture != null)
         {
             string cultureSlug = ResponseContext.CurrentPageCulture.Name;
-            if (cultureSlug != "en")
+            string defaultCultureSlug = CultureInfo.CurrentUICulture.Name.ToLowerInvariant();
+            if (!cultureSlug.Equals(defaultCultureSlug, StringComparison.OrdinalIgnoreCase))
             {
                 modifiedBody = PrependLinkSlug(modifiedBody, cultureSlug.ToLowerInvariant());
                 modifiedHead = modifiedHead.Replace(" lang=\"en\"", $" lang=\"{cultureSlug}\"");

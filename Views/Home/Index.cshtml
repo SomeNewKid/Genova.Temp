@@ -1,7 +1,45 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    var localizedTitles = new string[,]
+    {
+        { "zh-HK", "主頁" },
+        { "zh", "主页" },
+        { "ar", "الرئيسية" },
+        { "en", "Home" }
+    };
+
+    ViewData["Title"] = LocalizationHelper.GetLocalizedValue(localizedTitles);
 }
 
-<h2>Welcome to the Home Page!</h2>
-<p>This is the main content for the Home page.</p>
-<div><img src="/-/images/kitten.png" alt="Kitten" /></div>
+<localize>
+    <case culture="zh-HK">
+        <h2>歡迎來到主頁！</h2>
+        <p>這是主頁的主要內容。</p>
+    </case>
+    <case culture="zh">
+        <h2>欢迎来到主页！</h2>
+        <p>这是主页的主要内容。</p>
+    </case>
+    <case culture="ar">
+        <h2>مرحبًا بك في الصفحة الرئيسية!</h2>
+        <p>هذا هو المحتوى الرئيسي للصفحة الرئيسية.</p>
+    </case>
+    <case culture="en">
+        <h2>Welcome to the Home Page!</h2>
+        <p>This is the main content for the Home page.</p>
+    </case>
+</localize>
+
+<div localize="true">
+    <case culture="zh-HK">
+        <img src="/-/images/kitten.zh-hk.png" alt="穿着衣服的小猫" />
+    </case>
+    <case culture="zh">
+        <img src="/-/images/kitten.zh.png" alt="穿着衣服的小猫" />
+    </case>
+    <case culture="ar">
+        <img src="/-/images/kitten.ar.png" alt="قط يرتدي ملابس" />
+    </case>
+    <case culture="en">
+        <img src="/-/images/kitten.en.png" alt="Kitten in clothing" />
+    </case>
+</div>

@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 
 namespace Genova.Temp.Localization;
@@ -79,12 +81,18 @@ public class LocalizationMiddleware
 
         // Register the localization service as scoped
         builder.Services.AddScoped<ILocalizationService, LocalizationService>();
-    }
 
-    public static void UseLocalization(WebApplication app)
-    {
-        // Enable request localization middleware
-        var localizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
-        app.UseRequestLocalization(localizationOptions);
+        // Register the custom CompositeStringLocalizerFactory
+        builder.Services.AddSingleton<IStringLocalizerFactory, CompositeStringLocalizerFactory>(sp =>
+        {
+            var innerFactory = new ResourceManagerStringLocalizerFactory(
+                sp.GetRequiredService<IOptions<LocalizationOptions>>(),
+                sp.GetRequiredService<ILoggerFactory>());
+            var localizationOptions = sp.GetRequiredService<IOptions<RequestLocalizationOptions>>();
+            var fallbackFactory = new FallbackStringLocalizerFactory(innerFactory, localizationOptions);
+            var datastoreFactory = new DatastoreStringLocalizerFactory();
+            var factories = new List<IStringLocalizerFactory> { fallbackFactory, datastoreFactory };
+            return new CompositeStringLocalizerFactory(factories);
+        });
     }
 }
