@@ -1,4 +1,20 @@
 ﻿:root {
+    --bg-color: #eee;
+    --text-color: #666;
+    --link-color: blue;
+    --link-hover-color: darkblue;
+    --bg-subtle: #ddd;
+}
+
+[data-theme~="dark"] {
+    --bg-color: #333;
+    --text-color: #ccc;
+    --link-color: cyan;
+    --link-hover-color: lightblue;
+    --bg-subtle: #555;
+}
+
+[data-theme~="light"][data-theme~="high-contrast"] {
     --bg-color: white;
     --text-color: black;
     --link-color: blue;
@@ -6,13 +22,43 @@
     --bg-subtle: #ddd;
 }
 
-[data-theme="dark"] {
+[data-theme~="dark"][data-theme~="high-contrast"] {
     --bg-color: black;
     --text-color: white;
     --link-color: cyan;
     --link-hover-color: lightblue;
     --bg-subtle: #333;
 }
+
+
+
+/* Reading mode styles */
+[data-reading-mode="on"] > main {
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+/* Hide everything inside <header> EXCEPT the utility bar */
+[data-reading-mode="on"] > header > :not([data-component="utility-bar"]) {
+    display: none;
+}
+
+/* Ensure the footer is still hidden */
+[data-reading-mode="on"] > footer {
+    display: none;
+}
+
+[data-reading-mode="on"] > main {
+    margin-bottom: 6em;
+}
+
+[data-reading-mode="on"] main [data-component="back-to-top"] {
+    display: inline-block;
+    margin-top: 2em;
+}
+
+
 
 
 body {
@@ -67,6 +113,8 @@ html, body {
 
 
 [data-component="back-to-top"] {
+    display: inline-block;
+    margin: 1em 0;
     text-decoration: none;
     padding: 0.5rem;
     border-radius: 5px;
@@ -76,37 +124,60 @@ html, body {
 
 
 
-
-[data-component="theme-selector"] {
+[data-component="utility-bar"] {
     display: flex;
-    align-items: center; /* Aligns everything on a single line */
-    gap: .25rem; /* Spacing between legend and radio buttons */
+    align-items: center; /* Aligns elements vertically */
+    gap: 1rem; /* Adds spacing between child elements */
     flex-wrap: wrap; /* Allows wrapping on smaller screens */
 }
 
-[data-component="theme-selector"] fieldset {
-    border: none; /* Removes default fieldset border */
-    padding: 0;
-    margin: 0;
-    display: contents; /* Makes fieldset behave like it doesn’t exist */
+/* Ensure each component maintains its natural width */
+[data-component="utility-bar"] > div {
+    display: flex;
+    align-items: center;
+}
+
+
+[data-component="utility-bar"] fieldset {
+    border: none;
 }
 
 /* Ensure the legend appears inline */
-[data-component="theme-selector"] legend {
+[data-component="utility-bar"] legend {
     font-weight: bold; /* Make the legend stand out */
     margin: 0;
     padding: 0;
-    display: inline-flex; /* Allows it to align properly */
     white-space: nowrap; /* Prevents wrapping */
 }
 
-/* Style the labels and radio buttons */
-[data-component="theme-selector"] label {
-    display: flex;
+/* Style labels (for Theme Selector) and buttons (for Text Resizer) */
+[data-component="utility-bar"] label,
+[data-component="utility-bar"] button {
     align-items: center;
-    gap: 0.25rem; /* Spacing between radio button and text */
     cursor: pointer;
 }
+
+/* Ensure buttons inside text resizer are styled consistently */
+[data-component="utility-bar"] button {
+    padding: 0 0.25rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    background: #f8f8f8;
+    border-radius: 4px;
+}
+
+/* Add a hover effect for buttons */
+[data-component="utility-bar"] button:hover {
+    background: #e0e0e0;
+}
+
+/* Disabled button styling */
+[data-component="utility-bar"] button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
 
 [data-component="theme-selector"] input[type="radio"] {
     accent-color: var(--text-color); /* Uses theme colors */
@@ -115,17 +186,34 @@ html, body {
 
 
 
+[data-component="reading-options"] fieldset > div {
+    display: inline-block;
+    margin-right: 1em;
+}
 
-[data-component="skip-to-content"] a {
+
+
+
+[data-component="skip-to-content"] > div {
+    display: block; /* Fieldset is a block-level element */
+    padding-block: 1em 0.35em; /* Matches default fieldset padding */
+    padding-inline: 0.15em 0.75em;
+    margin-inline: 2px;
+    /*border: groove 2px ThreeDFace;*/ /* Uses browser's default `fieldset` styling */
+    min-width: -webkit-min-content; /* Ensures proper minimum width */
+}
+
+[data-component-DISABLED="skip-to-content"] a {
     display: inline-block; /* Ensures it keeps space in flow */
     opacity: 0; /* Fully transparent */
     color: transparent; /* Makes text blend in */
     background-color: inherit; /* Matches the page background */
     border: none;
     transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+[data-component="skip-to-content"] a {
     padding: .25rem 1rem;
 }
-
 /* When focused, make it fully visible */
 [data-component="skip-to-content"] a:focus {
     opacity: 1;
@@ -133,10 +221,6 @@ html, body {
     background: var(--text-color); /* Optional high-contrast background */
     text-decoration: none;
 }
-
-
-
-
 
 
 
