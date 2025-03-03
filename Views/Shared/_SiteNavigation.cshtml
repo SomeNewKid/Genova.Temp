@@ -1,0 +1,52 @@
+﻿@inject Genova.Temp.Localization.ILocalizationService LocalizationService
+
+@{
+    var defaultCulture = LocalizationService.DefaultCulture.Name.ToLowerInvariant();
+    var currentPageCulture = LocalizationService.CurrentPageCulture.Name.ToLowerInvariant();
+
+    string langPrefix = $"/{currentPageCulture}";
+    if (currentPageCulture.Equals(defaultCulture, StringComparison.OrdinalIgnoreCase))
+    {
+        langPrefix = "";
+    }
+    ;
+    string homeUrl = (langPrefix.Length > 0) ? langPrefix : "/";
+    string aboutUrl = langPrefix + "/about";
+}
+<nav>
+    <ul>
+        <li>
+            <a href="@homeUrl" localize>
+                <case culture="zh-HK">首頁</case>
+                <case culture="zh">首页</case>
+                <case culture="ar">الرئيسية</case>
+                <case culture="he">דף הבית</case>
+                <case culture="fa">خانه</case>
+                <case culture="ur">ہوم</case>
+                <case culture="ja">ホーム</case>
+                <case culture="th">หน้าหลัก</case>
+                <case culture="ko">홈</case>
+                <case culture="el">Αρχική</case>
+                <case culture="hi">होम</case>
+                <case culture="en">Home</case>
+            </a>
+        </li>
+        <li>
+            <a href="@aboutUrl" localize>
+                <case culture="zh-HK">關於我們</case>
+                <case culture="zh">关于我们</case>
+                <case culture="ar">من نحن</case>
+                <case culture="he">אודות</case>
+                <case culture="fa">درباره ما</case>
+                <case culture="ur">ہمارے بارے میں</case>
+                <case culture="ja">私たちについて</case>
+                <case culture="th">เกี่ยวกับเรา</case>
+                <case culture="ko">소개</case>
+                <case culture="el">Σχετικά με εμάς</case>
+                <case culture="hi">हमारे बारे में</case>
+                <case culture="en">About</case>
+            </a>
+        </li>
+    </ul>
+</nav>
+<hr />

@@ -1,4 +1,6 @@
 ﻿@inject Genova.Temp.Localization.ILocalizationService LocalizationService
+@inject IHttpContextAccessor HttpContextAccessor
+
 
 @{
     var defaultCulture = LocalizationService.DefaultCulture.Name.ToLowerInvariant();
@@ -38,59 +40,70 @@
         { "hi", "हिन्दी" }
     };
 
-    var englishNames = new Dictionary<string, string>
-    {
-        { "en", "English" },
-        { "zh", "Chinese (Simplified)" },
-        { "zh-HK", "Chinese (Traditional)" },
-        { "ar", "Arabic" },
-        { "he", "Hebrew" },
-        { "fa", "Persian" },
-        { "ur", "Urdu" },
-        { "ja", "Japanese" },
-        { "th", "Thai" },
-        { "ko", "Korean" },
-        { "el", "Greek" },
-        { "hi", "Hindi" }
-    };
-
     var selectorTitles = new string[,]
     {
-        { "zh-HK", "語言選擇" },
-        { "zh", "语言选择" },
-        { "ar", "اختيار اللغة" },
-        { "he", "בחירת שפה" },
-        { "fa", "انتخاب زبان" },
-        { "ur", "زبان کا انتخاب" },
-        { "ja", "言語の選択" },
-        { "th", "เลือกภาษา" },
-        { "ko", "언어 선택" },
-        { "el", "Επιλογή γλώσσας" },
-        { "hi", "भाषा चयन" },
-        { "en", "Language selection" }
+        { "zh-HK", "選擇語言" }, // Traditional Chinese
+        { "zh", "选择语言" },    // Simplified Chinese
+        { "ar", "اختر اللغة" },  // Arabic
+        { "he", "בחר שפה" },     // Hebrew
+        { "fa", "انتخاب زبان" }, // Persian
+        { "ur", "زبان منتخب کریں" }, // Urdu
+        { "ja", "言語を選択" },   // Japanese
+        { "th", "เลือกภาษา" },   // Thai
+        { "ko", "언어 선택" },   // Korean
+        { "el", "Επιλέξτε γλώσσα" }, // Greek
+        { "hi", "भाषा चुनें" },   // Hindi
+        { "en", "Select a language" } // English
     };
 
     var selectorTitle = LocalizationHelper.GetLocalizedValue(selectorTitles);
+
+    var linkTitles = new Dictionary<string, string>
+    {
+        { "zh-HK", "以廣東話檢視頁面" }, // Cantonese (Traditional Chinese)
+        { "zh", "以简体中文查看页面" },    // Simplified Chinese
+        { "ar", "عرض الصفحة باللغة العربية" }, // Arabic
+        { "he", "צפה בדף בעברית" },     // Hebrew
+        { "fa", "مشاهده صفحه به فارسی" }, // Persian
+        { "ur", "صفحہ اردو میں دیکھیں" }, // Urdu
+        { "ja", "日本語でページを表示" },   // Japanese
+        { "th", "ดูหน้าในภาษาไทย" },     // Thai
+        { "ko", "한국어로 페이지 보기" },   // Korean
+        { "el", "Δείτε τη σελίδα στα Ελληνικά" }, // Greek
+        { "hi", "पृष्ठ हिंदी में देखें" },   // Hindi
+        { "en", "View page in English" }     // English
+    };
+
+
+    var requestPath = HttpContextAccessor.HttpContext?.Request.Path.Value ?? "";
 }
 
-<nav aria-label="@Html.Raw(selectorTitle)">
-    <ul dir="ltr">
+<div data-component="language-switcher">
+    <ul dir="ltr" aria-label="@Html.Raw(selectorTitle)" role="menu">
         @foreach (var supportedCulture in supportedCultures)
         {
             var lang = supportedCulture.Name;
             var langAtt = $"{MODIFY_ATTRIBUTE_PREFIX}lang=\"{lang}\"";
-            var prefix = lang.Equals(defaultCulture, StringComparison.InvariantCultureIgnoreCase) ? "" : lang;
+            var langPrefix = lang.Equals(defaultCulture, StringComparison.InvariantCultureIgnoreCase) ? "" : lang;
+            string langSpecificUrl = "/" + $"{langPrefix.ToLowerInvariant().Trim('/')}/{requestPath.TrimStart('/')}".Trim('/');
             var isRtlLang = supportedCulture.TextInfo.IsRightToLeft;
             var dirAtt = isRtlLang ? $"{MODIFY_ATTRIBUTE_PREFIX}dir=\"rtl\"" : "";
             var attributes = HtmlHelperExtensions.ConvertToHtmlAttributes(activeLanguages[lang]);
-            var ariaAtt = currentPageCulture.Equals(lang, StringComparison.InvariantCultureIgnoreCase) ? "aria-current=\"language\"" : "";
+            var ariaAtt = "";
+            var ariaVis = "";
+            var ariaLabel = $"aria-label=\"{linkTitles[lang]}\"";
+            if (currentPageCulture.Equals(lang, StringComparison.InvariantCultureIgnoreCase))
+            {
+                ariaAtt = "aria-current=\"language\"";
+                ariaVis = "<span aria-hidden=\"true\">✓</span>";
+            }
 
             <li>
-                <a href="/@prefix" @Html.Raw(langAtt) @Html.Raw(dirAtt) @Html.Raw(ariaAtt)>
-                    @Html.Raw(langNames[lang])
+                <a href="@langSpecificUrl" @Html.Raw(langAtt) @Html.Raw(dirAtt) @Html.Raw(ariaLabel) @Html.Raw(ariaAtt) role="menuitem">
+                    @Html.Raw(langNames[lang]) @Html.Raw(ariaVis)
                 </a>
-                <small>@englishNames[lang]</small>
             </li>
         }
     </ul>
-</nav>
+</div>
+<hr />

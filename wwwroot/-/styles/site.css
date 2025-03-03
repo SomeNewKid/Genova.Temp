@@ -1,7 +1,45 @@
-﻿nav a[aria-current="language"] {
-    border-bottom: 2px solid #007BFF;
+﻿html, body {
+    margin: 0;
+    padding: 0;
 }
 
+[data-component="language-switcher"] {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+[data-component="language-switcher"] ul[role="menu"] {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+[data-component="language-switcher"] li[role="menuitem"] {
+    display: inline-block;
+}
+
+[data-component="language-switcher"] a {
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+
+[data-component="language-switcher"] a[aria-current="language"] {
+    font-weight: bold;
+    background: #ddd;
+}
+
+
+[data-component="back-top-top"] {
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    transition: background 0.2s;
+    background: #ddd;
+}
 
 
 

@@ -1,0 +1,20 @@
+﻿@inject Genova.Temp.Localization.ILocalizationService LocalizationService
+
+@model string
+@{
+    var targetId = Model ?? "top";
+}
+<a href="#@targetId" data-component="back-to-top" localize>
+    <case culture="zh-HK">返回頂部</case>
+    <case culture="zh">返回顶部</case>
+    <case culture="ar">العودة إلى الأعلى</case>
+    <case culture="he">חזרה לראש הדף</case>
+    <case culture="fa">بازگشت به بالا</case>
+    <case culture="ur">اوپر جائیں</case>
+    <case culture="ja">ページの先頭へ戻る</case>
+    <case culture="th">กลับไปด้านบน</case>
+    <case culture="ko">맨 위로 돌아가기</case>
+    <case culture="el">Επιστροφή στην κορυφή</case>
+    <case culture="hi">शीर्ष पर वापस जाएं</case>
+    <case culture="en">Back to top</case>
+</a>
