@@ -3,6 +3,7 @@
     --text-color: black;
     --link-color: blue;
     --link-hover-color: darkblue;
+    --bg-subtle: #ddd;
 }
 
 [data-theme="dark"] {
@@ -10,6 +11,7 @@
     --text-color: white;
     --link-color: cyan;
     --link-hover-color: lightblue;
+    --bg-subtle: #333;
 }
 
 
@@ -59,41 +61,82 @@ html, body {
 
 [data-component="language-switcher"] a[aria-current="language"] {
     font-weight: bold;
-    background: #ddd;
+    background: var(--bg-subtle);
 }
 
 
-[data-component="back-top-top"] {
+
+[data-component="back-to-top"] {
     text-decoration: none;
     padding: 0.5rem;
     border-radius: 5px;
     transition: background 0.2s;
-    background: #ddd;
+    background: var(--bg-subtle);
 }
 
 
 
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
+
+[data-component="theme-selector"] {
+    display: flex;
+    align-items: center; /* Aligns everything on a single line */
+    gap: .25rem; /* Spacing between legend and radio buttons */
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+}
+
+[data-component="theme-selector"] fieldset {
+    border: none; /* Removes default fieldset border */
     padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-    white-space: nowrap;
+    margin: 0;
+    display: contents; /* Makes fieldset behave like it doesn’t exist */
 }
 
-.sr-only-focusable:focus {
-    position: static;
-    width: auto;
-    height: auto;
+/* Ensure the legend appears inline */
+[data-component="theme-selector"] legend {
+    font-weight: bold; /* Make the legend stand out */
     margin: 0;
-    overflow: visible;
-    clip: auto;
-    white-space: normal;
+    padding: 0;
+    display: inline-flex; /* Allows it to align properly */
+    white-space: nowrap; /* Prevents wrapping */
 }
+
+/* Style the labels and radio buttons */
+[data-component="theme-selector"] label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem; /* Spacing between radio button and text */
+    cursor: pointer;
+}
+
+[data-component="theme-selector"] input[type="radio"] {
+    accent-color: var(--text-color); /* Uses theme colors */
+    cursor: pointer;
+}
+
+
+
+
+[data-component="skip-to-content"] a {
+    display: inline-block; /* Ensures it keeps space in flow */
+    opacity: 0; /* Fully transparent */
+    color: transparent; /* Makes text blend in */
+    background-color: inherit; /* Matches the page background */
+    border: none;
+    transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
+    padding: .25rem 1rem;
+}
+
+/* When focused, make it fully visible */
+[data-component="skip-to-content"] a:focus {
+    opacity: 1;
+    color: var(--bg-color); /* Adjust to fit your theme */
+    background: var(--text-color); /* Optional high-contrast background */
+    text-decoration: none;
+}
+
+
+
+
 
 
 
