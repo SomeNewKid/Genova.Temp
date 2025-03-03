@@ -1,4 +1,92 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿(function () {
+    console.log("Starting up");
+
+    const THEME_KEY = "theme"; // Key used in localStorage
+    const defaultCulture = "en"; // Fallback if `lang` is missing
+    const pageLang = (document.documentElement.lang || defaultCulture).toLowerCase();
+
+    // Localized text for different languages
+    const translations = {
+        "en": { legend: "Theme", light: "Light", dark: "Dark", auto: "Automatic" },
+        "zh-hk": { legend: "主題", light: "淺色", dark: "深色", auto: "自動" },
+        "zh": { legend: "主题", light: "浅色", dark: "深色", auto: "自动" },
+        "ar": { legend: "السمة", light: "فاتح", dark: "داكن", auto: "تلقائي" },
+        "he": { legend: "ערכת נושא", light: "בהיר", dark: "כהה", auto: "אוטומטי" },
+        "fa": { legend: "تم", light: "روشن", dark: "تاریک", auto: "خودکار" },
+        "ur": { legend: "تھیم", light: "ہلکا", dark: "گہرا", auto: "خودکار" },
+        "ja": { legend: "テーマ", light: "ライト", dark: "ダーク", auto: "自動" },
+        "th": { legend: "ธีม", light: "สว่าง", dark: "มืด", auto: "อัตโนมัติ" },
+        "ko": { legend: "테마", light: "라이트", dark: "다크", auto: "자동" },
+        "el": { legend: "Θέμα", light: "Φωτεινό", dark: "Σκοτεινό", auto: "Αυτόματο" },
+        "hi": { legend: "थीम", light: "हल्का", dark: "गहरा", auto: "स्वचालित" }
+    };
+
+    // Get translations for the detected language, fallback to English
+    const lang = translations[pageLang] || translations[defaultCulture.toLowerCase()];
+
+    // Generate Theme Selector HTML
+    const themeSelectorHTML = `
+        <fieldset>
+            <legend>${lang.legend}</legend>
+            <label><input type="radio" name="theme" value="light"> ${lang.light}</label>
+            <label><input type="radio" name="theme" value="dark"> ${lang.dark}</label>
+            <label><input type="radio" name="theme" value="auto"> ${lang.auto}</label>
+        </fieldset>
+    `;
+
+    // Insert Theme Selector only if JavaScript is enabled
+    const themeContainer = document.querySelector("[data-component='theme-selector']");
+    if (themeContainer) {
+        themeContainer.innerHTML = themeSelectorHTML;
+    }
+
+    function setTheme(theme, save = true) {
+        if (theme === "auto") {
+            localStorage.removeItem(THEME_KEY);
+            theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        } else if (save) {
+            localStorage.setItem(THEME_KEY, theme);
+        }
+
+        document.documentElement.setAttribute("data-theme", theme);
+
+        if (themeContainer) {
+            const themeInput = themeContainer.querySelector(`[value="auto"]`);
+            if (localStorage.getItem(THEME_KEY) === null && themeInput) {
+                themeInput.checked = true;
+            } else {
+                const selectedInput = themeContainer.querySelector(`[value="${theme}"]`);
+                if (selectedInput) {
+                    selectedInput.checked = true;
+                }
+            }
+        }
+    }
+
+    const savedTheme = localStorage.getItem(THEME_KEY);
+    setTheme(savedTheme ? savedTheme : "auto", false);
+
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+        if (localStorage.getItem(THEME_KEY) === null) {
+            setTheme("auto");
+        }
+    });
+
+    if (themeContainer) {
+        themeContainer.addEventListener("change", (event) => {
+            if (event.target.matches("[name='theme']")) {
+                setTheme(event.target.value);
+            }
+        });
+    }
+})();
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
     // Localization dictionary
     var localizedTexts = {
         "en": "Hello from JavaScript",

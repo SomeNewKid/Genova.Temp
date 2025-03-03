@@ -41,11 +41,13 @@ public class LocalizationMiddleware
                 // Remove the culture slug from the path
                 if (slugs != null)
                 {
-                    string newPath = string.Join('/', slugs.Skip(1));
-                    context.Request.Path = new PathString("/" + newPath);
+                    path = "/" + string.Join('/', slugs.Skip(1));
+                    context.Request.Path = new PathString(path);
                 }
             }
         }
+
+        localizationService.CurrentPagePath = path ?? "";
 
         localizationService.CurrentPageCulture = cultureToSet;
         CultureInfo.CurrentCulture = cultureToSet;

@@ -3,11 +3,9 @@
 @inject Genova.Temp.Localization.ILocalizationService LocalizationService
 
 @{
-    var defaultCulture = LocalizationService.DefaultCulture.Name.ToLowerInvariant();
-    var currentPageCulture = LocalizationService.CurrentPageCulture.Name.ToLowerInvariant();
-    var supportedCultures = LocalizationService.SupportedUICultures;
-    var htmlLangAtt = $"lang=\"{currentPageCulture}\"";
-    var htmlDirAtt = (System.Globalization.CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft) ? "dir=\"rtl\"" : "dir=\"ltr\"";
+    var currentCulture = LocalizationService.CurrentPageCulture;
+    var htmlLangAtt = $"lang=\"{currentCulture.Name}\"";
+    var htmlDirAtt = (currentCulture.TextInfo.IsRightToLeft) ? "dir=\"rtl\"" : "dir=\"ltr\"";
 }
 
 <!DOCTYPE html>
@@ -21,12 +19,13 @@
 <body>
     <div id="top"></div>
     <header>
+        @await Html.PartialAsync("_UtilityBar")
         @await Html.PartialAsync("_LanguageSwitcher")
         @await Html.PartialAsync("_Masthead")
-        @await Html.PartialAsync("_SiteNavigation", "top")
+        @await Html.PartialAsync("_SiteNavigation")
     </header>
 
-    <main>
+    <main id="content">
         @RenderBody()
         @await Html.PartialAsync("_BackToTop", "top")
     </main>

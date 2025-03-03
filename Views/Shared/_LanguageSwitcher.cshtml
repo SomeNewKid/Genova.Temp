@@ -74,8 +74,14 @@
         { "en", "View page in English" }     // English
     };
 
-
+    var pagePath = LocalizationService.CurrentPagePath ?? "";
     var requestPath = HttpContextAccessor.HttpContext?.Request.Path.Value ?? "";
+    var path = (!string.IsNullOrEmpty(pagePath)) ? pagePath : requestPath ?? "/";
+    if (!string.IsNullOrEmpty(requestPath) && 
+        requestPath.Contains("/Error", StringComparison.OrdinalIgnoreCase))
+    {
+        path = "/"; // don't send user from one error page to another
+    }
 }
 
 <div data-component="language-switcher">
@@ -85,7 +91,7 @@
             var lang = supportedCulture.Name;
             var langAtt = $"{MODIFY_ATTRIBUTE_PREFIX}lang=\"{lang}\"";
             var langPrefix = lang.Equals(defaultCulture, StringComparison.InvariantCultureIgnoreCase) ? "" : lang;
-            string langSpecificUrl = "/" + $"{langPrefix.ToLowerInvariant().Trim('/')}/{requestPath.TrimStart('/')}".Trim('/');
+            string langSpecificUrl = "/" + $"{langPrefix.ToLowerInvariant().Trim('/')}/{path.TrimStart('/')}".Trim('/');
             var isRtlLang = supportedCulture.TextInfo.IsRightToLeft;
             var dirAtt = isRtlLang ? $"{MODIFY_ATTRIBUTE_PREFIX}dir=\"rtl\"" : "";
             var attributes = HtmlHelperExtensions.ConvertToHtmlAttributes(activeLanguages[lang]);

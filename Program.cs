@@ -47,7 +47,21 @@ public class Program
 
         app.UseResponseModifications();
 
-        app.UseStaticFiles();
+        // don't use builder.Environment after the app is built
+        var environment = app.Services.GetRequiredService<IWebHostEnvironment>();
+
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            OnPrepareResponse = ctx =>
+            {
+                if (environment.IsDevelopment()) // Only disable caching in Development
+                {
+                    ctx.Context.Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0";
+                    ctx.Context.Response.Headers["Pragma"] = "no-cache";
+                    ctx.Context.Response.Headers["Expires"] = "0";
+                }
+            }
+        });
 
         app.UseLocalization();
 

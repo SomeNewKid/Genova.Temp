@@ -13,6 +13,8 @@ public class LocalizationService : ILocalizationService
 
     public CultureInfo CurrentPageCulture { get; set; } = CultureInfo.CurrentUICulture;
 
+    public string CurrentPagePath { get; set; } = "";
+
     public CultureInfo DefaultCulture => 
         SupportedUICultures.Count > 0 
         ? SupportedUICultures[0] 
