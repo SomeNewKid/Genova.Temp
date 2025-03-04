@@ -1,0 +1,115 @@
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Genova.Temp.SharedResource> Localizer
+@inject Genova.Temp.Localization.ILocalizationService LocalizationService
+
+@{
+    var currentCulture = LocalizationService.CurrentPageCulture;
+    var htmlLangAtt = $"lang=\"{currentCulture.Name}\"";
+    var htmlDirAtt = (currentCulture.TextInfo.IsRightToLeft) ? "dir=\"rtl\"" : "dir=\"ltr\"";
+}
+
+<!DOCTYPE html>
+<html @Html.Raw(htmlLangAtt) @Html.Raw(htmlDirAtt)>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Html.Raw(ViewData["Title"])</title>
+    <link rel="stylesheet" href="~/-/styles/site.css" asp-append-version="true" />
+</head>
+<body>
+	<div id="top"></div>
+
+    <div data-component="utility-bar">
+
+        <div class="utility-navigation">
+
+            <!-- Navigation aids -->
+            <div data-component="skip-to-content">
+                <a href="#content">Skip to content</a>
+            </div>
+
+        </div>
+
+        <div class="utility-controls">
+
+            <!-- Appearance Options -->
+            <details data-component="theme-options">
+                <summary>Appearance</summary>
+                <div>
+                    <label><input type="radio" name="theme" value="light"> Light</label>
+                    <label><input type="radio" name="theme" value="dark"> Dark</label>
+                    <label><input type="radio" name="theme" value="auto"> Auto</label>
+                    <label><input type="checkbox" name="high-contrast"> High contrast</label>
+                </div>
+            </details>
+
+            <!-- Reading Options -->
+            <details data-component="reading-options">
+                <summary>Reading options</summary>
+                <div>
+                    <span>Text size</span>
+                    <button type="button" data-action="decrease-font">A–</button>
+                    <button type="button" data-action="increase-font">A+</button>
+                    <label><input type="checkbox" name="reading-mode"> Reading mode</label>
+                </div>
+            </details>
+
+            <!-- Language Selection -->
+            <details data-component="language-options">
+                <summary>
+                    <span aria-hidden="true">A/文</span>
+                    <span>Language</span>
+                </summary>
+                <div>
+                    <a href="/en" lang="en">English</a>
+                    <a href="/zh" lang="zh">简体中文</a>
+                    <a href="/zh-hk" lang="zh-HK">繁體中文</a>
+                    <a href="/ar" lang="ar">العربية</a>
+                    <a href="/he" lang="he">עברית</a>
+                    <a href="/el" lang="el">Ελληνικά</a>
+                    <a href="/ko" lang="ko">한국어</a>
+                    <a href="/hi" lang="hi">हिन्दी</a>
+                </div>
+            </details>
+
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="container">
+        <div class="left-column">
+            <p>Left with longer content</p>
+        </div>
+        <div class="right-column">
+            <p>Right-1 with longer content</p>
+            <p>Right-2 with longer content</p>
+            <p>Right-3 with longer content</p>
+        </div>
+    </div>
+
+    <hr />
+
+	<header id="masthead">
+		<div role="heading"><strong>Site title</strong></div>
+		<nav>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/about">About</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<main id="content">
+		@RenderBody()
+		<a href="#top">Back to top</a>
+	</main>
+
+	<footer>
+		Footer
+	</footer>
+
+    <script src="~/-/scripts/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

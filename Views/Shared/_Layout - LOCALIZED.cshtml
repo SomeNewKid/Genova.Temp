@@ -1,0 +1,43 @@
+﻿`@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Genova.Temp.SharedResource> Localizer
+@inject Genova.Temp.Localization.ILocalizationService LocalizationService
+
+@{
+    var currentCulture = LocalizationService.CurrentPageCulture;
+    var htmlLangAtt = $"lang=\"{currentCulture.Name}\"";
+    var htmlDirAtt = (currentCulture.TextInfo.IsRightToLeft) ? "dir=\"rtl\"" : "dir=\"ltr\"";
+}
+
+<!DOCTYPE html>
+<html @Html.Raw(htmlLangAtt) @Html.Raw(htmlDirAtt)>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Html.Raw(ViewData["Title"])</title>
+    <link rel="stylesheet" href="~/-/styles/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div id="top"></div>
+    <header>
+        @await Html.PartialAsync("_UtilityBar")
+        @await Html.PartialAsync("_LanguageSwitcher")
+        @await Html.PartialAsync("_Masthead")
+        @await Html.PartialAsync("_SiteNavigation")
+        <hr />
+    </header>
+
+    <main id="content">
+        @RenderBody()
+        @await Html.PartialAsync("_BackToTop", "top")
+    </main>
+
+    <footer>
+        <hr />
+        @await Html.PartialAsync("_FootAbout")
+        @* @await Html.PartialAsync("_FootDebug") *@
+    </footer>
+
+    <script src="~/-/scripts/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

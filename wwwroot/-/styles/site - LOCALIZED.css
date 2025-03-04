@@ -1,0 +1,386 @@
+﻿:root {
+    --bg-color: #eee;
+    --text-color: #666;
+    --link-color: blue;
+    --link-hover-color: darkblue;
+    --bg-subtle: #ddd;
+}
+
+[data-theme~="dark"] {
+    --bg-color: #333;
+    --text-color: #ccc;
+    --link-color: cyan;
+    --link-hover-color: lightblue;
+    --bg-subtle: #555;
+}
+
+[data-theme~="light"][data-theme~="high-contrast"] {
+    --bg-color: white;
+    --text-color: black;
+    --link-color: blue;
+    --link-hover-color: darkblue;
+    --bg-subtle: #ddd;
+}
+
+[data-theme~="dark"][data-theme~="high-contrast"] {
+    --bg-color: black;
+    --text-color: white;
+    --link-color: cyan;
+    --link-hover-color: lightblue;
+    --bg-subtle: #333;
+}
+
+
+
+
+/* Ensure the page fills at least the full viewport height */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Allow header and main content to expand while pushing the footer down */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures the body takes at least the full viewport height */
+}
+
+/* Allow main content to expand and push the footer down */
+main {
+    flex-grow: 1; /* Allows the main content to take up remaining space */
+}
+
+/* Footer follows normal document flow but stays at bottom when content is short */
+footer {
+    margin-top: auto; /* Pushes the footer to the bottom if there's not enough content */
+}
+
+
+
+
+/* Reading mode styles */
+[data-reading-mode="on"] > main {
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+/* Hide everything inside <header> EXCEPT the utility bar */
+[data-reading-mode="on"] > header > :not([data-component="utility-bar"]) {
+    display: none;
+}
+
+/* Ensure the footer is still hidden */
+[data-reading-mode="on"] > footer {
+    display: none;
+}
+
+[data-reading-mode="on"] > main {
+    margin-bottom: 6em;
+}
+
+[data-reading-mode="on"] main [data-component="back-to-top"] {
+    display: inline-block;
+    margin-top: 2em;
+}
+
+
+
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+a {
+    color: var(--link-color);
+}
+
+a:hover {
+    color: var(--link-hover-color);
+}
+
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+[data-component="language-switcher"] {
+    display: flex;
+    justify-content: center;
+}
+
+[data-component="language-switcher"] ul[role="menu"] {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+[data-component="language-switcher"] li[role="menuitem"] {
+    display: inline-block;
+}
+
+[data-component="language-switcher"] a {
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+
+[data-component="language-switcher"] a[aria-current="language"] {
+    font-weight: bold;
+    background: var(--bg-subtle);
+}
+
+
+
+[data-component="back-to-top"] {
+    display: inline-block;
+    margin: 1em 0;
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    transition: background 0.2s;
+    background: var(--bg-subtle);
+}
+
+
+
+[data-component="utility-bar"] {
+    display: flex;
+    align-items: center; /* Aligns elements vertically */
+    gap: 1rem; /* Adds spacing between child elements */
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+}
+
+/* Ensure each component maintains its natural width */
+[data-component="utility-bar"] > div {
+    display: flex;
+    align-items: center;
+}
+
+
+[data-component="utility-bar"] fieldset {
+    border: none;
+}
+
+/* Ensure the legend appears inline */
+[data-component="utility-bar"] legend {
+    font-weight: bold; /* Make the legend stand out */
+    margin: 0;
+    padding: 0;
+    white-space: nowrap; /* Prevents wrapping */
+}
+
+/* Style labels (for Theme Selector) and buttons (for Text Resizer) */
+[data-component="utility-bar"] label,
+[data-component="utility-bar"] button {
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Ensure buttons inside text resizer are styled consistently */
+[data-component="utility-bar"] button {
+    padding: 0 0.25rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    background: #f8f8f8;
+    border-radius: 4px;
+}
+
+/* Add a hover effect for buttons */
+[data-component="utility-bar"] button:hover {
+    background: #e0e0e0;
+}
+
+/* Disabled button styling */
+[data-component="utility-bar"] button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+
+[data-component="theme-selector"] input[type="radio"] {
+    accent-color: var(--text-color); /* Uses theme colors */
+    cursor: pointer;
+}
+
+[data-component="theme-selector"] [name="high-contrast"] {
+    margin-left: 1em;
+}
+
+
+
+[data-component="reading-options"] fieldset > div {
+    display: inline-block;
+    margin-right: 1em;
+}
+
+
+
+
+[data-component="skip-to-content"] > div {
+    display: block; /* Fieldset is a block-level element */
+    padding-block: 1em 0.35em; /* Matches default fieldset padding */
+    padding-inline: 0.15em 0.75em;
+    margin-inline: 2px;
+    /*border: groove 2px ThreeDFace;*/ /* Uses browser's default `fieldset` styling */
+    min-width: -webkit-min-content; /* Ensures proper minimum width */
+}
+
+[data-component-DISABLED="skip-to-content"] a {
+    display: inline-block; /* Ensures it keeps space in flow */
+    opacity: 0; /* Fully transparent */
+    color: transparent; /* Makes text blend in */
+    background-color: inherit; /* Matches the page background */
+    border: none;
+    transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+[data-component="skip-to-content"] a {
+    padding: .25rem 1rem;
+}
+/* When focused, make it fully visible */
+[data-component="skip-to-content"] a:focus {
+    opacity: 1;
+    color: var(--bg-color); /* Adjust to fit your theme */
+    background: var(--text-color); /* Optional high-contrast background */
+    text-decoration: none;
+}
+
+
+
+/* Default (English) */
+#target-css::after {
+    content: "Hello from CSS";
+}
+
+/* Traditional Chinese (Hong Kong) */
+html[lang="zh-HK"] #target-css::after {
+    content: "來自自定義樣式的問候"; /* "Greetings from custom styling" */
+}
+
+/* Simplified Chinese */
+html[lang="zh"] #target-css::after {
+    content: "来自自定义样式的问候"; /* "Greetings from custom styling" */
+}
+
+/* Arabic */
+html[lang="ar"] #target-css::after {
+    content: "تحية من التنسيق المخصص"; /* "Greetings from custom styling" */
+}
+
+/* Hebrew */
+html[lang="he"] #target-css::after {
+    content: "ברכות מעיצוב מותאם אישית"; /* "Greetings from custom styling" */
+}
+
+/* Persian */
+html[lang="fa"] #target-css::after {
+    content: "درود از سبک سفارشی"; /* "Greetings from custom styling" */
+}
+
+/* Urdu */
+html[lang="ur"] #target-css::after {
+    content: "حسب ضرورت اسٹائل سے سلام"; /* "Greetings from custom styling" */
+}
+
+/* Japanese */
+html[lang="ja"] #target-css::after {
+    content: "カスタムスタイルからの挨拶"; /* "Greetings from custom styling" */
+}
+
+/* Thai */
+html[lang="th"] #target-css::after {
+    content: "คำทักทายจากสไตล์ที่กำหนดเอง"; /* "Greetings from custom styling" */
+}
+
+/* Korean */
+html[lang="ko"] #target-css::after {
+    content: "사용자 정의 스타일의 인사말"; /* "Greetings from custom styling" */
+}
+
+/* Greek */
+html[lang="el"] #target-css::after {
+    content: "Χαιρετισμοί από την προσαρμοσμένη μορφοποίηση"; /* "Greetings from custom styling" */
+}
+
+/* Hindi */
+html[lang="hi"] #target-css::after {
+    content: "कस्टम स्टाइल से नमस्ते"; /* "Greetings from custom styling" */
+}
+
+
+
+
+
+
+
+[data-component="language-switcher2"] {
+    position: relative;
+    display: inline-block;
+}
+
+    [data-component="language-switcher2"] details {
+        display: block;
+        width: max-content;
+    }
+
+    [data-component="language-switcher2"] summary {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f8f8f8;
+    }
+
+        [data-component="language-switcher2"] summary:hover {
+            background-color: #e0e0e0;
+        }
+
+    [data-component="language-switcher2"] ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: white;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: max-content;
+        min-width: 150px;
+        display: block;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+/* Hide list when details is not open */
+    [data-component="language-switcher2"] details:not([open]) ul {
+        display: none;
+    }
+
+/* Style for menu items */
+    [data-component="language-switcher2"] ul li {
+        padding: 0.5rem;
+    }
+
+        [data-component="language-switcher2"] ul li a {
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem;
+            color: black;
+        }
+
+            [data-component="language-switcher2"] ul li a:hover {
+                background-color: #f0f0f0;
+            }

@@ -4,282 +4,175 @@
     --link-color: blue;
     --link-hover-color: darkblue;
     --bg-subtle: #ddd;
+    --overlay-rgb: 102, 102, 102; /* Equivalent RGB value of #666 */
 }
 
-[data-theme~="dark"] {
-    --bg-color: #333;
-    --text-color: #ccc;
-    --link-color: cyan;
-    --link-hover-color: lightblue;
-    --bg-subtle: #555;
+/* Force a vertical scrollbar, even when content fits */
+html {
+    overflow-y: scroll;
 }
 
-[data-theme~="light"][data-theme~="high-contrast"] {
-    --bg-color: white;
-    --text-color: black;
-    --link-color: blue;
-    --link-hover-color: darkblue;
-    --bg-subtle: #ddd;
-}
-
-[data-theme~="dark"][data-theme~="high-contrast"] {
-    --bg-color: black;
-    --text-color: white;
-    --link-color: cyan;
-    --link-hover-color: lightblue;
-    --bg-subtle: #333;
-}
-
-
-
-/* Reading mode styles */
-[data-reading-mode="on"] > main {
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.8;
-}
-
-/* Hide everything inside <header> EXCEPT the utility bar */
-[data-reading-mode="on"] > header > :not([data-component="utility-bar"]) {
-    display: none;
-}
-
-/* Ensure the footer is still hidden */
-[data-reading-mode="on"] > footer {
-    display: none;
-}
-
-[data-reading-mode="on"] > main {
-    margin-bottom: 6em;
-}
-
-[data-reading-mode="on"] main [data-component="back-to-top"] {
-    display: inline-block;
-    margin-top: 2em;
-}
-
-
-
-
+/* Prevent horizontal scrolling */
 body {
+    margin: 0;
+    padding: 0;
     background-color: var(--bg-color);
     color: var(--text-color);
+    overflow-x: hidden;
 }
 
-a {
-    color: var(--link-color);
+/* Overlay visibility is controlled by the "overlayed" class */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Fallback in case CSS variables are not supported */
+    background-color: rgba(var(--overlay-rgb), 0.5); /* Uses --overlay-rgb with 50% opacity */
+    z-index: 1000; /* Ensure it's above other content */
+    display: none; /* Hidden by default */
 }
 
-a:hover {
-    color: var(--link-hover-color);
+/* Show overlay when the "overlayed" class is added to <body> */
+body.js-enabled.overlayed #overlay {
+    display: block;
 }
 
+@media (max-width: 767.98px) {
 
+    /* Base styling for the menu button */
+    #hamburger {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        z-index: 1100; /* Ensure it's on top */
+        background-color: var(--bg-color);
+    }
 
-html, body {
-    margin: 0;
-    padding: 0;
+    #hamburger:hover, #hamburger:focus {
+        background-color: var(--bg-subtle);
+    }
+
+    /* RTL mode adjustments */
+    html[dir="rtl"] #hamburger {
+        right: auto;
+        left: 0;
+        flex-direction: row-reverse;
+    }
+
+    /* Styling for the text "MENU" */
+    #hamburger .menu-text {
+        font-size: 16px;
+        font-weight: bold;
+        padding-left: .5rem;
+    }
+
+    html[dir="rtl"] #hamburger .menu-text {
+        padding-left: 0;
+        padding-right: .5rem;
+    }
+
+    /* The container for the animated menu icon */
+    #hamburger .menu-icon {
+        position: relative;
+        width: 24px;
+        height: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: .5rem .5rem .5rem .5rem;
+    }
+
+        /* Hamburger menu lines */
+        #hamburger .menu-icon span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: #333;
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+
+    /* When the menu is open, hide "MENU" text */
+    body.drawer-open #hamburger .menu-text {
+        display: none;
+    }
+
+    /* When the menu is open, hide "MENU" text */
+    body.drawer-open #hamburger .icon {
+        padding-left: .5rem;
+    }
+
+    /* Transform the hamburger into an "X" when open */
+    body.drawer-open #hamburger .menu-icon span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    body.drawer-open #hamburger .menu-icon span:nth-child(2) {
+        opacity: 0;
+    }
+
+    body.drawer-open #hamburger .menu-icon span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Disable scrolling when the drawer is open */
+    body.js-enabled.drawer-open {
+        overflow: hidden;
+        height: 100vh; /* Ensures no scrolling within the viewport */
+    }
+
+    /* Default: Drawer is initially offscreen to the right */
+    body.js-enabled [data-component="drawer"] {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        background-color: var(--bg-color);
+        box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        overflow-x: hidden;
+        overflow-y: auto;
+        min-width: 300px;
+        max-width: 100vw;
+        width: auto;
+        transform: translateX(calc(100% + 10px)); /* Ensure it's fully offscreen */
+        /*transition: transform 0.3s ease-in-out;*/
+        z-index: 1050; /* Above overlay */
+    }
+
+    /* Default: When drawer is open, bring it onscreen */
+    body.js-enabled.drawer-open [data-component="drawer"] {
+        transform: translateX(0); /* Moves back into view */
+    }
+
+    /* 🔹 Adjust drawer positioning for RTL mode */
+    html[dir="rtl"] body.js-enabled [data-component="drawer"] {
+        right: auto;
+        left: 0;
+        transform: translateX(calc(-100% - 10px)); /* Move offscreen to the left */
+    }
+
+    /* 🔹 When drawer is open in RTL mode, slide it into view */
+    html[dir="rtl"] body.js-enabled.drawer-open [data-component="drawer"] {
+        transform: translateX(0); /* Moves back into view */
+    }
 }
 
-[data-component="language-switcher"] {
-    display: flex;
-    justify-content: center;
-    padding: 1rem 0;
-}
+@media (min-width: 768px) {
+    /* Default positioning: Top-right for LTR */
+    [data-component="utility-bar"] {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
 
-[data-component="language-switcher"] ul[role="menu"] {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 1rem;
-}
-
-[data-component="language-switcher"] li[role="menuitem"] {
-    display: inline-block;
-}
-
-[data-component="language-switcher"] a {
-    text-decoration: none;
-    padding: 0.5rem;
-    border-radius: 5px;
-    transition: background 0.2s;
-}
-
-[data-component="language-switcher"] a[aria-current="language"] {
-    font-weight: bold;
-    background: var(--bg-subtle);
-}
-
-
-
-[data-component="back-to-top"] {
-    display: inline-block;
-    margin: 1em 0;
-    text-decoration: none;
-    padding: 0.5rem;
-    border-radius: 5px;
-    transition: background 0.2s;
-    background: var(--bg-subtle);
-}
-
-
-
-[data-component="utility-bar"] {
-    display: flex;
-    align-items: center; /* Aligns elements vertically */
-    gap: 1rem; /* Adds spacing between child elements */
-    flex-wrap: wrap; /* Allows wrapping on smaller screens */
-}
-
-/* Ensure each component maintains its natural width */
-[data-component="utility-bar"] > div {
-    display: flex;
-    align-items: center;
-}
-
-
-[data-component="utility-bar"] fieldset {
-    border: none;
-}
-
-/* Ensure the legend appears inline */
-[data-component="utility-bar"] legend {
-    font-weight: bold; /* Make the legend stand out */
-    margin: 0;
-    padding: 0;
-    white-space: nowrap; /* Prevents wrapping */
-}
-
-/* Style labels (for Theme Selector) and buttons (for Text Resizer) */
-[data-component="utility-bar"] label,
-[data-component="utility-bar"] button {
-    align-items: center;
-    cursor: pointer;
-}
-
-/* Ensure buttons inside text resizer are styled consistently */
-[data-component="utility-bar"] button {
-    padding: 0 0.25rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    background: #f8f8f8;
-    border-radius: 4px;
-}
-
-/* Add a hover effect for buttons */
-[data-component="utility-bar"] button:hover {
-    background: #e0e0e0;
-}
-
-/* Disabled button styling */
-[data-component="utility-bar"] button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-
-
-[data-component="theme-selector"] input[type="radio"] {
-    accent-color: var(--text-color); /* Uses theme colors */
-    cursor: pointer;
-}
-
-
-
-[data-component="reading-options"] fieldset > div {
-    display: inline-block;
-    margin-right: 1em;
-}
-
-
-
-
-[data-component="skip-to-content"] > div {
-    display: block; /* Fieldset is a block-level element */
-    padding-block: 1em 0.35em; /* Matches default fieldset padding */
-    padding-inline: 0.15em 0.75em;
-    margin-inline: 2px;
-    /*border: groove 2px ThreeDFace;*/ /* Uses browser's default `fieldset` styling */
-    min-width: -webkit-min-content; /* Ensures proper minimum width */
-}
-
-[data-component-DISABLED="skip-to-content"] a {
-    display: inline-block; /* Ensures it keeps space in flow */
-    opacity: 0; /* Fully transparent */
-    color: transparent; /* Makes text blend in */
-    background-color: inherit; /* Matches the page background */
-    border: none;
-    transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-[data-component="skip-to-content"] a {
-    padding: .25rem 1rem;
-}
-/* When focused, make it fully visible */
-[data-component="skip-to-content"] a:focus {
-    opacity: 1;
-    color: var(--bg-color); /* Adjust to fit your theme */
-    background: var(--text-color); /* Optional high-contrast background */
-    text-decoration: none;
-}
-
-
-
-/* Default (English) */
-#target-css::after {
-    content: "Hello from CSS";
-}
-
-/* Traditional Chinese (Hong Kong) */
-html[lang="zh-HK"] #target-css::after {
-    content: "來自自定義樣式的問候"; /* "Greetings from custom styling" */
-}
-
-/* Simplified Chinese */
-html[lang="zh"] #target-css::after {
-    content: "来自自定义样式的问候"; /* "Greetings from custom styling" */
-}
-
-/* Arabic */
-html[lang="ar"] #target-css::after {
-    content: "تحية من التنسيق المخصص"; /* "Greetings from custom styling" */
-}
-
-/* Hebrew */
-html[lang="he"] #target-css::after {
-    content: "ברכות מעיצוב מותאם אישית"; /* "Greetings from custom styling" */
-}
-
-/* Persian */
-html[lang="fa"] #target-css::after {
-    content: "درود از سبک سفارشی"; /* "Greetings from custom styling" */
-}
-
-/* Urdu */
-html[lang="ur"] #target-css::after {
-    content: "حسب ضرورت اسٹائل سے سلام"; /* "Greetings from custom styling" */
-}
-
-/* Japanese */
-html[lang="ja"] #target-css::after {
-    content: "カスタムスタイルからの挨拶"; /* "Greetings from custom styling" */
-}
-
-/* Thai */
-html[lang="th"] #target-css::after {
-    content: "คำทักทายจากสไตล์ที่กำหนดเอง"; /* "Greetings from custom styling" */
-}
-
-/* Korean */
-html[lang="ko"] #target-css::after {
-    content: "사용자 정의 스타일의 인사말"; /* "Greetings from custom styling" */
-}
-
-/* Greek */
-html[lang="el"] #target-css::after {
-    content: "Χαιρετισμοί από την προσαρμοσμένη μορφοποίηση"; /* "Greetings from custom styling" */
-}
-
-/* Hindi */
-html[lang="hi"] #target-css::after {
-    content: "कस्टम स्टाइल से नमस्ते"; /* "Greetings from custom styling" */
+    /* Adjust positioning for RTL: Top-left */
+    html[dir="rtl"] [data-component="utility-bar"] {
+        right: auto;
+        left: 0;
+    }
 }

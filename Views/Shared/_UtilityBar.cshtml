@@ -1,8 +1,26 @@
 ﻿@inject Genova.Temp.Localization.ILocalizationService LocalizationService
 
 @{
+    var utilityBarTitles = new string[,]
+    {
+        { "zh-HK", "工具欄" },  // Traditional Chinese
+        { "zh", "工具栏" },    // Simplified Chinese
+        { "ar", "شريط الأدوات" },  // Arabic
+        { "he", "סרגל כלים" },  // Hebrew
+        { "fa", "نوار ابزار" },  // Persian
+        { "ur", "یوٹیلیٹی بار" }, // Urdu
+        { "ja", "ユーティリティバー" },  // Japanese
+        { "th", "แถบเครื่องมือ" },  // Thai
+        { "ko", "유틸리티 바" },  // Korean
+        { "el", "Γραμμή εργαλείων" },  // Greek
+        { "hi", "उपयोगिता पट्टी" },  // Hindi
+        { "en", "Utility bar" }  // English
+    };
+
+    var utilityBarTitle = LocalizationHelper.GetLocalizedValue(utilityBarTitles);
+
 }
-<div data-component="utility-bar">
+<div data-component="utility-bar" aria-label="@utilityBarTitle" role="group">
     <div data-component="skip-to-content">
         <div>
             <a href="#content" class="sr-only sr-only-focusable" localize>
@@ -27,4 +45,3 @@
     <div data-component="reading-options"></div>
 
 </div>
-<hr />

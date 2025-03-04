@@ -1,0 +1,168 @@
+﻿:root {
+    --bg-color: #eee;
+    --text-color: #666;
+    --link-color: blue;
+    --link-color-reverse: white;
+    --link-hover-color: darkblue;
+    --link-hover-bg: pink;
+    --bg-offset: #ddd;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+a {
+    color: var(--link-color);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+    background-color: var(--link-hover-bg);
+}
+
+a:hover, a:focus {
+    text-decoration: underline;
+}
+
+
+
+/* Container setup */
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to break into new lines when necessary */
+    justify-content: space-between;
+    gap: 0.5rem; /* Adjust spacing */
+}
+
+.container p {
+    border: solid 1px black;
+    background: silver;
+}
+
+/* Left column stays fixed in position */
+.left-column {
+    flex: 0 1 auto; /* Keeps it only as wide as necessary */
+    white-space: nowrap; /* Prevents line breaks inside */
+}
+
+/* Right column distributes space */
+.right-column {
+    display: flex;
+    flex-wrap: wrap; /* Allows Right-1, Right-2, Right-3 to flow naturally */
+    gap: 0.5rem; /* Adjust spacing */
+    flex: 1; /* Ensures it takes up remaining space */
+    justify-content: flex-end; /* Aligns to the right */
+}
+
+    /* Ensure each item takes a reasonable width */
+    .right-column p {
+        flex: 1 1 auto; /* Allows natural wrapping behavior */
+        min-width: 120px; /* Adjust as needed to control breaking points */
+        text-align: center; /* Ensures consistency */
+    }
+
+
+
+
+
+/* Utility Bar: Ensure items fit inline but wrap when needed */
+[data-component="utility-bar"] {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping only when necessary */
+    justify-content: space-between; /* Keeps "Skip to content" left, controls right */
+    align-items: center;
+    width: 100%;
+    gap: 0.5rem;
+}
+
+/* Prevent .utility-controls from forcing a new line */
+.utility-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1; /* Allows it to take only the necessary space */
+    min-width: 0; /* Prevents it from expanding unnecessarily */
+}
+
+
+
+
+[data-component="utility-bar"] {
+    font-family: "Segoe UI Symbol", "Arial Unicode MS", sans-serif;
+}
+
+
+/* Ensure <details> behaves like a dropdown */
+details {
+    position: relative; /* Reference point for absolute positioning */
+    display: inline-block; /* Prevents full-width expansion */
+}
+
+/* Style the <summary> to look like a button */
+summary {
+    list-style: none; /* Hide default dropdown arrow */
+    cursor: pointer;
+    padding: .5em .5em;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    display: inline-block;
+    white-space: nowrap; /* Prevents wrapping */
+}
+
+/* Ensure dropdown content appears on top */
+details[open] > div {
+    position: absolute;
+    top: 100%; /* Position below the <summary> */
+    left: 0;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    padding: 0.5em;
+    min-width: 150px;
+    width: max-content; /* Ensures full width based on content */
+    max-width: 90vw; /* Prevents dropdown from exceeding screen width */
+    z-index: 1000; /* Ensures it appears above other content */
+    white-space: nowrap; /* Prevents wrapping */
+}
+
+    /* Prevent closing when clicking inside the dropdown */
+    details[open] > div:hover {
+        pointer-events: auto;
+    }
+
+/* Style dropdown items */
+details[open] a {
+    display: block;
+    padding: 0.5em;
+    font-weight: normal;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+    /* Close dropdown when clicking outside */
+    details[open] a:hover {
+        background: #eee;
+    }
+
+/* Ensure checkboxes appear on their own line */
+[data-component="utility-bar"] label:has(input[type="checkbox"]) {
+    display: flex; /* Keeps checkbox and label inline */
+    align-items: center; /* Aligns checkbox and label */
+    gap: 0.5em; /* Space between checkbox and text */
+    margin-top: 0.5em; /* Adds spacing above */
+    padding-top: 0.5em; /* Ensures space for separator */
+    border-top: 1px solid #ccc; /* Separator line above first checkbox */
+}
+
