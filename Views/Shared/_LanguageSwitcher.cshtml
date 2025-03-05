@@ -3,7 +3,8 @@
 
 @{
     var defaultCulture = LocalizationService.DefaultCulture.Name.ToLowerInvariant();
-    var currentPageCulture = LocalizationService.CurrentPageCulture.Name.ToLowerInvariant();
+    var currentCulture = LocalizationService.CurrentPageCulture;
+    var currentPageCulture = currentCulture.Name.ToLowerInvariant();
     var supportedCultures = LocalizationService.SupportedUICultures;
     const string MODIFY_ATTRIBUTE_PREFIX = Genova.Temp.ResponseModifiers.HtmlResponseModifier.MODIFY_ATTRIBUTE_PREFIX;
 
@@ -83,103 +84,36 @@
     }
 }
 
-@*
 <div data-component="language-switcher">
-    <ul dir="ltr" aria-label="@Html.Raw(selectorTitle)" role="menu">
-        @foreach (var supportedCulture in supportedCultures)
-        {
-            var lang = supportedCulture.Name;
-            var langAtt = $"{MODIFY_ATTRIBUTE_PREFIX}lang=\"{lang}\"";
-            var langPrefix = lang.Equals(defaultCulture, StringComparison.InvariantCultureIgnoreCase) ? "" : lang;
-            string langSpecificUrl = "/" + $"{langPrefix.ToLowerInvariant().Trim('/')}/{path.TrimStart('/')}".Trim('/');
-            var isRtlLang = supportedCulture.TextInfo.IsRightToLeft;
-            var dirAtt = isRtlLang ? $"{MODIFY_ATTRIBUTE_PREFIX}dir=\"rtl\"" : "";
-            var attributes = HtmlHelperExtensions.ConvertToHtmlAttributes(activeLanguages[lang]);
-            var ariaAtt = "";
-            var ariaVis = "";
-            var ariaLabel = $"aria-label=\"{linkTitles[lang]}\"";
-            if (currentPageCulture.Equals(lang, StringComparison.InvariantCultureIgnoreCase))
-            {
-                ariaAtt = "aria-current=\"language\"";
-                ariaVis = "<span aria-hidden=\"true\">✓</span>";
-            }
-
-            <li>
-                <a href="@langSpecificUrl" @Html.Raw(langAtt) @Html.Raw(dirAtt) @Html.Raw(ariaLabel) @Html.Raw(ariaAtt) role="menuitem">
-                    @Html.Raw(langNames[lang]) @Html.Raw(ariaVis)
-                </a>
-            </li>
-        }
-    </ul>
-</div>
-*@
-
-<div data-component="language-switcher2">
     <details>
-        <summary>
-            <span lang="en">English</span> <span aria-hidden="true">✓</span>
+        <summary @((currentCulture.TextInfo.IsRightToLeft) ? "dir=\"rtl\"" : "")>
+            <span lang="@currentCulture.Name">@Html.Raw(langNames[currentPageCulture])</span>
         </summary>
-        <ul role="menu">
-            <li>
-                <a href="/" lang="en" aria-label="View page in English" aria-current="language" role="menuitem">
-                    English <span aria-hidden="true">✓</span>
-                </a>
-            </li>
-            <li>
-                <a href="/zh" lang="zh" aria-label="以简体中文查看页面" role="menuitem">
-                    简体中文
-                </a>
-            </li>
-            <li>
-                <a href="/zh-hk" lang="zh-HK" aria-label="以廣東話檢視頁面" role="menuitem">
-                    繁體中文
-                </a>
-            </li>
-            <li>
-                <a href="/ar" lang="ar" dir="rtl" aria-label="عرض الصفحة باللغة العربية" role="menuitem">
-                    العربية
-                </a>
-            </li>
-            <li>
-                <a href="/he" lang="he" dir="rtl" aria-label="צפה בדף בעברית" role="menuitem">
-                    עברית
-                </a>
-            </li>
-            <li>
-                <a href="/fa" lang="fa" dir="rtl" aria-label="مشاهده صفحه به فارسی" role="menuitem">
-                    فارسی
-                </a>
-            </li>
-            <li>
-                <a href="/ur" lang="ur" dir="rtl" aria-label="صفحہ اردو میں دیکھیں" role="menuitem">
-                    اردو
-                </a>
-            </li>
-            <li>
-                <a href="/ja" lang="ja" aria-label="日本語でページを表示" role="menuitem">
-                    日本語
-                </a>
-            </li>
-            <li>
-                <a href="/th" lang="th" aria-label="ดูหน้าในภาษาไทย" role="menuitem">
-                    ไทย
-                </a>
-            </li>
-            <li>
-                <a href="/ko" lang="ko" aria-label="한국어로 페이지 보기" role="menuitem">
-                    한국어
-                </a>
-            </li>
-            <li>
-                <a href="/el" lang="el" aria-label="Δείτε τη σελίδα στα Ελληνικά" role="menuitem">
-                    Ελληνικά
-                </a>
-            </li>
-            <li>
-                <a href="/hi" lang="hi" aria-label="पृष्ठ हिंदी में देखें" role="menuitem">
-                    हिन्दी
-                </a>
-            </li>
+        <ul dir="ltr" aria-label="@Html.Raw(selectorTitle)" role="menu">
+            @foreach (var supportedCulture in supportedCultures)
+            {
+                var lang = supportedCulture.Name;
+                var langAtt = $"{MODIFY_ATTRIBUTE_PREFIX}lang=\"{lang}\"";
+                var langPrefix = lang.Equals(defaultCulture, StringComparison.InvariantCultureIgnoreCase) ? "" : lang;
+                string langSpecificUrl = "/" + $"{langPrefix.ToLowerInvariant().Trim('/')}/{path.TrimStart('/')}".Trim('/');
+                var isRtlLang = supportedCulture.TextInfo.IsRightToLeft;
+                var dirAtt = isRtlLang ? $"{MODIFY_ATTRIBUTE_PREFIX}dir=\"rtl\"" : "";
+                var attributes = HtmlHelperExtensions.ConvertToHtmlAttributes(activeLanguages[lang]);
+                var ariaAtt = "";
+                var ariaVis = "";
+                var ariaLabel = $"aria-label=\"{linkTitles[lang]}\"";
+                if (currentPageCulture.Equals(lang, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    ariaAtt = "aria-current=\"language\"";
+                    ariaVis = "<span aria-hidden=\"true\">✓</span>";
+                }
+
+                <li>
+                    <a href="@langSpecificUrl" @Html.Raw(langAtt) @Html.Raw(dirAtt) @Html.Raw(ariaLabel) @Html.Raw(ariaAtt) role="menuitem">
+                        @Html.Raw(langNames[lang]) @Html.Raw(ariaVis)
+                    </a>
+                </li>
+            }
         </ul>
     </details>
 </div>

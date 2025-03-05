@@ -5,6 +5,34 @@
     --link-hover-color: darkblue;
     --bg-subtle: #ddd;
     --overlay-rgb: 102, 102, 102; /* Equivalent RGB value of #666 */
+    --overlay-alpha: .5;
+}
+
+[data-theme~="dark"] {
+    --bg-color: #333;
+    --text-color: #ccc;
+    --link-color: cyan;
+    --link-hover-color: lightblue;
+    --bg-subtle: #555;
+    --overlay-alpha: .7;
+}
+
+[data-theme~="light"][data-theme~="high-contrast"] {
+    --bg-color: white;
+    --text-color: black;
+    --link-color: blue;
+    --link-hover-color: darkblue;
+    --bg-subtle: #ddd;
+    --overlay-alpha: .4;
+}
+
+[data-theme~="dark"][data-theme~="high-contrast"] {
+    --bg-color: black;
+    --text-color: white;
+    --link-color: cyan;
+    --link-hover-color: lightblue;
+    --bg-subtle: #333;
+    --overlay-alpha: .6;
 }
 
 /* Force a vertical scrollbar, even when content fits */
@@ -21,6 +49,18 @@ body {
     overflow-x: hidden;
 }
 
+a {
+    color: var(--link-color);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+    background-color: var(--bg-subtle);
+    text-decoration: underline;
+}
+
 /* Overlay visibility is controlled by the "overlayed" class */
 #overlay {
     position: fixed;
@@ -29,15 +69,39 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5); /* Fallback in case CSS variables are not supported */
-    background-color: rgba(var(--overlay-rgb), 0.5); /* Uses --overlay-rgb with 50% opacity */
+    background-color: rgba(var(--overlay-rgb), var(--overlay-alpha)); /* Uses --overlay-rgb with 50% opacity */
     z-index: 1000; /* Ensure it's above other content */
     display: none; /* Hidden by default */
 }
 
-/* Show overlay when the "overlayed" class is added to <body> */
-body.js-enabled.overlayed #overlay {
-    display: block;
+
+
+/* Reading mode styles */
+[data-reading-mode="on"] .page > main {
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
 }
+
+/* Hide everything inside <header> EXCEPT the utility bar */
+[data-reading-mode="on"] [data-component="masthead"] > :not([data-component="utility-bar"]),
+[data-reading-mode="on"] [data-component="site-navigation"],
+[data-reading-mode="on"] .page > footer {
+    display: none;
+}
+
+[data-reading-mode="on"] .page > main {
+    margin-bottom: 6em;
+}
+
+[data-reading-mode="on"] .page main [data-component="back-to-top"] {
+    display: inline-block;
+    margin-top: 2em;
+}
+
+
+
+
 
 #hamburger {
     display: none;
@@ -75,6 +139,11 @@ body.scrolled [data-component="masthead"] {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for better visibility */
 }
 
+/* Only apply box-shadow when page is scrolled */
+[data-theme="dark"] body.scrolled [data-component="masthead"] {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for better visibility */
+}
+
 
 body.sticky-footer .page {
     flex-grow: 1; /* Pushes the footer down when content is short */
@@ -87,8 +156,8 @@ body.sticky-footer main {
 }
 
 /* Prevent content from getting hidden under the fixed header */
-body.sticky-header .page {
-    padding-top: 60px; /* Adjust this value to match masthead height */
+body.sticky-header #content {
+    padding-top: 3rem; /* Adjust this value to match masthead height */
 }
 
 
@@ -107,9 +176,46 @@ body.sticky-footer .page {
     background-color: var(--bg-color);
 }
 
+[data-component="skip-to-content"] a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #000;
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    z-index: 1100;
+    transform: translateY(-100%); /* Move off-screen */
+    transition: transform 0.2s ease-in-out;
+}
+
+[data-component="skip-to-content"] a:focus {
+    transform: translateY(0); /* Bring into view when focused */
+}
+
+
+
+body.overlayed #overlay {
+    display: block;
+}
+
+body.overlayed.drawer-open #overlay {
+    display: none;
+}
+
+
+[data-component="utility-bar"] a {
+    font-weight: normal;
+    color: var(--text-color);
+}
 
 
 @media (max-width: 767.98px) {
+
+    /* Show overlay when the "overlayed" class is added to <body> */
+    body.drawer-open.overlayed #overlay {
+        display: block;
+    }
 
     /* Base styling for the menu button */
     #hamburger {
@@ -170,7 +276,7 @@ body.sticky-footer .page {
         display: block;
         width: 100%;
         height: 3px;
-        background-color: #333;
+        background-color: var(--text-color);
         border-radius: 2px;
         transition: all 0.3s ease-in-out;
     }
@@ -180,7 +286,6 @@ body.sticky-footer .page {
         display: none;
     }
 
-    /* When the menu is open, hide "MENU" text */
     body.drawer-open #hamburger .icon {
         padding-left: .5rem;
     }
@@ -240,6 +345,7 @@ body.sticky-footer .page {
         position: absolute;
         top: 0;
         right: 0;
+        z-index: 950;
     }
 
     /* Adjust positioning for RTL: Top-left */

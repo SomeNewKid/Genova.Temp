@@ -9,7 +9,7 @@
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html @Html.Raw(htmlLangAtt) @Html.Raw(htmlDirAtt)>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,42 +20,26 @@
     <div id="top"></div>
 
     <div class="page">
+        @await Html.PartialAsync("_NavigationAids")
 
-        <div data-component="navigation-aids">
-            <a href="#content">Skip to content</a>
-        </div>
-
-        <header data-component="masthead">
-            <div><strong>Site Title</strong></div>
-        </header>
+        @await Html.PartialAsync("_Masthead")
 
         <div data-component="drawer">
 
-            <nav data-component="site-navigation" aria-label="Main Navigation">
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Login</a></li>
-                </ul>
-            </nav>
+            @await Html.PartialAsync("_SiteNavigation")
 
-            <div data-component="utility-bar">
-                <button type="button">Theme</button>
-                <button type="button">Language</button>
-            </div>
+            @await Html.PartialAsync("_UtilityBar")
 
         </div>
 
         <main id="content">
-            <h1>Page Title</h1>
-            <p>Page content</p>
             @RenderBody()
-            <a href="#top">Back to top</a>
+            @await Html.PartialAsync("_BackToTop")
         </main>
 
         <footer data-component="mastfoot">
-            <p>Footer information here.</p>
+            @await Html.PartialAsync("_FootAbout")
+            @* @await Html.PartialAsync("_FootDebug") *@
         </footer>
 
     </div>

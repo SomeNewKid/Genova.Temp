@@ -20,12 +20,19 @@
     var utilityBarTitle = LocalizationHelper.GetLocalizedValue(utilityBarTitles);
 
 }
-<div data-component="utility-bar" aria-label="@utilityBarTitle" role="group">
-
-    <details data-component="theme-selector"></details>
-
-    <details data-component="reading-options"></details>
-
-    @await Html.PartialAsync("_LanguageSwitcher")
-
+<div data-component="skip-to-content">
+    <a href="#content" localize>
+        <case culture="zh-HK">跳到內容</case>
+        <case culture="zh">跳到内容</case>
+        <case culture="ar">تخطي إلى المحتوى</case>
+        <case culture="he">דלג לתוכן</case>
+        <case culture="fa">رفتن به محتوا</case>
+        <case culture="ur">مواد پر جائیں</case>
+        <case culture="ja">コンテンツにスキップ</case>
+        <case culture="th">ข้ามไปยังเนื้อหา</case>
+        <case culture="ko">콘텐츠로 건너뛰기</case>
+        <case culture="el">Μετάβαση στο περιεχόμενο</case>
+        <case culture="hi">सामग्री पर जाएं</case>
+        <case culture="en">Skip to content</case>
+    </a>
 </div>
