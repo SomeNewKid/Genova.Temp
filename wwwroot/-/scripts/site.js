@@ -280,23 +280,43 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.body.classList.add('js-enabled');
 
+    const pageLang = (document.documentElement.lang || defaultCulture).toLowerCase();
+
     // Detect RTL mode
     var isRTL = document.documentElement.dir === "rtl";
+
+    // Localized text for "MENU"
+    const menuTranslations = {
+        "en": "Menu",
+        "zh-hk": "選單",
+        "zh": "菜单",
+        "ar": "قائمة",
+        "he": "תפריט",
+        "fa": "منو",
+        "ur": "مینو",
+        "ja": "メニュー",
+        "th": "เมนู",
+        "ko": "메뉴",
+        "el": "Μενού",
+        "hi": "मेनू"
+    };
+
+    const menuLang = menuTranslations[pageLang] || menuTranslations["en"]; // Default to English if not found
 
     // Create the menu button
     var menuButton = document.createElement("div");
     menuButton.id = "hamburger";
     var menuIcon = `<span class="menu-icon"><span></span><span></span><span></span></span>`;
-    var menuText = `<span class="menu-text">MENU</span>`;
+    var menuText = `<span class="menu-text">${menuLang}</span>`;
     menuButton.innerHTML = isRTL ? menuIcon + menuText : menuText + menuIcon;
 
     var pageArea = document.querySelector(".page");
-
     if (pageArea) {
-        document.body.appendChild(menuButton);
+        pageArea.appendChild(menuButton);
     } else {
         document.body.appendChild(menuButton);
     }
+
 
 
     // Function to ensure the overlay exists

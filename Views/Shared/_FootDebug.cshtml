@@ -1,6 +1,7 @@
 ﻿@using Microsoft.Extensions.Localization
 @inject IStringLocalizer<Genova.Temp.SharedResource> Localizer
 @inject Genova.Temp.Localization.ILocalizationService LocalizationService
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
     var defaultCulture = LocalizationService.DefaultCulture.Name.ToLowerInvariant();
@@ -226,71 +227,86 @@
 @{
     decimal sampleNumber = 1234567.89m;
     decimal sampleCurrency = 1234.56m;
+
+    string numberAsString = String.Format("{0:N}", sampleNumber);
+    string currencyAsString = String.Format("{0:C}", sampleCurrency);
 }
 
 <localize>
     <case culture="zh-HK">
-        <p>數字格式: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("zh-HK"))</p>
-        <p>貨幣格式: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("zh-HK"))</p>
+        <p>數字格式: @numberAsString</p>
+        <p>貨幣格式: @currencyAsString</p>
     </case>
 
     <case culture="zh">
-        <p>数字格式: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("zh-CN"))</p>
-        <p>货币格式: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("zh-CN"))</p>
+        <p>数字格式: @numberAsString</p>
+        <p>货币格式: @currencyAsString</p>
     </case>
 
     <case culture="ar">
-        <p>تنسيق الأرقام: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("ar"))</p>
-        <p>تنسيق العملة: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("ar"))</p>
+        <p>تنسيق الأرقام: @numberAsString</p>
+        <p>تنسيق العملة: @currencyAsString</p>
     </case>
 
     <case culture="he">
-        <p>פורמט מספר: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("he"))</p>
-        <p>פורמט מטבע: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("he"))</p>
+        <p>פורמט מספר: @numberAsString</p>
+        <p>פורמט מטבע: @currencyAsString</p>
     </case>
 
     <case culture="fa">
-        <p>قالب عددی: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("fa"))</p>
-        <p>قالب ارز: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("fa"))</p>
+        <p>قالب عددی: @numberAsString</p>
+        <p>قالب ارز: @currencyAsString</p>
     </case>
 
     <case culture="ur">
-        <p>نمبر فارمیٹ: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("ur"))</p>
-        <p>کرنسی فارمیٹ: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("ur"))</p>
+        <p>نمبر فارمیٹ: @numberAsString</p>
+        <p>کرنسی فارمیٹ: @currencyAsString</p>
     </case>
 
     <case culture="ja">
-        <p>数値フォーマット: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("ja"))</p>
-        <p>通貨フォーマット: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("ja"))</p>
+        <p>数値フォーマット: @numberAsString</p>
+        <p>通貨フォーマット: @currencyAsString</p>
     </case>
 
     <case culture="th">
-        <p>รูปแบบตัวเลข: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("th"))</p>
-        <p>รูปแบบสกุลเงิน: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("th"))</p>
+        <p>รูปแบบตัวเลข: @numberAsString</p>
+        <p>รูปแบบสกุลเงิน: @currencyAsString</p>
     </case>
 
     <case culture="ko">
-        <p>숫자 형식: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("ko"))</p>
-        <p>통화 형식: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("ko"))</p>
+        <p>숫자 형식: @numberAsString</p>
+        <p>통화 형식: @currencyAsString</p>
     </case>
 
     <case culture="el">
-        <p>Μορφή αριθμού: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("el"))</p>
-        <p>Μορφή νομίσματος: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("el"))</p>
+        <p>Μορφή αριθμού: @numberAsString</p>
+        <p>Μορφή νομίσματος: @currencyAsString</p>
     </case>
 
     <case culture="hi">
-        <p>संख्या स्वरूप: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("hi"))</p>
-        <p>मुद्रा स्वरूप: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("hi"))</p>
+        <p>संख्या स्वरूप: @numberAsString</p>
+        <p>मुद्रा स्वरूप: @currencyAsString</p>
     </case>
 
     <case culture="en">
-        <p>Number Format: @sampleNumber.ToString("N", new System.Globalization.CultureInfo("en-US"))</p>
-        <p>Currency Format: @sampleCurrency.ToString("C", new System.Globalization.CultureInfo("en-US"))</p>
+        <p>Number Format: @numberAsString</p>
+        <p>Currency Format: @currencyAsString</p>
     </case>
 </localize>
 
-<hr />
+@*
+
+@{
+    var requestCultureFeature = HttpContextAccessor.HttpContext?.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>();
+    var requstCulture = requestCultureFeature?.RequestCulture.Culture;
+}
+
+
+<p>CultureInfo.CurrentCulture: @System.Globalization.CultureInfo.CurrentCulture.Name</p>
+<p>CultureInfo.CurrentUICulture: @System.Globalization.CultureInfo.CurrentUICulture.Name</p>
+<p>RequestCulture.Culture: @requstCulture</p>
+
+
 <p>
     <localize>
         <case culture="zh-HK">Chinese (Traditional) (Hong Kong, Taiwan, Macau)</case>
@@ -307,3 +323,5 @@
         <case culture="en">English (USA, UK, Canada, Australia)</case>
     </localize>
 </p>
+
+*@
