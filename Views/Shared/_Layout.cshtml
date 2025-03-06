@@ -19,10 +19,11 @@
 <body class="sticky-header sticky-footer">
     <div id="top"></div>
 
-    <div class="page">
-        @await Html.PartialAsync("_NavigationAids")
+    @await Html.PartialAsync("_NavigationAids")
 
-        @await Html.PartialAsync("_Masthead")
+    @await Html.PartialAsync("_Masthead")
+
+    <div class="page">
 
         <div data-component="drawer">
 
@@ -39,7 +40,7 @@
 
         <footer data-component="mastfoot">
             @await Html.PartialAsync("_FootAbout")
-            @await Html.PartialAsync("_FootDebug")
+            @* @await Html.PartialAsync("_FootDebug") *@
         </footer>
 
     </div>

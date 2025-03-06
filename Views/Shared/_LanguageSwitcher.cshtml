@@ -111,8 +111,8 @@
                     ariaAtt = "aria-current=\"language\"";
                     ariaVis = "<span aria-hidden=\"true\">✓</span>";
                 }
-                <li>
-                    <a href="@langSpecificUrl" @Html.Raw(langAtt) @Html.Raw(dirAtt) @Html.Raw(ariaLabel) @Html.Raw(ariaAtt) role="menuitem">
+                <li @Html.Raw(dirAtt)>
+                    <a href="@langSpecificUrl" @Html.Raw(langAtt) @Html.Raw(ariaLabel) @Html.Raw(ariaAtt) role="menuitem">
                         @Html.Raw(langNames[lang]) @Html.Raw(ariaVis)
                     </a>
                 </li>

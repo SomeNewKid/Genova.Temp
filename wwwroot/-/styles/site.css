@@ -1,356 +1,602 @@
-﻿:root {
-    --bg-color: #eee;
-    --text-color: #666;
-    --link-color: blue;
-    --link-hover-color: darkblue;
-    --bg-subtle: #ddd;
-    --overlay-rgb: 102, 102, 102; /* Equivalent RGB value of #666 */
-    --overlay-alpha: .5;
+﻿@charset "UTF-8";
+:root {
+  --bg-color: #eee;
+  --text-color: #666;
+  --link-color: blue;
+  --link-hover-color: darkblue;
+  --bg-subtle: #ddd;
+  --overlay-rgb: 51, 51, 51;
+  --overlay-alpha: .7;
 }
 
-[data-theme~="dark"] {
-    --bg-color: #333;
-    --text-color: #ccc;
-    --link-color: cyan;
-    --link-hover-color: lightblue;
-    --bg-subtle: #555;
-    --overlay-alpha: .7;
+[data-theme~=dark] {
+  --bg-color: #333;
+  --text-color: #ccc;
+  --link-color: cyan;
+  --link-hover-color: lightblue;
+  --bg-subtle: #555;
+  --overlay-rgb: 0, 0, 0;
+  --overlay-alpha: .5;
 }
 
-[data-theme~="light"][data-theme~="high-contrast"] {
-    --bg-color: white;
-    --text-color: black;
-    --link-color: blue;
-    --link-hover-color: darkblue;
-    --bg-subtle: #ddd;
-    --overlay-alpha: .4;
+[data-theme~=light][data-theme~=high-contrast] {
+  --bg-color: white;
+  --text-color: black;
+  --link-color: blue;
+  --link-hover-color: darkblue;
+  --bg-subtle: #ddd;
+  --overlay-alpha: .8;
 }
 
-[data-theme~="dark"][data-theme~="high-contrast"] {
-    --bg-color: black;
-    --text-color: white;
-    --link-color: cyan;
-    --link-hover-color: lightblue;
-    --bg-subtle: #333;
-    --overlay-alpha: .6;
+[data-theme~=dark][data-theme~=high-contrast] {
+  --bg-color: black;
+  --text-color: white;
+  --link-color: cyan;
+  --link-hover-color: lightblue;
+  --bg-subtle: #333;
+  --overlay-rgb: 51, 51, 51;
+  --overlay-alpha: .7;
 }
 
+/*** Resets
+*/
+/*
+ ChatGPT prompt:
+    Context: You are working on a new ASP.NET Core 8 project and 
+             want to create a modern CSS reset stylesheet.
+
+    Please refer to the following CSS "reset" stylesheets:
+    - Nicolas Gallagher: Normalize.css (https://github.com/necolas/normalize.css/)
+    - Sindre Sorhus: Modern Normalize (https://github.com/sindresorhus/modern-normalize/blob/main/modern-normalize.css)
+    - Piccalilli: Modern CSS Reset (https://piccalil.li/blog/a-more-modern-css-reset/)
+    - JoshComeau: Custom CSS Reset (https://www.joshwcomeau.com/css/custom-css-reset/)
+    - Eric Meyer: CSS Reset (https://meyerweb.com/eric/tools/css/reset/)
+
+    From these examples, we want to create a modern CSS reset
+    stylesheet separated into four categories of rules:
+    1. Layout (e.g., box-sizing, targeting only all elements (*) or <html> and <body>)
+    2. Typography (e.g., elements such as <h1>, <p>, <strong>, and <sup>)
+    3. Forms (e.g., elements such as <input>, <button>, <select>)
+    4. Miscellaneous (e.g., elements such as <table>, <img>, <canvas>)
+
+    For each reset:
+    * Add a comment explaining the purpose of the reset, using inline comment styles not block comments.
+    * Choose modern normalization (keeping useful browser defaults).
+    * Opt for minimal resets rather than strong opininated resets.
+
+    -----
+
+    Please create the first category of rules for the Layout section,
+    implementing the following resets.
+    - Sets a consistent box model using `box-sizing: border-box`.
+    - Removes the margin and padding for the body element.
+    - Improves the text rendering for all browsers.
+
+    -----
+
+    Please create the second category of rules for the Typography section,
+    implementing the following resets.
+    - Balances text wrapping, and avoids text overflows, for all heading elements.
+    - For paragraph elements, increases line height and improves line wrapping.
+    - For bold and strong elements, adds the correct font weight.
+    - Corrects the font family and font size for code, kbd, samp, pre elements.
+    - Adds the correct font size for small elements.
+    - Prevents sub and sup elements from affecting the line height.
+
+    -----
+
+    Please create the third category of rules for the Forms section,
+    implementing the following resets.
+    - For button, input, optgroup, select, and textarea elements, ensures consistent font styles and remove the margins.
+    - Corrects the inability to style clickable types in iOS and Safari.
+    - Ensures textareas without a rows attribute are not tiny.
+    - Corrects the cursor style of increment and decrement buttons in Safari.
+    - Corrects the appearance of search input types in Chrome and Safari.
+    - Removes the inner padding in Chrome and Safari on macOS.
+
+    -----
+
+    Please create the fourth category of rules for the Miscellaneous section,
+    implementing the following resets.
+    - Corrects the table border color inheritance in Chrome and Safari.
+    - Makes images and media easier to work with.
+    - Removes the padding for the legend element.
+    - Adds the correct display for the summary element.
+    - Adds the correct vertical alignment for the progress element.
+    - Adds extra scroll margin for elements that have been anchored to.
+
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+p {
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+b, strong {
+  font-weight: bolder;
+}
+
+code, kbd, samp, pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+small {
+  font-size: 80%;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+}
+
+sub {
+  vertical-align: sub;
+}
+
+sup {
+  vertical-align: super;
+}
+
+button, input, optgroup, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+textarea {
+  min-height: 3em;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+input[type=search] {
+  -webkit-appearance: textfield;
+  appearance: textfield;
+  outline-offset: -2px;
+}
+
+input[type=search]::-webkit-search-decoration,
+input[type=search]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+img, video, svg, canvas, audio {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+legend {
+  padding: 0;
+}
+
+summary {
+  display: list-item;
+}
+
+progress {
+  vertical-align: baseline;
+}
+
+:target {
+  scroll-margin-top: 1em;
+}
+
+/*** Layouts
+*/
 /* Force a vertical scrollbar, even when content fits */
 html {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
-
-/* Prevent horizontal scrolling */
-body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    overflow-x: hidden;
-}
-
-a {
-    color: var(--link-color);
-    font-weight: bold;
-    text-decoration: none;
-}
-
-a:hover {
-    color: var(--link-hover-color);
-    background-color: var(--bg-subtle);
-    text-decoration: underline;
-}
-
-/* Overlay visibility is controlled by the "overlayed" class */
-#overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Fallback in case CSS variables are not supported */
-    background-color: rgba(var(--overlay-rgb), var(--overlay-alpha)); /* Uses --overlay-rgb with 50% opacity */
-    z-index: 1000; /* Ensure it's above other content */
-    display: none; /* Hidden by default */
-}
-
-
-
-/* Reading mode styles */
-[data-reading-mode="on"] .page > main {
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.8;
-}
-
-/* Hide everything inside <header> EXCEPT the utility bar */
-[data-reading-mode="on"] [data-component="masthead"] > :not([data-component="utility-bar"]),
-[data-reading-mode="on"] [data-component="site-navigation"],
-[data-reading-mode="on"] .page > footer {
-    display: none;
-}
-
-[data-reading-mode="on"] .page > main {
-    margin-bottom: 6em;
-}
-
-[data-reading-mode="on"] .page main [data-component="back-to-top"] {
-    display: inline-block;
-    margin-top: 2em;
-}
-
-
-
-
-
-#hamburger {
-    display: none;
-}
-
-
-body.scroll-lock {
-    overflow: hidden; /* Prevent scrolling */
-    position: fixed;
-    width: 100%; /* Ensure no layout shift */
-}
-
-[data-component="navigation-aids"] {
-    position: absolute;
-    display: none;
-}
-
-[data-component="masthead"] {
-    padding: .5rem 0;
-}
-
-
-body.sticky-header [data-component="masthead"] {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: var(--bg-color); /* Ensure background remains */
-    z-index: 90; /* Ensure it's above other elements */
-    transition: box-shadow 0.2s ease-in-out; /* Smooth shadow transition */
-}
-
-/* Only apply box-shadow when page is scrolled */
-body.scrolled [data-component="masthead"] {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for better visibility */
-}
-
-/* Only apply box-shadow when page is scrolled */
-[data-theme="dark"] body.scrolled [data-component="masthead"] {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for better visibility */
-}
-
-
-body.sticky-footer .page {
-    flex-grow: 1; /* Pushes the footer down when content is short */
-    display: flex;
-    flex-direction: column;
-}
-
-body.sticky-footer main {
-    flex-grow: 1; /* Ensures main content takes up remaining space */
-}
-
-/* Prevent content from getting hidden under the fixed header */
-body.sticky-header #content {
-    padding-top: 3rem; /* Adjust this value to match masthead height */
-}
-
 
 /* Support sticky footers */
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Ensures the page takes at least the full viewport height */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the page takes at least the full viewport height */
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-x: hidden;
 }
 
-body.sticky-footer .page {
-    flex-grow: 1; /* Pushes the footer down when content is short */
+/* Overlay visibility is controlled by the <body> "overlayed" class */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Fallback in case CSS variables are not supported */
+  background-color: rgba(var(--overlay-rgb), var(--overlay-alpha)); /* Uses --overlay-rgb with 50% opacity */
+  z-index: 1000; /* Ensure it's above other content */
+  display: none; /* Hidden by default */
 }
-
-[data-component="mastfoot"] {
-    background-color: var(--bg-color);
-}
-
-[data-component="skip-to-content"] a {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: #000;
-    color: #fff;
-    padding: 10px 15px;
-    text-decoration: none;
-    z-index: 1100;
-    transform: translateY(-100%); /* Move off-screen */
-    transition: transform 0.2s ease-in-out;
-}
-
-[data-component="skip-to-content"] a:focus {
-    transform: translateY(0); /* Bring into view when focused */
-}
-
-
 
 body.overlayed #overlay {
-    display: block;
+  display: block;
 }
 
 body.overlayed.drawer-open #overlay {
-    display: none;
+  display: none;
 }
 
-
-[data-component="utility-bar"] a {
-    font-weight: normal;
-    color: var(--text-color);
+/* Support drawer and modals  */
+body.scroll-lock {
+  overflow: hidden; /* Prevent scrolling */
+  position: fixed;
+  width: 100%; /* Ensure no layout shift */
 }
 
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-@media (max-width: 767.98px) {
+/*******************************
+ Sticky header
+ <body class="sticky-header">
+ *******************************/
+body.sticky-header [data-component=masthead] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--bg-color); /* Ensure background remains */
+  z-index: 90; /* Ensure it's above other elements */
+  transition: box-shadow 0.2s ease-in-out; /* Smooth shadow transition */
+  height: 3rem; /* Define explicit height */
+}
 
-    /* Show overlay when the "overlayed" class is added to <body> */
-    body.drawer-open.overlayed #overlay {
-        display: block;
-    }
+/* Only apply box-shadow when page is scrolled */
+body.scrolled [data-component=masthead] {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for better visibility */
+}
 
-    /* Base styling for the menu button */
-    #hamburger {
-        position: absolute;
-        top: 0;
-        right: 0;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        z-index: 1100; /* Ensure it's on top */
-        background-color: var(--bg-color);
-    }
+/* Only apply box-shadow when page is scrolled */
+[data-theme=dark] body.scrolled [data-component=masthead] {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for better visibility */
+}
 
-    body.sticky-header #hamburger {
-        position: fixed;
-    }
+/* Add space below the masthead so the next content isn't hidden */
+body.sticky-header .page {
+  margin-top: 3rem; /* Same as masthead height */
+}
 
-    body.sticky-header.drawer-open #hamburger {
-        position: absolute;
-    }
+/* Ensure the main content is not hidden when using Skip to Content */
+body.sticky-header main {
+  scroll-margin-top: 3rem; /* Ensures skipped content is visible */
+}
 
-    #hamburger:hover, #hamburger:focus {
-        background-color: var(--bg-subtle);
-    }
+/* Ensure internal anchor links adjust for sticky header */
+body.sticky-header :target {
+  scroll-margin-top: 3rem; /* Prevents target elements from being hidden */
+}
 
-    /* RTL mode adjustments */
-    html[dir="rtl"] #hamburger {
-        right: auto;
-        left: 0;
-        flex-direction: row-reverse;
-    }
+/*******************************
+Sticky footer
+<body class="sticky-footer">
+*******************************/
+body.sticky-footer .page {
+  flex-grow: 1; /* Pushes the footer down when content is short */
+  display: flex;
+  flex-direction: column;
+}
 
-    /* Styling for the text "MENU" */
-    #hamburger .menu-text {
-        font-size: 16px;
-        font-weight: bold;
-        padding-left: .5rem;
-    }
+body.sticky-footer main {
+  flex-grow: 1; /* Ensures main content takes up remaining space */
+}
 
-    html[dir="rtl"] #hamburger .menu-text {
-        padding-left: 0;
-        padding-right: .5rem;
-    }
+body.sticky-footer .page {
+  flex-grow: 1; /* Pushes the footer down when content is short */
+}
 
-    /* The container for the animated menu icon */
-    #hamburger .menu-icon {
-        position: relative;
-        width: 24px;
-        height: 18px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: .5rem .5rem .5rem .5rem;
-    }
+/*** Elements
+*/
+/* Hyperlink */
+a {
+  color: var(--link-color);
+  font-weight: bold;
+  text-decoration: none;
+}
 
-    /* Hamburger menu lines */
-    #hamburger .menu-icon span {
-        display: block;
-        width: 100%;
-        height: 3px;
-        background-color: var(--text-color);
-        border-radius: 2px;
-        transition: all 0.3s ease-in-out;
-    }
+a:hover {
+  color: var(--link-hover-color);
+  background-color: var(--bg-subtle);
+  text-decoration: underline;
+}
 
-    /* When the menu is open, hide "MENU" text */
-    body.drawer-open #hamburger .menu-text {
-        display: none;
-    }
+/*** Components
+*/
+.card {
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-    body.drawer-open #hamburger .icon {
-        padding-left: .5rem;
-    }
+/*******************************
+ Utility bar
+ *******************************/
+[data-component=utility-bar] a {
+  font-weight: normal;
+  color: var(--text-color);
+}
 
-    /* Transform the hamburger into an "X" when open */
-    body.drawer-open #hamburger .menu-icon span:nth-child(1) {
-        transform: translateY(7px) rotate(45deg);
-    }
+[data-component=utility-bar] summary span::before {
+  content: "🌐";
+  display: inline-block;
+  font-family: "Segoe UI Symbol", "Arial Unicode MS", "Noto Sans", sans-serif;
+  font-size: 1.5em; /* Make emoji larger */
+  transform: scale(1.1); /* Scale up the emoji */
+  vertical-align: -0.1em; /* Fine-tune vertical alignment */
+  margin-right: 0.4em; /* Space between emoji and text */
+}
 
-    body.drawer-open #hamburger .menu-icon span:nth-child(2) {
-        opacity: 0;
-    }
-
-    body.drawer-open #hamburger .menu-icon span:nth-child(3) {
-        transform: translateY(-7px) rotate(-45deg);
-    }
-
-    /* Default: Drawer is initially offscreen to the right */
-    body.js-enabled [data-component="drawer"] {
-        position: fixed;
-        top: 0;
-        right: 0;
-        height: 100vh;
-        background-color: var(--bg-color);
-        box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-        overflow-x: hidden;
-        overflow-y: auto;
-        min-width: 250px;
-        max-width: 100vw;
-        width: auto;
-        transform: translateX(calc(100% + 10px)); /* Ensure it's fully offscreen */
-        /*transition: transform 0.3s ease-in-out;*/
-        z-index: 1050; /* Above overlay */
-    }
-
-    /* Default: When drawer is open, bring it onscreen */
-    body.js-enabled.drawer-open [data-component="drawer"] {
-        transform: translateX(0); /* Moves back into view */
-    }
-
-    /* 🔹 Adjust drawer positioning for RTL mode */
-    html[dir="rtl"] body.js-enabled [data-component="drawer"] {
-        right: auto;
-        left: 0;
-        transform: translateX(calc(-100% - 10px)); /* Move offscreen to the left */
-    }
-
-    /* 🔹 When drawer is open in RTL mode, slide it into view */
-    html[dir="rtl"] body.js-enabled.drawer-open [data-component="drawer"] {
-        transform: translateX(0); /* Moves back into view */
-    }
+[data-component=utility-bar] html[dir=rtl] summary span::before {
+  margin-right: 0;
+  margin-left: 0.4em;
 }
 
 @media (min-width: 768px) {
-    /* Default positioning: Top-right for LTR */
-    [data-component="utility-bar"] {
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 950;
-    }
-
-    /* Adjust positioning for RTL: Top-left */
-    html[dir="rtl"] [data-component="utility-bar"] {
-        right: auto;
-        left: 0;
-    }
+  /* Default positioning: Top-right for LTR */
+  [data-component=utility-bar] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 950;
+  }
+  /* Adjust positioning for RTL: Top-left */
+  html[dir=rtl] [data-component=utility-bar] {
+    right: auto;
+    left: 0;
+  }
 }
+@media (max-width: 767.98px) {
+  body.small-device {
+    color: red;
+  }
+}
+/*******************************
+ Reading mode
+ <body data-reading-mode="on">
+ *******************************/
+/* Reading mode styles */
+[data-reading-mode=on] .page > main {
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* Hide everything inside <header> EXCEPT the utility bar */
+[data-reading-mode=on] [data-component=masthead] > :not([data-component=utility-bar]),
+[data-reading-mode=on] [data-component=site-navigation],
+[data-reading-mode=on] .page > footer {
+  display: none;
+}
+
+[data-reading-mode=on] .page > main {
+  margin-bottom: 6em;
+}
+
+[data-reading-mode=on] .page main [data-component=back-to-top] {
+  display: inline-block;
+  margin-top: 2em;
+}
+
+/*** Navigations
+*/
+/*******************************
+ Navigation aids
+ *******************************/
+[data-component=navigation-aids] {
+  position: absolute;
+  display: none;
+}
+
+[data-component=masthead] {
+  padding: 0.5rem 0;
+}
+
+[data-component=skip-to-content] a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #000;
+  color: #fff;
+  padding: 10px 15px;
+  text-decoration: none;
+  z-index: 1100;
+  transform: translateY(-100%); /* Move off-screen */
+  transition: transform 0.2s ease-in-out;
+}
+
+[data-component=skip-to-content] a:focus {
+  transform: translateY(0); /* Bring into view when focused */
+}
+
+/*******************************
+ Main site navigation
+ *******************************/
+[data-component=site-navigation] {
+  background: var(--bg-subtle);
+}
+
+[data-component=site-navigation] ul {
+  margin: 0;
+}
+
+/*******************************
+ Footer
+ *******************************/
+[data-component=mastfoot] {
+  background-color: var(--bg-color);
+}
+
+/*******************************
+ Drawer
+ *******************************/
+/* Base styling for the menu button */
+#hamburger {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1100; /* Ensure it's on top */
+  background-color: var(--bg-color);
+  padding: 0.5rem;
+}
+
+body.sticky-header #hamburger {
+  position: fixed;
+}
+
+body.sticky-header.drawer-open #hamburger {
+  position: absolute;
+}
+
+#hamburger:hover, #hamburger:focus {
+  background-color: var(--bg-subtle);
+}
+
+/* RTL mode adjustments */
+html[dir=rtl] #hamburger {
+  right: auto;
+  left: 0;
+  flex-direction: row-reverse;
+}
+
+/* Styling for the text "MENU" */
+#hamburger .menu-text {
+  font-size: 16px;
+  font-weight: bold;
+  padding-right: 0.5rem;
+}
+
+html[dir=rtl] #hamburger .menu-text {
+  padding-left: 0.5rem;
+  padding-right: 0;
+}
+
+/* The container for the animated menu icon */
+#hamburger .menu-icon {
+  position: relative;
+  width: 24px; /* Remains the same */
+  height: 18px; /* Remains the same */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0; /* Ensures box-sizing doesn't alter size */
+}
+
+/* Hamburger menu lines */
+#hamburger .menu-icon span {
+  display: block;
+  width: 24px; /* Explicit width, remains the same */
+  height: 3px; /* Explicit height, remains the same */
+  background-color: var(--text-color);
+  border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* When the menu is open, hide "MENU" text */
+body.drawer-open #hamburger .menu-text {
+  display: none;
+}
+
+body.drawer-open #hamburger .icon {
+  padding-left: 0.5rem;
+}
+
+/* Transform the hamburger into an "X" when open */
+body.drawer-open #hamburger .menu-icon span:nth-child(1) {
+  transform: translateY(7.5px) rotate(45deg);
+  transform-origin: center;
+}
+
+body.drawer-open #hamburger .menu-icon span:nth-child(2) {
+  opacity: 0;
+}
+
+body.drawer-open #hamburger .menu-icon span:nth-child(3) {
+  transform: translateY(-7.5px) rotate(-45deg);
+  transform-origin: center;
+}
+
+@media (max-width: 767.98px) {
+  #hamburger {
+    display: flex;
+  }
+  /* Show overlay when the "overlayed" class is added to <body> */
+  body.drawer-open.overlayed #overlay {
+    display: block;
+  }
+  /* Default: Drawer is initially offscreen to the right */
+  body.js-enabled [data-component=drawer] {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    background-color: var(--bg-color);
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-width: 250px;
+    max-width: 100vw;
+    width: auto;
+    transform: translateX(calc(100% + 10px)); /* Ensure it's fully offscreen */
+    /*transition: transform 0.3s ease-in-out;*/
+    z-index: 1050; /* Above overlay */
+  }
+  /* Default: When drawer is open, bring it onscreen */
+  body.js-enabled.drawer-open [data-component=drawer] {
+    transform: translateX(0); /* Moves back into view */
+  }
+  /* 🔹 Adjust drawer positioning for RTL mode */
+  html[dir=rtl] body.js-enabled [data-component=drawer] {
+    right: auto;
+    left: 0;
+    transform: translateX(calc(-100% - 10px)); /* Move offscreen to the left */
+  }
+  /* 🔹 When drawer is open in RTL mode, slide it into view */
+  html[dir=rtl] body.js-enabled.drawer-open [data-component=drawer] {
+    transform: translateX(0); /* Moves back into view */
+  }
+}
+/*** Utilities
+*/

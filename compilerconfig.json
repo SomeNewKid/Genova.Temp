@@ -1,0 +1,16 @@
+﻿[
+  {
+    "outputFile": "wwwroot/-/styles/site.css",
+    "inputFile": "Styles/site.scss",
+    "minify": {
+      "enabled": true,
+      "removeComments":  true
+    },
+    "includeInProject": true,
+    "options": {
+      "outputStyle": "expanded",
+      "sourceMap": false,
+      "comments": false
+    }
+  }
+]

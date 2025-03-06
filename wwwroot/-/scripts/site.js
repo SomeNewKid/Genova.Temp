@@ -231,7 +231,7 @@
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
+(function () {
 
 
     // Localization dictionary
@@ -272,11 +272,11 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         console.error("Element with ID 'target-js' not found.");
     }
-});
+})();
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
+(function () {
 
     document.body.classList.add('js-enabled');
 
@@ -384,4 +384,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Listen for scroll events
     window.addEventListener("scroll", checkScroll);
-});
+})();

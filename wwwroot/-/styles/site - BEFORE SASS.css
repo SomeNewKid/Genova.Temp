@@ -1,0 +1,356 @@
+﻿:root {
+    --bg-color: #eee;
+    --text-color: #666;
+    --link-color: blue;
+    --link-hover-color: darkblue;
+    --bg-subtle: #ddd;
+    --overlay-rgb: 102, 102, 102; /* Equivalent RGB value of #666 */
+    --overlay-alpha: .5;
+}
+
+[data-theme~="dark"] {
+    --bg-color: #333;
+    --text-color: #ccc;
+    --link-color: cyan;
+    --link-hover-color: lightblue;
+    --bg-subtle: #555;
+    --overlay-alpha: .7;
+}
+
+[data-theme~="light"][data-theme~="high-contrast"] {
+    --bg-color: white;
+    --text-color: black;
+    --link-color: blue;
+    --link-hover-color: darkblue;
+    --bg-subtle: #ddd;
+    --overlay-alpha: .4;
+}
+
+[data-theme~="dark"][data-theme~="high-contrast"] {
+    --bg-color: black;
+    --text-color: white;
+    --link-color: cyan;
+    --link-hover-color: lightblue;
+    --bg-subtle: #333;
+    --overlay-alpha: .6;
+}
+
+/* Force a vertical scrollbar, even when content fits */
+html {
+    overflow-y: scroll;
+}
+
+/* Prevent horizontal scrolling */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+}
+
+a {
+    color: var(--link-color);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+    background-color: var(--bg-subtle);
+    text-decoration: underline;
+}
+
+/* Overlay visibility is controlled by the "overlayed" class */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Fallback in case CSS variables are not supported */
+    background-color: rgba(var(--overlay-rgb), var(--overlay-alpha)); /* Uses --overlay-rgb with 50% opacity */
+    z-index: 1000; /* Ensure it's above other content */
+    display: none; /* Hidden by default */
+}
+
+
+
+/* Reading mode styles */
+[data-reading-mode="on"] .page > main {
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+/* Hide everything inside <header> EXCEPT the utility bar */
+[data-reading-mode="on"] [data-component="masthead"] > :not([data-component="utility-bar"]),
+[data-reading-mode="on"] [data-component="site-navigation"],
+[data-reading-mode="on"] .page > footer {
+    display: none;
+}
+
+[data-reading-mode="on"] .page > main {
+    margin-bottom: 6em;
+}
+
+[data-reading-mode="on"] .page main [data-component="back-to-top"] {
+    display: inline-block;
+    margin-top: 2em;
+}
+
+
+
+
+
+#hamburger {
+    display: none;
+}
+
+
+body.scroll-lock {
+    overflow: hidden; /* Prevent scrolling */
+    position: fixed;
+    width: 100%; /* Ensure no layout shift */
+}
+
+[data-component="navigation-aids"] {
+    position: absolute;
+    display: none;
+}
+
+[data-component="masthead"] {
+    padding: .5rem 0;
+}
+
+
+body.sticky-header [data-component="masthead"] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-color); /* Ensure background remains */
+    z-index: 90; /* Ensure it's above other elements */
+    transition: box-shadow 0.2s ease-in-out; /* Smooth shadow transition */
+}
+
+/* Only apply box-shadow when page is scrolled */
+body.scrolled [data-component="masthead"] {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for better visibility */
+}
+
+/* Only apply box-shadow when page is scrolled */
+[data-theme="dark"] body.scrolled [data-component="masthead"] {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for better visibility */
+}
+
+
+body.sticky-footer .page {
+    flex-grow: 1; /* Pushes the footer down when content is short */
+    display: flex;
+    flex-direction: column;
+}
+
+body.sticky-footer main {
+    flex-grow: 1; /* Ensures main content takes up remaining space */
+}
+
+/* Prevent content from getting hidden under the fixed header */
+body.sticky-header #content {
+    padding-top: 3rem; /* Adjust this value to match masthead height */
+}
+
+
+/* Support sticky footers */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures the page takes at least the full viewport height */
+}
+
+body.sticky-footer .page {
+    flex-grow: 1; /* Pushes the footer down when content is short */
+}
+
+[data-component="mastfoot"] {
+    background-color: var(--bg-color);
+}
+
+[data-component="skip-to-content"] a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #000;
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    z-index: 1100;
+    transform: translateY(-100%); /* Move off-screen */
+    transition: transform 0.2s ease-in-out;
+}
+
+[data-component="skip-to-content"] a:focus {
+    transform: translateY(0); /* Bring into view when focused */
+}
+
+
+
+body.overlayed #overlay {
+    display: block;
+}
+
+body.overlayed.drawer-open #overlay {
+    display: none;
+}
+
+
+[data-component="utility-bar"] a {
+    font-weight: normal;
+    color: var(--text-color);
+}
+
+
+@media (max-width: 767.98px) {
+
+    /* Show overlay when the "overlayed" class is added to <body> */
+    body.drawer-open.overlayed #overlay {
+        display: block;
+    }
+
+    /* Base styling for the menu button */
+    #hamburger {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        z-index: 1100; /* Ensure it's on top */
+        background-color: var(--bg-color);
+    }
+
+    body.sticky-header #hamburger {
+        position: fixed;
+    }
+
+    body.sticky-header.drawer-open #hamburger {
+        position: absolute;
+    }
+
+    #hamburger:hover, #hamburger:focus {
+        background-color: var(--bg-subtle);
+    }
+
+    /* RTL mode adjustments */
+    html[dir="rtl"] #hamburger {
+        right: auto;
+        left: 0;
+        flex-direction: row-reverse;
+    }
+
+    /* Styling for the text "MENU" */
+    #hamburger .menu-text {
+        font-size: 16px;
+        font-weight: bold;
+        padding-left: .5rem;
+    }
+
+    html[dir="rtl"] #hamburger .menu-text {
+        padding-left: 0;
+        padding-right: .5rem;
+    }
+
+    /* The container for the animated menu icon */
+    #hamburger .menu-icon {
+        position: relative;
+        width: 24px;
+        height: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: .5rem .5rem .5rem .5rem;
+    }
+
+    /* Hamburger menu lines */
+    #hamburger .menu-icon span {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: var(--text-color);
+        border-radius: 2px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* When the menu is open, hide "MENU" text */
+    body.drawer-open #hamburger .menu-text {
+        display: none;
+    }
+
+    body.drawer-open #hamburger .icon {
+        padding-left: .5rem;
+    }
+
+    /* Transform the hamburger into an "X" when open */
+    body.drawer-open #hamburger .menu-icon span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    body.drawer-open #hamburger .menu-icon span:nth-child(2) {
+        opacity: 0;
+    }
+
+    body.drawer-open #hamburger .menu-icon span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Default: Drawer is initially offscreen to the right */
+    body.js-enabled [data-component="drawer"] {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        background-color: var(--bg-color);
+        box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        overflow-x: hidden;
+        overflow-y: auto;
+        min-width: 250px;
+        max-width: 100vw;
+        width: auto;
+        transform: translateX(calc(100% + 10px)); /* Ensure it's fully offscreen */
+        /*transition: transform 0.3s ease-in-out;*/
+        z-index: 1050; /* Above overlay */
+    }
+
+    /* Default: When drawer is open, bring it onscreen */
+    body.js-enabled.drawer-open [data-component="drawer"] {
+        transform: translateX(0); /* Moves back into view */
+    }
+
+    /* 🔹 Adjust drawer positioning for RTL mode */
+    html[dir="rtl"] body.js-enabled [data-component="drawer"] {
+        right: auto;
+        left: 0;
+        transform: translateX(calc(-100% - 10px)); /* Move offscreen to the left */
+    }
+
+    /* 🔹 When drawer is open in RTL mode, slide it into view */
+    html[dir="rtl"] body.js-enabled.drawer-open [data-component="drawer"] {
+        transform: translateX(0); /* Moves back into view */
+    }
+}
+
+@media (min-width: 768px) {
+    /* Default positioning: Top-right for LTR */
+    [data-component="utility-bar"] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 950;
+    }
+
+    /* Adjust positioning for RTL: Top-left */
+    html[dir="rtl"] [data-component="utility-bar"] {
+        right: auto;
+        left: 0;
+    }
+}

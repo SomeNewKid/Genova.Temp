@@ -1,0 +1,45 @@
+﻿//*****************************************************/
+//** Themes
+//*****************************************************/
+
+@import "variables";
+@import "mixins";
+
+:root {
+    --bg-color: #eee;
+    --text-color: #666;
+    --link-color: blue;
+    --link-hover-color: darkblue;
+    --bg-subtle: #ddd;
+    --overlay-rgb: 51, 51, 51; // Equivalent RGB value of #333
+    --overlay-alpha: .7;
+}
+
+[data-theme~="dark"] {
+    --bg-color: #333;
+    --text-color: #ccc;
+    --link-color: cyan;
+    --link-hover-color: lightblue;
+    --bg-subtle: #555;
+    --overlay-rgb: 0, 0, 0; // Equivalent RGB value of #000
+    --overlay-alpha: .5;
+}
+
+[data-theme~="light"][data-theme~="high-contrast"] {
+    --bg-color: white;
+    --text-color: black;
+    --link-color: blue;
+    --link-hover-color: darkblue;
+    --bg-subtle: #ddd;
+    --overlay-alpha: .8;
+}
+
+[data-theme~="dark"][data-theme~="high-contrast"] {
+    --bg-color: black;
+    --text-color: white;
+    --link-color: cyan;
+    --link-hover-color: lightblue;
+    --bg-subtle: #333;
+    --overlay-rgb: 51, 51, 51; // Equivalent RGB value of #333
+    --overlay-alpha: .7;
+}

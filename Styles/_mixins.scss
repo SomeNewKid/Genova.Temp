@@ -1,0 +1,17 @@
+﻿//*****************************************************/
+//** Mixins
+//*****************************************************/
+
+@import "variables";
+
+@mixin device-small() {
+    @media (max-width: #{$breakpoint-small}) {
+        @content;
+    }
+}
+
+@mixin device-large() {
+    @media (min-width: #{$breakpoint-large}) {
+        @content;
+    }
+}

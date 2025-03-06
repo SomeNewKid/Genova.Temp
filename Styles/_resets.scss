@@ -1,0 +1,212 @@
+﻿//**********************************************************/
+/*** Resets
+*/
+//**********************************************************/
+
+@import "variables";
+@import "mixins";
+
+
+/*
+ ChatGPT prompt:
+    Context: You are working on a new ASP.NET Core 8 project and 
+             want to create a modern CSS reset stylesheet.
+
+    Please refer to the following CSS "reset" stylesheets:
+    - Nicolas Gallagher: Normalize.css (https://github.com/necolas/normalize.css/)
+    - Sindre Sorhus: Modern Normalize (https://github.com/sindresorhus/modern-normalize/blob/main/modern-normalize.css)
+    - Piccalilli: Modern CSS Reset (https://piccalil.li/blog/a-more-modern-css-reset/)
+    - JoshComeau: Custom CSS Reset (https://www.joshwcomeau.com/css/custom-css-reset/)
+    - Eric Meyer: CSS Reset (https://meyerweb.com/eric/tools/css/reset/)
+
+    From these examples, we want to create a modern CSS reset
+    stylesheet separated into four categories of rules:
+    1. Layout (e.g., box-sizing, targeting only all elements (*) or <html> and <body>)
+    2. Typography (e.g., elements such as <h1>, <p>, <strong>, and <sup>)
+    3. Forms (e.g., elements such as <input>, <button>, <select>)
+    4. Miscellaneous (e.g., elements such as <table>, <img>, <canvas>)
+
+    For each reset:
+    * Add a comment explaining the purpose of the reset, using inline comment styles not block comments.
+    * Choose modern normalization (keeping useful browser defaults).
+    * Opt for minimal resets rather than strong opininated resets.
+
+    -----
+
+    Please create the first category of rules for the Layout section,
+    implementing the following resets.
+    - Sets a consistent box model using `box-sizing: border-box`.
+    - Removes the margin and padding for the body element.
+    - Improves the text rendering for all browsers.
+
+    -----
+
+    Please create the second category of rules for the Typography section,
+    implementing the following resets.
+    - Balances text wrapping, and avoids text overflows, for all heading elements.
+    - For paragraph elements, increases line height and improves line wrapping.
+    - For bold and strong elements, adds the correct font weight.
+    - Corrects the font family and font size for code, kbd, samp, pre elements.
+    - Adds the correct font size for small elements.
+    - Prevents sub and sup elements from affecting the line height.
+
+    -----
+
+    Please create the third category of rules for the Forms section,
+    implementing the following resets.
+    - For button, input, optgroup, select, and textarea elements, ensures consistent font styles and remove the margins.
+    - Corrects the inability to style clickable types in iOS and Safari.
+    - Ensures textareas without a rows attribute are not tiny.
+    - Corrects the cursor style of increment and decrement buttons in Safari.
+    - Corrects the appearance of search input types in Chrome and Safari.
+    - Removes the inner padding in Chrome and Safari on macOS.
+
+    -----
+
+    Please create the fourth category of rules for the Miscellaneous section,
+    implementing the following resets.
+    - Corrects the table border color inheritance in Chrome and Safari.
+    - Makes images and media easier to work with.
+    - Removes the padding for the legend element.
+    - Adds the correct display for the summary element.
+    - Adds the correct vertical alignment for the progress element.
+    - Adds extra scroll margin for elements that have been anchored to.
+
+*/
+
+
+
+// Layout Resets
+
+// Use a universal box-sizing rule for consistency
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+// Remove margin and padding for a clean slate
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+// Improve text rendering and font smoothing
+html {
+    -webkit-text-size-adjust: 100%; // Prevents font scaling in landscape mode on mobile
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+// Typography Resets
+
+// Ensure headings do not cause overflow and wrap properly
+h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word; // Prevents overflow issues
+    word-wrap: break-word;
+}
+
+// Improve readability by increasing line height and controlling wrapping
+p {
+    line-height: 1.6; // Sets a comfortable reading experience
+    overflow-wrap: break-word;
+}
+
+// Ensure bold and strong elements use proper font weight
+b, strong {
+    font-weight: bolder; // Ensures consistent bold rendering
+}
+
+// Normalize monospace font styles for code-related elements
+code, kbd, samp, pre {
+    font-family: monospace, monospace; // Ensures consistent monospace font rendering
+    font-size: 1em; // Keeps font size consistent across elements
+}
+
+// Set appropriate font size for small elements
+small {
+    font-size: 80%; // Ensures small text is properly scaled
+}
+
+// Prevent sub and sup from affecting line height
+sub, sup {
+    font-size: 75%; // Prevents these elements from being too large
+    line-height: 0; // Removes extra space caused by these elements
+    position: relative;
+}
+
+sub {
+    vertical-align: sub;
+}
+
+sup {
+    vertical-align: super;
+}
+
+// Forms Resets
+
+// Ensure consistent font styles and remove margins for form elements
+button, input, optgroup, select, textarea {
+    font-family: inherit; // Ensures fonts match surrounding text
+    font-size: 100%; // Keeps font sizes consistent
+    line-height: 1.15; // Prevents line height inconsistencies
+    margin: 0; // Removes default margins
+}
+
+// Ensure textareas without a rows attribute are not tiny
+textarea {
+    min-height: 3em; // Provides a reasonable default height
+}
+
+// Correct the cursor style of increment and decrement buttons in Safari
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    height: auto;
+}
+
+// Correct the appearance of search input types in Chrome and Safari
+input[type="search"] {
+    -webkit-appearance: textfield;
+    appearance: textfield;
+    outline-offset: -2px; // Adjusts focus outline position
+}
+
+// Removes the inner padding in Chrome and Safari on macOS
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+// Miscellaneous Resets
+
+// Corrects table border color inheritance in Chrome and Safari
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+// Ensures images and other media elements are responsive and don't overflow
+img, video, svg, canvas, audio {
+    max-width: 100%; // Prevents media from exceeding their container
+    height: auto; // Ensures aspect ratio is maintained
+    display: block;
+}
+
+// Removes default padding on the legend element
+legend {
+    padding: 0;
+}
+
+// Ensures correct display for the summary element
+summary {
+    display: list-item;
+}
+
+// Corrects vertical alignment for the progress element
+progress {
+    vertical-align: baseline;
+}
+
+// Adds extra scroll margin to elements anchored in the viewport
+:target {
+    scroll-margin-top: 1em; // Prevents anchored elements from being hidden by fixed headers
+}
