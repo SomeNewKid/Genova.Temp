@@ -6,16 +6,16 @@
 @import "variables";
 @import "mixins";
 
-/* Hyperlink */
+// Hyperlink
 
 a {
     color: var(--link-color);
     font-weight: bold;
     text-decoration: none;
-}
 
-a:hover {
-    color: var(--link-hover-color);
-    background-color: var(--bg-subtle);
-    text-decoration: underline;
+    &:hover {
+        color: var(--link-hover-color);
+        background-color: var(--bg-subtle);
+        text-decoration: underline;
+    }
 }

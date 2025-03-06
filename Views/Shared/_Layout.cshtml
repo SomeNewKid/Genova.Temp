@@ -21,27 +21,35 @@
 
     @await Html.PartialAsync("_NavigationAids")
 
-    @await Html.PartialAsync("_Masthead")
+    <div id="banner" style="background-color:red;color:white">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
 
-    <div class="page">
+    <div class="surround">
 
-        <div data-component="drawer">
+        @await Html.PartialAsync("_Masthead")
 
-            @await Html.PartialAsync("_SiteNavigation")
+        <div class="page">
 
-            @await Html.PartialAsync("_UtilityBar")
+            <div data-component="drawer">
+
+                @await Html.PartialAsync("_SiteNavigation")
+
+                @await Html.PartialAsync("_UtilityBar")
+
+            </div>
+
+            <main id="content">
+                @RenderBody()
+                @await Html.PartialAsync("_BackToTop")
+            </main>
+
+            <footer data-component="mastfoot">
+                @await Html.PartialAsync("_FootAbout")
+                @* @await Html.PartialAsync("_FootDebug") *@
+            </footer>
 
         </div>
-
-        <main id="content">
-            @RenderBody()
-            @await Html.PartialAsync("_BackToTop")
-        </main>
-
-        <footer data-component="mastfoot">
-            @await Html.PartialAsync("_FootAbout")
-            @* @await Html.PartialAsync("_FootDebug") *@
-        </footer>
 
     </div>
 

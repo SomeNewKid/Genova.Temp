@@ -5,3 +5,8 @@
 
 @import "variables";
 @import "mixins";
+
+.surround {
+    position: relative;
+    background-color: yellow;
+}

@@ -12,84 +12,93 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+// *******************************
+// Utility bar
+// *******************************
 
+[data-component="utility-bar"] {
+    a {
+        font-weight: normal;
+        color: var(--text-color);
+    }
 
+    summary {
+        span::before {
+            content: "🌐";
+            display: inline-block;
+            font-family: "Segoe UI Symbol", "Arial Unicode MS", "Noto Sans", sans-serif;
+            font-size: 1.5em; // Make emoji larger
+            transform: scale(1.1); // Scale up the emoji
+            vertical-align: -0.1em; // Fine-tune vertical alignment
+            margin-right: 0.4em; // Space between emoji and text
+        }
+    }
 
-
-/*******************************
- Utility bar
- *******************************/
-
-[data-component="utility-bar"] a {
-    font-weight: normal;
-    color: var(--text-color);
-}
-
-[data-component="utility-bar"] summary span::before {
-    content: "🌐";
-    display: inline-block;
-    font-family: "Segoe UI Symbol", "Arial Unicode MS", "Noto Sans", sans-serif;
-    font-size: 1.5em; /* Make emoji larger */
-    transform: scale(1.1); /* Scale up the emoji */
-    vertical-align: -0.1em; /* Fine-tune vertical alignment */
-    margin-right: 0.4em; /* Space between emoji and text */
-}
-
-[data-component="utility-bar"] html[dir="rtl"] summary span::before {
-    margin-right: 0;
-    margin-left: 0.4em;
+    html[dir="rtl"] {
+        summary {
+            span::before {
+                margin-right: 0;
+                margin-left: 0.4em;
+            }
+        }
+    }
 }
 
 @include device-large() {
-
-    /* Default positioning: Top-right for LTR */
+    // Default positioning: Top-right for LTR
     [data-component="utility-bar"] {
         position: absolute;
         top: 0;
         right: 0;
         z-index: 950;
     }
-
-    /* Adjust positioning for RTL: Top-left */
-    html[dir="rtl"] [data-component="utility-bar"] {
-        right: auto;
-        left: 0;
-    }
-
-}
-
-@include device-small() {
-    body.small-device {
-        color: red;
+    // Adjust positioning for RTL: Top-left
+    html[dir="rtl"] {
+        [data-component="utility-bar"] {
+            right: auto;
+            left: 0;
+        }
     }
 }
 
+// *******************************
+// Reading mode
+// <body data-reading-mode="on">
+// *******************************
 
+[data-reading-mode="on"] {
+    .page {
+        > main {
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
 
-/*******************************
- Reading mode
- <body data-reading-mode="on">
- *******************************/
+        > footer {
+            display: none;
+        }
 
-/* Reading mode styles */
-[data-reading-mode="on"] .page > main {
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.8;
-}
+        main {
+            [data-component="back-to-top"] {
+                display: inline-block;
+                margin-top: 2em;
+            }
+        }
+    }
+    // Hide everything inside <header> EXCEPT the utility bar
+    [data-component="masthead"] {
+        > :not([data-component="utility-bar"]) {
+            display: none;
+        }
+    }
 
-/* Hide everything inside <header> EXCEPT the utility bar */
-[data-reading-mode="on"] [data-component="masthead"] > :not([data-component="utility-bar"]),
-[data-reading-mode="on"] [data-component="site-navigation"],
-[data-reading-mode="on"] .page > footer {
-    display: none;
-}
+    [data-component="site-navigation"] {
+        display: none;
+    }
 
-[data-reading-mode="on"] .page > main {
-    margin-bottom: 6em;
-}
-
-[data-reading-mode="on"] .page main [data-component="back-to-top"] {
-    display: inline-block;
-    margin-top: 2em;
+    .page {
+        > main {
+            margin-bottom: 6em;
+        }
+    }
 }

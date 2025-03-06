@@ -215,16 +215,14 @@ progress {
 
 /*** Layouts
 */
-/* Force a vertical scrollbar, even when content fits */
 html {
   overflow-y: scroll;
 }
 
-/* Support sticky footers */
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ensures the page takes at least the full viewport height */
+  min-height: 100vh;
   margin: 0;
   padding: 0;
   background-color: var(--bg-color);
@@ -232,108 +230,80 @@ body {
   overflow-x: hidden;
 }
 
-/* Overlay visibility is controlled by the <body> "overlayed" class */
+body.overlayed #overlay {
+  display: block;
+}
+body.overlayed.drawer-open #overlay {
+  display: none;
+}
+
 #overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Fallback in case CSS variables are not supported */
-  background-color: rgba(var(--overlay-rgb), var(--overlay-alpha)); /* Uses --overlay-rgb with 50% opacity */
-  z-index: 1000; /* Ensure it's above other content */
-  display: none; /* Hidden by default */
-}
-
-body.overlayed #overlay {
-  display: block;
-}
-
-body.overlayed.drawer-open #overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(var(--overlay-rgb), var(--overlay-alpha));
+  z-index: 1000;
   display: none;
 }
 
-/* Support drawer and modals  */
 body.scroll-lock {
-  overflow: hidden; /* Prevent scrolling */
+  overflow: hidden;
   position: fixed;
-  width: 100%; /* Ensure no layout shift */
+  width: 100%;
 }
 
-/* Container */
 .container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/*******************************
- Sticky header
- <body class="sticky-header">
- *******************************/
 body.sticky-header [data-component=masthead] {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: var(--bg-color); /* Ensure background remains */
-  z-index: 90; /* Ensure it's above other elements */
-  transition: box-shadow 0.2s ease-in-out; /* Smooth shadow transition */
-  height: 3rem; /* Define explicit height */
+  background-color: var(--bg-color);
+  z-index: 90;
+  transition: box-shadow 0.2s ease-in-out;
+  height: 3rem;
 }
-
-/* Only apply box-shadow when page is scrolled */
-body.scrolled [data-component=masthead] {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for better visibility */
-}
-
-/* Only apply box-shadow when page is scrolled */
-[data-theme=dark] body.scrolled [data-component=masthead] {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for better visibility */
-}
-
-/* Add space below the masthead so the next content isn't hidden */
 body.sticky-header .page {
-  margin-top: 3rem; /* Same as masthead height */
+  margin-top: 3rem;
 }
-
-/* Ensure the main content is not hidden when using Skip to Content */
 body.sticky-header main {
-  scroll-margin-top: 3rem; /* Ensures skipped content is visible */
+  scroll-margin-top: 3rem;
 }
-
-/* Ensure internal anchor links adjust for sticky header */
 body.sticky-header :target {
-  scroll-margin-top: 3rem; /* Prevents target elements from being hidden */
+  scroll-margin-top: 3rem;
 }
 
-/*******************************
-Sticky footer
-<body class="sticky-footer">
-*******************************/
+body.scrolled [data-component=masthead] {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+[data-theme=dark] body.scrolled [data-component=masthead] {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
 body.sticky-footer .page {
-  flex-grow: 1; /* Pushes the footer down when content is short */
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
-
 body.sticky-footer main {
-  flex-grow: 1; /* Ensures main content takes up remaining space */
-}
-
-body.sticky-footer .page {
-  flex-grow: 1; /* Pushes the footer down when content is short */
+  flex-grow: 1;
 }
 
 /*** Elements
 */
-/* Hyperlink */
 a {
   color: var(--link-color);
   font-weight: bold;
   text-decoration: none;
 }
-
 a:hover {
   color: var(--link-hover-color);
   background-color: var(--bg-subtle);
@@ -348,80 +318,60 @@ a:hover {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/*******************************
- Utility bar
- *******************************/
 [data-component=utility-bar] a {
   font-weight: normal;
   color: var(--text-color);
 }
-
 [data-component=utility-bar] summary span::before {
   content: "🌐";
   display: inline-block;
   font-family: "Segoe UI Symbol", "Arial Unicode MS", "Noto Sans", sans-serif;
-  font-size: 1.5em; /* Make emoji larger */
-  transform: scale(1.1); /* Scale up the emoji */
-  vertical-align: -0.1em; /* Fine-tune vertical alignment */
-  margin-right: 0.4em; /* Space between emoji and text */
+  font-size: 1.5em;
+  transform: scale(1.1);
+  vertical-align: -0.1em;
+  margin-right: 0.4em;
 }
-
 [data-component=utility-bar] html[dir=rtl] summary span::before {
   margin-right: 0;
   margin-left: 0.4em;
 }
 
 @media (min-width: 768px) {
-  /* Default positioning: Top-right for LTR */
   [data-component=utility-bar] {
     position: absolute;
     top: 0;
     right: 0;
     z-index: 950;
   }
-  /* Adjust positioning for RTL: Top-left */
   html[dir=rtl] [data-component=utility-bar] {
     right: auto;
     left: 0;
   }
 }
-@media (max-width: 767.98px) {
-  body.small-device {
-    color: red;
-  }
-}
-/*******************************
- Reading mode
- <body data-reading-mode="on">
- *******************************/
-/* Reading mode styles */
 [data-reading-mode=on] .page > main {
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.8;
 }
-
-/* Hide everything inside <header> EXCEPT the utility bar */
-[data-reading-mode=on] [data-component=masthead] > :not([data-component=utility-bar]),
-[data-reading-mode=on] [data-component=site-navigation],
 [data-reading-mode=on] .page > footer {
   display: none;
 }
-
-[data-reading-mode=on] .page > main {
-  margin-bottom: 6em;
-}
-
 [data-reading-mode=on] .page main [data-component=back-to-top] {
   display: inline-block;
   margin-top: 2em;
 }
+[data-reading-mode=on] [data-component=masthead] > :not([data-component=utility-bar]) {
+  display: none;
+}
+[data-reading-mode=on] [data-component=site-navigation] {
+  display: none;
+}
+[data-reading-mode=on] .page > main {
+  margin-bottom: 6em;
+}
 
 /*** Navigations
 */
-/*******************************
- Navigation aids
- *******************************/
 [data-component=navigation-aids] {
   position: absolute;
   display: none;
@@ -440,36 +390,57 @@ a:hover {
   padding: 10px 15px;
   text-decoration: none;
   z-index: 1100;
-  transform: translateY(-100%); /* Move off-screen */
+  transform: translateY(-100%);
   transition: transform 0.2s ease-in-out;
 }
-
 [data-component=skip-to-content] a:focus {
-  transform: translateY(0); /* Bring into view when focused */
-}
-
-/*******************************
- Main site navigation
- *******************************/
-[data-component=site-navigation] {
-  background: var(--bg-subtle);
+  transform: translateY(0);
 }
 
 [data-component=site-navigation] ul {
   margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+}
+[data-component=site-navigation] li {
+  margin: 0;
+  padding: 0;
+}
+[data-component=site-navigation] a {
+  display: inline-block;
+  padding: 0.5rem;
+  text-decoration: none;
+}
+@media (max-width: 768px) {
+  [data-component=site-navigation] ul {
+    width: 100%;
+  }
+  [data-component=site-navigation] a {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid var(--border-color, #ccc);
+  }
+}
+@media (min-width: 768px) {
+  [data-component=site-navigation] ul {
+    width: 100%;
+    border-top: 1px solid var(--border-color, #ccc);
+    border-bottom: 1px solid var(--border-color, #ccc);
+    display: flex;
+  }
+  [data-component=site-navigation] li {
+    flex: none;
+  }
+  [data-component=site-navigation] a {
+    display: inline-block;
+  }
 }
 
-/*******************************
- Footer
- *******************************/
 [data-component=mastfoot] {
   background-color: var(--bg-color);
 }
 
-/*******************************
- Drawer
- *******************************/
-/* Base styling for the menu button */
 #hamburger {
   display: none;
   position: absolute;
@@ -477,35 +448,47 @@ a:hover {
   right: 0;
   align-items: center;
   cursor: pointer;
-  z-index: 1100; /* Ensure it's on top */
+  z-index: 1100;
   background-color: var(--bg-color);
   padding: 0.5rem;
+}
+#hamburger:hover, #hamburger:focus {
+  background-color: var(--bg-subtle);
 }
 
 body.sticky-header #hamburger {
   position: fixed;
 }
-
 body.sticky-header.drawer-open #hamburger {
   position: absolute;
 }
 
-#hamburger:hover, #hamburger:focus {
-  background-color: var(--bg-subtle);
-}
-
-/* RTL mode adjustments */
 html[dir=rtl] #hamburger {
   right: auto;
   left: 0;
   flex-direction: row-reverse;
 }
 
-/* Styling for the text "MENU" */
 #hamburger .menu-text {
-  font-size: 16px;
   font-weight: bold;
   padding-right: 0.5rem;
+}
+#hamburger .menu-icon {
+  position: relative;
+  width: 1.5rem;
+  height: 1.125rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+}
+#hamburger .menu-icon span {
+  display: block;
+  width: 1.5rem;
+  height: 0.1875rem;
+  background-color: var(--text-color);
+  border-radius: 0.125rem;
+  transition: all 0.3s ease-in-out;
 }
 
 html[dir=rtl] #hamburger .menu-text {
@@ -513,48 +496,21 @@ html[dir=rtl] #hamburger .menu-text {
   padding-right: 0;
 }
 
-/* The container for the animated menu icon */
-#hamburger .menu-icon {
-  position: relative;
-  width: 24px; /* Remains the same */
-  height: 18px; /* Remains the same */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 0; /* Ensures box-sizing doesn't alter size */
-}
-
-/* Hamburger menu lines */
-#hamburger .menu-icon span {
-  display: block;
-  width: 24px; /* Explicit width, remains the same */
-  height: 3px; /* Explicit height, remains the same */
-  background-color: var(--text-color);
-  border-radius: 2px;
-  transition: all 0.3s ease-in-out;
-}
-
-/* When the menu is open, hide "MENU" text */
 body.drawer-open #hamburger .menu-text {
   display: none;
 }
-
 body.drawer-open #hamburger .icon {
   padding-left: 0.5rem;
 }
-
-/* Transform the hamburger into an "X" when open */
-body.drawer-open #hamburger .menu-icon span:nth-child(1) {
-  transform: translateY(7.5px) rotate(45deg);
+body.drawer-open .menu-icon span:nth-child(1) {
+  transform: translateY(0.46875rem) rotate(45deg);
   transform-origin: center;
 }
-
-body.drawer-open #hamburger .menu-icon span:nth-child(2) {
+body.drawer-open .menu-icon span:nth-child(2) {
   opacity: 0;
 }
-
-body.drawer-open #hamburger .menu-icon span:nth-child(3) {
-  transform: translateY(-7.5px) rotate(-45deg);
+body.drawer-open .menu-icon span:nth-child(3) {
+  transform: translateY(-0.46875rem) rotate(-45deg);
   transform-origin: center;
 }
 
@@ -562,41 +518,39 @@ body.drawer-open #hamburger .menu-icon span:nth-child(3) {
   #hamburger {
     display: flex;
   }
-  /* Show overlay when the "overlayed" class is added to <body> */
   body.drawer-open.overlayed #overlay {
     display: block;
   }
-  /* Default: Drawer is initially offscreen to the right */
   body.js-enabled [data-component=drawer] {
     position: fixed;
     top: 0;
     right: 0;
     height: 100vh;
     background-color: var(--bg-color);
-    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2);
     overflow-x: hidden;
     overflow-y: auto;
     min-width: 250px;
     max-width: 100vw;
     width: auto;
-    transform: translateX(calc(100% + 10px)); /* Ensure it's fully offscreen */
-    /*transition: transform 0.3s ease-in-out;*/
-    z-index: 1050; /* Above overlay */
+    transform: translateX(calc(100% + 10px));
+    z-index: 1050;
   }
-  /* Default: When drawer is open, bring it onscreen */
   body.js-enabled.drawer-open [data-component=drawer] {
-    transform: translateX(0); /* Moves back into view */
+    transform: translateX(0);
   }
-  /* 🔹 Adjust drawer positioning for RTL mode */
   html[dir=rtl] body.js-enabled [data-component=drawer] {
     right: auto;
     left: 0;
-    transform: translateX(calc(-100% - 10px)); /* Move offscreen to the left */
+    transform: translateX(calc(-100% - 10px));
   }
-  /* 🔹 When drawer is open in RTL mode, slide it into view */
   html[dir=rtl] body.js-enabled.drawer-open [data-component=drawer] {
-    transform: translateX(0); /* Moves back into view */
+    transform: translateX(0);
   }
 }
 /*** Utilities
 */
+.surround {
+  position: relative;
+  background-color: yellow;
+}

@@ -8,19 +8,16 @@
 
 $masthead-height: 3rem;
 
-
-/* Force a vertical scrollbar, even when content fits */
-
+// Force a vertical scrollbar, even when content fits
 html {
     overflow-y: scroll;
 }
 
-/* Support sticky footers */
-
+// Support sticky footers
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensures the page takes at least the full viewport height */
+    min-height: 100vh; // Ensures the page takes at least the full viewport height
     margin: 0;
     padding: 0;
     background-color: var(--bg-color);
@@ -28,8 +25,20 @@ body {
     overflow-x: hidden;
 }
 
+// Overlay visibility is controlled by the <body> "overlayed" class
+body {
+    &.overlayed {
+        #overlay {
+            display: block;
+        }
 
-/* Overlay visibility is controlled by the <body> "overlayed" class */
+        &.drawer-open {
+            #overlay {
+                display: none;
+            }
+        }
+    }
+}
 
 #overlay {
     position: fixed;
@@ -37,96 +46,79 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Fallback in case CSS variables are not supported */
-    background-color: rgba(var(--overlay-rgb), var(--overlay-alpha)); /* Uses --overlay-rgb with 50% opacity */
-    z-index: 1000; /* Ensure it's above other content */
-    display: none; /* Hidden by default */
+    background-color: rgba(0, 0, 0, 0.5); // Fallback in case CSS variables are not supported
+    background-color: rgba(var(--overlay-rgb), var(--overlay-alpha)); // Uses --overlay-rgb with 50% opacity
+    z-index: 1000; // Ensure it's above other content
+    display: none; // Hidden by default
 }
 
-body.overlayed #overlay {
-    display: block;
-}
-
-body.overlayed.drawer-open #overlay {
-    display: none;
-}
-
-
-/* Support drawer and modals  */
-
+// Support drawer and modals
 body.scroll-lock {
-    overflow: hidden; /* Prevent scrolling */
+    overflow: hidden; // Prevent scrolling
     position: fixed;
-    width: 100%; /* Ensure no layout shift */
+    width: 100%; // Ensure no layout shift
 }
 
-/* Container */
-
+// Container
 .container {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
 }
 
+// *******************************
+// Sticky header
+// <body class="sticky-header">
+// *******************************
+body.sticky-header {
+    [data-component="masthead"] {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-color); // Ensure background remains
+        z-index: 90; // Ensure it's above other elements
+        transition: box-shadow 0.2s ease-in-out; // Smooth shadow transition
+        height: #{$masthead-height}; // Define explicit height
+    }
 
+    .page {
+        margin-top: #{$masthead-height}; // Same as masthead height
+    }
 
-/*******************************
- Sticky header
- <body class="sticky-header">
- *******************************/
+    main {
+        scroll-margin-top: #{$masthead-height}; // Ensures skipped content is visible
+    }
 
-body.sticky-header [data-component="masthead"] {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: var(--bg-color); /* Ensure background remains */
-    z-index: 90; /* Ensure it's above other elements */
-    transition: box-shadow 0.2s ease-in-out; /* Smooth shadow transition */
-    height: #{$masthead-height}; /* Define explicit height */
+    :target {
+        scroll-margin-top: #{$masthead-height}; // Prevents target elements from being hidden
+    }
 }
 
-/* Only apply box-shadow when page is scrolled */
-body.scrolled [data-component="masthead"] {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for better visibility */
+body.scrolled {
+    [data-component="masthead"] {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); // Subtle shadow for better visibility
+    }
+
+    [data-theme="dark"] & {
+        [data-component="masthead"] {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); // Subtle shadow for better visibility
+        }
+    }
 }
 
-/* Only apply box-shadow when page is scrolled */
-[data-theme="dark"] body.scrolled [data-component="masthead"] {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for better visibility */
-}
+// *******************************
+// Sticky footer
+// <body class="sticky-footer">
+// *******************************
+body.sticky-footer {
+    .page {
+        flex-grow: 1; // Pushes the footer down when content is short
+        display: flex;
+        flex-direction: column;
+    }
 
-/* Add space below the masthead so the next content isn't hidden */
-body.sticky-header .page {
-    margin-top: #{$masthead-height}; /* Same as masthead height */
-}
-
-/* Ensure the main content is not hidden when using Skip to Content */
-body.sticky-header main {
-    scroll-margin-top: #{$masthead-height}; /* Ensures skipped content is visible */
-}
-
-/* Ensure internal anchor links adjust for sticky header */
-body.sticky-header :target {
-    scroll-margin-top: #{$masthead-height}; /* Prevents target elements from being hidden */
-}
-
-
-
- /*******************************
- Sticky footer
- <body class="sticky-footer">
- *******************************/
-body.sticky-footer .page {
-    flex-grow: 1; /* Pushes the footer down when content is short */
-    display: flex;
-    flex-direction: column;
-}
-
-body.sticky-footer main {
-    flex-grow: 1; /* Ensures main content takes up remaining space */
-}
-
-body.sticky-footer .page {
-    flex-grow: 1; /* Pushes the footer down when content is short */
+    main {
+        flex-grow: 1; // Ensures main content takes up remaining space
+    }
 }
