@@ -5,13 +5,20 @@ const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 
 module.exports = {
     mode: process.env.NODE_ENV || 'development',
-    entry: './Styles/site.scss',  // Your main SASS entry file
+    entry: {
+        styles: './Styles/site.scss',  // SASS Entry Point
+        site: './Scripts/site.ts',  // TypeScript Entry Point
+    },
     output: {
-        path: path.resolve(__dirname, './wwwroot/-/styles'),
-        filename: 'bundle.js',  // Webpack requires an output JS file, even if unused
+        path: path.resolve(__dirname, './wwwroot'), // Base output directory
+        filename: (pathData) => {
+            return pathData.chunk.name === 'site' ? '-/scripts/site.js' : '-/scripts/[name].js';
+        },
+        libraryTarget: "umd", // Ensures modules work in browser environments
     },
     module: {
         rules: [
+            // SCSS Compilation
             {
                 test: /\.scss$/,
                 use: [
@@ -34,15 +41,24 @@ module.exports = {
                     }
                 ],
             },
+            // TypeScript Compilation
+            {
+                test: /\.ts$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            }
         ],
+    },
+    resolve: {
+        extensions: ['.ts', '.js'],
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: 'site.css',
+            filename: '-/styles/site.css', // Output CSS file
         }),
         new BrowserSyncPlugin({
-            proxy: "http://localhost:7170", // Your ASP.NET Core backend URL
-            files: ["wwwroot/-/styles/site.css"],
+            proxy: "http://localhost:7170", // Match ASP.NET Core backend URL
+            files: ["wwwroot/-/styles/site.css", "wwwroot/-/scripts/site.js"], // Watch for changes
             injectChanges: true,
             watch: true,
             reloadDelay: 500,
@@ -50,8 +66,8 @@ module.exports = {
         }),
     ],
     optimization: {
-        minimize: false, // Ensure Webpack does not apply minification
+        minimize: false,
     },
     devtool: 'source-map',
-    watch: process.env.NODE_ENV === 'development', // Auto-recompile in development
+    watch: process.env.NODE_ENV === 'development',
 };
