@@ -1,11 +1,10 @@
-﻿const STORAGE_READING_MODE = "reading-options";
+﻿import { getPageLanguage, getTranslation } from "../utilities/shared";
+
+const STORAGE_READING_MODE = "reading-options";
 const STORAGE_TEXT_SIZE = "text-size";
 const FONT_STEP = 1.1;
 const MIN_SIZE = 0.8;
 const MAX_SIZE = 1.5;
-
-const defaultCulture = "en";
-const pageLang = (document.documentElement.lang || defaultCulture).toLowerCase();
 
 // Localized text dictionary
 const translations: Record<string, { legend: string; textSize: string; decrease: string; increase: string; readingMode: string; }> = {
@@ -24,7 +23,7 @@ const translations: Record<string, { legend: string; textSize: string; decrease:
 };
 
 // Get the localized text based on page language
-const lang = translations[pageLang] || translations["en"];
+const lang = getTranslation(translations);
 
 // Generate and insert the Reading Options component
 export function initializeReadingOptions(): void {

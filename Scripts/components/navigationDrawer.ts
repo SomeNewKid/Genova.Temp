@@ -1,9 +1,7 @@
 ﻿
+import { getPageLanguage, getTranslation } from "../utilities/shared";
 
 document.body.classList.add('js-enabled');
-
-const defaultCulture = "en";
-const pageLang = (document.documentElement.lang || defaultCulture).toLowerCase();
 
 // Localized text dictionary for the menu button
 const translations: Record<string, string> = {
@@ -17,7 +15,7 @@ const translations: Record<string, string> = {
 };
 
 // Get localized text for the menu button
-const menuText = translations[pageLang] || translations["en"];
+const menuText = getTranslation(translations);
 
 // Initialize Navigation Drawer
 export function initializeNavigationDrawer(): void {

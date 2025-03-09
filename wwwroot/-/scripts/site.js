@@ -23,20 +23,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   Localization: () => (/* binding */ Localization),
 /* harmony export */   initializeLocalization: () => (/* binding */ initializeLocalization)
 /* harmony export */ });
+/* harmony import */ var _utilities_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities/shared */ "./Scripts/utilities/shared.ts");
+
 class Localization {
-    static getLocalizedText(dictionary, defaultLang = "en") {
-        let pageLang = document.documentElement.lang || defaultLang;
-        pageLang = pageLang.toLowerCase();
-        return dictionary[pageLang] || dictionary[pageLang.split('-')[0]] || dictionary[defaultLang];
-    }
     static setLocalizedText(elementId) {
+        var _a;
+        let text = (_a = (0,_utilities_shared__WEBPACK_IMPORTED_MODULE_0__.getTranslation)(this.localizedTexts)) !== null && _a !== void 0 ? _a : "No translation";
         const targetElement = document.getElementById(elementId);
         if (targetElement) {
-            targetElement.textContent = this.getLocalizedText(this.localizedTexts);
+            targetElement.textContent = text;
         }
     }
 }
-Localization.defaultCulture = "en";
 Localization.localizedTexts = {
     "en": "Hello from JavaScript",
     "zh": "你好，來自瀏覽器的問候",
@@ -69,9 +67,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initializeNavigationDrawer: () => (/* binding */ initializeNavigationDrawer)
 /* harmony export */ });
+/* harmony import */ var _utilities_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities/shared */ "./Scripts/utilities/shared.ts");
+
 document.body.classList.add('js-enabled');
-const defaultCulture = "en";
-const pageLang = (document.documentElement.lang || defaultCulture).toLowerCase();
 // Localized text dictionary for the menu button
 const translations = {
     "en": "Menu",
@@ -83,7 +81,7 @@ const translations = {
     "hi": "मेनू"
 };
 // Get localized text for the menu button
-const menuText = translations[pageLang] || translations["en"];
+const menuText = (0,_utilities_shared__WEBPACK_IMPORTED_MODULE_0__.getTranslation)(translations);
 // Initialize Navigation Drawer
 function initializeNavigationDrawer() {
     createMenuButton();
@@ -177,13 +175,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initializeReadingOptions: () => (/* binding */ initializeReadingOptions)
 /* harmony export */ });
+/* harmony import */ var _utilities_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities/shared */ "./Scripts/utilities/shared.ts");
+
 const STORAGE_READING_MODE = "reading-options";
 const STORAGE_TEXT_SIZE = "text-size";
 const FONT_STEP = 1.1;
 const MIN_SIZE = 0.8;
 const MAX_SIZE = 1.5;
-const defaultCulture = "en";
-const pageLang = (document.documentElement.lang || defaultCulture).toLowerCase();
 // Localized text dictionary
 const translations = {
     "en": { legend: "Reading options", textSize: "Text size", decrease: "A–", increase: "A+", readingMode: "Reading mode" },
@@ -200,7 +198,7 @@ const translations = {
     "hi": { legend: "पढ़ने के विकल्प", textSize: "पाठ का आकार", decrease: "अ–", increase: "अ+", readingMode: "पढ़ने का मोड" }
 };
 // Get the localized text based on page language
-const lang = translations[pageLang] || translations["en"];
+const lang = (0,_utilities_shared__WEBPACK_IMPORTED_MODULE_0__.getTranslation)(translations);
 // Generate and insert the Reading Options component
 function initializeReadingOptions() {
     const readingContainer = document.querySelector("[data-component='reading-options']");
@@ -301,10 +299,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initializeThemeSwitcher: () => (/* binding */ initializeThemeSwitcher)
 /* harmony export */ });
+/* harmony import */ var _utilities_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities/shared */ "./Scripts/utilities/shared.ts");
+
 const THEME_KEY = "theme";
 const CONTRAST_KEY = "high-contrast";
-const defaultCulture = "en";
-const pageLang = (document.documentElement.lang || defaultCulture).toLowerCase();
 // Localized text dictionary
 const translations = {
     "en": { legend: "Theme options", auto: "Auto", light: "Light", dark: "Dark", highContrast: "High contrast" },
@@ -321,7 +319,7 @@ const translations = {
     "hi": { legend: "थीम विकल्प", auto: "स्वचालित", light: "हल्का", dark: "गहरा", highContrast: "उच्च कंट्रास्ट" }
 };
 // Get the localized text based on page language
-const lang = translations[pageLang] || translations["en"];
+const lang = (0,_utilities_shared__WEBPACK_IMPORTED_MODULE_0__.getTranslation)(translations);
 // Generate and insert the Theme Switcher component
 function initializeThemeSwitcher() {
     const themeContainer = document.querySelector("[data-component='theme-selector']");
@@ -391,6 +389,33 @@ function loadSavedTheme() {
             applyTheme("auto", localStorage.getItem(CONTRAST_KEY) || "false");
         }
     });
+}
+
+
+/***/ }),
+
+/***/ "./Scripts/utilities/shared.ts":
+/*!*************************************!*\
+  !*** ./Scripts/utilities/shared.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   DEFAULT_CULTURE: () => (/* binding */ DEFAULT_CULTURE),
+/* harmony export */   getPageLanguage: () => (/* binding */ getPageLanguage),
+/* harmony export */   getTranslation: () => (/* binding */ getTranslation)
+/* harmony export */ });
+// Default Culture Setting
+const DEFAULT_CULTURE = "en";
+// Get Current Page Language
+function getPageLanguage() {
+    return (document.documentElement.lang || DEFAULT_CULTURE).toLowerCase();
+}
+// Generic Translation Helper
+function getTranslation(translations, defaultLang = DEFAULT_CULTURE) {
+    const pageLang = getPageLanguage();
+    return translations[pageLang] || translations[pageLang.split('-')[0]] || translations[defaultLang];
 }
 
 

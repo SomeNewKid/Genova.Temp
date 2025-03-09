@@ -1,8 +1,7 @@
-﻿const THEME_KEY = "theme";
-const CONTRAST_KEY = "high-contrast";
+﻿import { getPageLanguage, getTranslation } from "../utilities/shared";
 
-const defaultCulture = "en";
-const pageLang = (document.documentElement.lang || defaultCulture).toLowerCase();
+const THEME_KEY = "theme";
+const CONTRAST_KEY = "high-contrast";
 
 // Localized text dictionary
 const translations: Record<string, { legend: string; auto: string; light: string; dark: string; highContrast: string; }> = {
@@ -21,7 +20,7 @@ const translations: Record<string, { legend: string; auto: string; light: string
 };
 
 // Get the localized text based on page language
-const lang = translations[pageLang] || translations["en"];
+const lang = getTranslation(translations);
 
 // Generate and insert the Theme Switcher component
 export function initializeThemeSwitcher(): void {

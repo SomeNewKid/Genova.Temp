@@ -1,5 +1,6 @@
-﻿export class Localization {
-    private static defaultCulture = "en";
+﻿import { getPageLanguage, getTranslation } from "../utilities/shared";
+
+export class Localization {
 
     private static localizedTexts: Record<string, string> = {
         "en": "Hello from JavaScript",
@@ -16,17 +17,11 @@
         "hi": "ब्राउज़र से नमस्ते"
     };
 
-    private static getLocalizedText(dictionary: Record<string, string>, defaultLang: string = "en"): string {
-        let pageLang = document.documentElement.lang || defaultLang;
-        pageLang = pageLang.toLowerCase();
-
-        return dictionary[pageLang] || dictionary[pageLang.split('-')[0]] || dictionary[defaultLang];
-    }
-
     public static setLocalizedText(elementId: string): void {
+        let text = getTranslation(this.localizedTexts) ?? "No translation";
         const targetElement = document.getElementById(elementId);
         if (targetElement) {
-            targetElement.textContent = this.getLocalizedText(this.localizedTexts);
+            targetElement.textContent = text;
         }
     }
 }
