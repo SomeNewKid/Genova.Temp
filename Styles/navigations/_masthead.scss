@@ -3,40 +3,12 @@
 */
 //*****************************************************/
 
-@import "variables";
-@import "mixins";
+@use "../abstracts/mixins" as mixins;
 
-// *******************************
-// Navigation aids
-// *******************************
 
-[data-component="navigation-aids"] {
-    position: absolute;
-    display: none;
-}
+$menu-font-size: 1rem;
 
-[data-component="masthead"] {
-    padding: .5rem 0;
-}
 
-[data-component="skip-to-content"] {
-    a {
-        position: absolute;
-        top: 0;
-        left: 0;
-        background: #000;
-        color: #fff;
-        padding: 10px 15px;
-        text-decoration: none;
-        z-index: 1100;
-        transform: translateY(-100%); // Move off-screen
-        transition: transform 0.2s ease-in-out;
-
-        &:focus {
-            transform: translateY(0); // Bring into view when focused
-        }
-    }
-}
 
 // *******************************
 // Main site navigation
@@ -56,13 +28,13 @@
     }
 
     a {
+        font-size: $menu-font-size;
         display: inline-block;
-        padding: 0.5rem;
+        padding: 0.5 * $menu-font-size;
         text-decoration: none;
     }
-
     // Styles for small screens (mobile)
-    @media (max-width: 768px) {
+    @include mixins.device-small() {
         ul {
             width: 100%; // Full width of the container
         }
@@ -73,9 +45,8 @@
             border-bottom: 1px solid var(--border-color, #ccc); // Add bottom border
         }
     }
-
     // Styles for larger screens (tablet and up)
-    @media (min-width: 768px) {
+    @include mixins.device-large() {
         ul {
             width: 100%; // Full width of the container
             border-top: 1px solid var(--border-color, #ccc); // Add top border
@@ -93,18 +64,10 @@
     }
 }
 
-
-// *******************************
-// Footer
-// *******************************
-
-[data-component="mastfoot"] {
-    background-color: var(--bg-color);
-}
-
 // *******************************
 // Drawer
 // *******************************
+
 
 #hamburger {
     display: none;
@@ -115,7 +78,7 @@
     cursor: pointer;
     z-index: 1100; // Ensure it's on top
     background-color: var(--bg-color);
-    padding: .5rem;
+    padding: 0.5 * $menu-font-size;
 
     &:hover, &:focus {
         background-color: var(--bg-subtle);
@@ -144,14 +107,15 @@ html[dir="rtl"] {
 
 #hamburger {
     .menu-text {
+        font-size: $menu-font-size;
         font-weight: bold;
-        padding-right: .5rem;
+        padding-right: 0.5 * $menu-font-size;
     }
 
     .menu-icon {
         position: relative;
-        width: 1.5rem;
-        height: 1.125rem;
+        width: 1.5 * $menu-font-size;
+        height: 1.125 * $menu-font-size;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -159,10 +123,10 @@ html[dir="rtl"] {
 
         span {
             display: block;
-            width: 1.5rem;
-            height: 0.1875rem;
+            width: 1.5 * $menu-font-size;
+            height: 0.1875 * $menu-font-size;
             background-color: var(--text-color);
-            border-radius: 0.125rem;
+            border-radius: 0.125 * $menu-font-size;
             transition: all 0.3s ease-in-out;
         }
     }
@@ -170,7 +134,7 @@ html[dir="rtl"] {
 
 html[dir="rtl"] {
     #hamburger .menu-text {
-        padding-left: .5rem;
+        padding-left: 0.5 * $menu-font-size;
         padding-right: 0;
     }
 }
@@ -182,13 +146,13 @@ body.drawer-open {
         }
 
         .icon {
-            padding-left: .5rem;
+            padding-left: 0.5 * $menu-font-size;
         }
     }
 
     .menu-icon {
         span:nth-child(1) {
-            transform: translateY(0.46875rem) rotate(45deg);
+            transform: translateY(0.46875 * $menu-font-size) rotate(45deg);
             transform-origin: center;
         }
 
@@ -197,13 +161,13 @@ body.drawer-open {
         }
 
         span:nth-child(3) {
-            transform: translateY(-0.46875rem) rotate(-45deg);
+            transform: translateY(-0.46875 * $menu-font-size) rotate(-45deg);
             transform-origin: center;
         }
     }
 }
 
-@include device-small() {
+@include mixins.device-small() {
     #hamburger {
         display: flex;
     }

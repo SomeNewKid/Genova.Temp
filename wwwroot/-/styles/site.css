@@ -1,4 +1,8 @@
-﻿@charset "UTF-8";
+/*!*****************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[0].use[3]!./Styles/site.scss ***!
+  \*****************************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
+
 :root {
   --bg-color: #eee;
   --text-color: #666;
@@ -38,8 +42,10 @@
   --overlay-alpha: .7;
 }
 
+
 /*** Resets
 */
+
 /*
  ChatGPT prompt:
     Context: You are working on a new ASP.NET Core 8 project and 
@@ -106,11 +112,15 @@
     - Adds extra scroll margin for elements that have been anchored to.
 
 */
-*, *::before, *::after {
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
@@ -122,7 +132,12 @@ html {
   text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
@@ -132,11 +147,15 @@ p {
   overflow-wrap: break-word;
 }
 
-b, strong {
+b,
+strong {
   font-weight: bolder;
 }
 
-code, kbd, samp, pre {
+code,
+kbd,
+samp,
+pre {
   font-family: monospace, monospace;
   font-size: 1em;
 }
@@ -145,7 +164,8 @@ small {
   font-size: 80%;
 }
 
-sub, sup {
+sub,
+sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
@@ -159,7 +179,11 @@ sup {
   vertical-align: super;
 }
 
-button, input, optgroup, select, textarea {
+button,
+input,
+optgroup,
+select,
+textarea {
   font-family: inherit;
   font-size: 100%;
   line-height: 1.15;
@@ -191,7 +215,11 @@ table {
   border-spacing: 0;
 }
 
-img, video, svg, canvas, audio {
+img,
+video,
+svg,
+canvas,
+audio {
   max-width: 100%;
   height: auto;
   display: block;
@@ -213,8 +241,26 @@ progress {
   scroll-margin-top: 1em;
 }
 
+
+/*** Elements
+*/
+
+a {
+  color: var(--link-color);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+  background-color: var(--bg-subtle);
+  text-decoration: underline;
+}
+
+
 /*** Layouts
 */
+
 html {
   overflow-y: scroll;
 }
@@ -233,6 +279,7 @@ body {
 body.overlayed #overlay {
   display: block;
 }
+
 body.overlayed.drawer-open #overlay {
   display: none;
 }
@@ -271,12 +318,15 @@ body.sticky-header [data-component=masthead] {
   transition: box-shadow 0.2s ease-in-out;
   height: 3rem;
 }
+
 body.sticky-header .page {
   margin-top: 3rem;
 }
+
 body.sticky-header main {
   scroll-margin-top: 3rem;
 }
+
 body.sticky-header :target {
   scroll-margin-top: 3rem;
 }
@@ -284,6 +334,7 @@ body.sticky-header :target {
 body.scrolled [data-component=masthead] {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 [data-theme=dark] body.scrolled [data-component=masthead] {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
@@ -293,25 +344,15 @@ body.sticky-footer .page {
   display: flex;
   flex-direction: column;
 }
+
 body.sticky-footer main {
   flex-grow: 1;
 }
 
-/*** Elements
-*/
-a {
-  color: var(--link-color);
-  font-weight: bold;
-  text-decoration: none;
-}
-a:hover {
-  color: var(--link-hover-color);
-  background-color: var(--bg-subtle);
-  text-decoration: underline;
-}
 
 /*** Components
 */
+
 .card {
   padding: 20px;
   border-radius: 10px;
@@ -322,6 +363,7 @@ a:hover {
   font-weight: normal;
   color: var(--text-color);
 }
+
 [data-component=utility-bar] summary span::before {
   content: "🌐";
   display: inline-block;
@@ -331,6 +373,7 @@ a:hover {
   vertical-align: -0.1em;
   margin-right: 0.4em;
 }
+
 [data-component=utility-bar] html[dir=rtl] summary span::before {
   margin-right: 0;
   margin-left: 0.4em;
@@ -348,30 +391,47 @@ a:hover {
     left: 0;
   }
 }
+
 [data-reading-mode=on] .page > main {
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.8;
 }
+
 [data-reading-mode=on] .page > footer {
   display: none;
 }
+
 [data-reading-mode=on] .page main [data-component=back-to-top] {
   display: inline-block;
   margin-top: 2em;
 }
+
 [data-reading-mode=on] [data-component=masthead] > :not([data-component=utility-bar]) {
   display: none;
 }
+
 [data-reading-mode=on] [data-component=site-navigation] {
   display: none;
 }
+
 [data-reading-mode=on] .page > main {
   margin-bottom: 6em;
 }
 
-/*** Navigations
+
+/*** Utilities
 */
+
+.surround22 {
+  position: relative;
+  background-color: yellow;
+}
+
+
+/*** Navigation Aids
+*/
+
 [data-component=navigation-aids] {
   position: absolute;
   display: none;
@@ -393,9 +453,14 @@ a:hover {
   transform: translateY(-100%);
   transition: transform 0.2s ease-in-out;
 }
+
 [data-component=skip-to-content] a:focus {
   transform: translateY(0);
 }
+
+
+/*** Navigations
+*/
 
 [data-component=site-navigation] ul {
   margin: 0;
@@ -403,16 +468,20 @@ a:hover {
   list-style: none;
   width: 100%;
 }
+
 [data-component=site-navigation] li {
   margin: 0;
   padding: 0;
 }
+
 [data-component=site-navigation] a {
+  font-size: 1rem;
   display: inline-block;
   padding: 0.5rem;
   text-decoration: none;
 }
-@media (max-width: 768px) {
+
+@media (max-width: 767.98px) {
   [data-component=site-navigation] ul {
     width: 100%;
   }
@@ -422,6 +491,7 @@ a:hover {
     border-bottom: 1px solid var(--border-color, #ccc);
   }
 }
+
 @media (min-width: 768px) {
   [data-component=site-navigation] ul {
     width: 100%;
@@ -437,10 +507,6 @@ a:hover {
   }
 }
 
-[data-component=mastfoot] {
-  background-color: var(--bg-color);
-}
-
 #hamburger {
   display: none;
   position: absolute;
@@ -452,13 +518,16 @@ a:hover {
   background-color: var(--bg-color);
   padding: 0.5rem;
 }
-#hamburger:hover, #hamburger:focus {
+
+#hamburger:hover,
+#hamburger:focus {
   background-color: var(--bg-subtle);
 }
 
 body.sticky-header #hamburger {
   position: fixed;
 }
+
 body.sticky-header.drawer-open #hamburger {
   position: absolute;
 }
@@ -470,9 +539,11 @@ html[dir=rtl] #hamburger {
 }
 
 #hamburger .menu-text {
+  font-size: 1rem;
   font-weight: bold;
   padding-right: 0.5rem;
 }
+
 #hamburger .menu-icon {
   position: relative;
   width: 1.5rem;
@@ -482,6 +553,7 @@ html[dir=rtl] #hamburger {
   justify-content: space-between;
   padding: 0;
 }
+
 #hamburger .menu-icon span {
   display: block;
   width: 1.5rem;
@@ -499,16 +571,20 @@ html[dir=rtl] #hamburger .menu-text {
 body.drawer-open #hamburger .menu-text {
   display: none;
 }
+
 body.drawer-open #hamburger .icon {
   padding-left: 0.5rem;
 }
+
 body.drawer-open .menu-icon span:nth-child(1) {
   transform: translateY(0.46875rem) rotate(45deg);
   transform-origin: center;
 }
+
 body.drawer-open .menu-icon span:nth-child(2) {
   opacity: 0;
 }
+
 body.drawer-open .menu-icon span:nth-child(3) {
   transform: translateY(-0.46875rem) rotate(-45deg);
   transform-origin: center;
@@ -548,9 +624,12 @@ body.drawer-open .menu-icon span:nth-child(3) {
     transform: translateX(0);
   }
 }
-/*** Utilities
+
+/*** Mastfood Navigation
 */
-.surround {
-  position: relative;
-  background-color: yellow;
+
+[data-component=mastfoot] {
+  background-color: var(--bg-color);
 }
+
+/*# sourceMappingURL=site.css.map*/

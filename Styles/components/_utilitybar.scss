@@ -3,8 +3,7 @@
 */
 //*****************************************************/
 
-@import "variables";
-@import "mixins";
+@use "../abstracts/mixins" as mixins;
 
 .card {
     padding: 20px;
@@ -44,7 +43,7 @@
     }
 }
 
-@include device-large() {
+@include mixins.device-large() {
     // Default positioning: Top-right for LTR
     [data-component="utility-bar"] {
         position: absolute;

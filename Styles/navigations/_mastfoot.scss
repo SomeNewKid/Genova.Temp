@@ -1,6 +1,9 @@
 ﻿//*****************************************************/
-//** Variables
+/*** Mastfood Navigation
+*/
 //*****************************************************/
 
-$breakpoint-large: 768px;
-$breakpoint-small: $breakpoint-large - 0.02;
+
+[data-component="mastfoot"] {
+    background-color: var(--bg-color);
+}

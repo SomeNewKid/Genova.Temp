@@ -1,9 +1,16 @@
-﻿@use "variables";
-@use "mixins";
-@use "themes";
-@use "resets";
-@use "layouts";
-@use "elements";
-@use "components";
-@use "navigations";
-@use "utilities"; 
+﻿@use "abstracts/variables";
+@use "abstracts/mixins";
+
+@use "themes/light";
+
+@use "base/resets";
+@use "base/hyperlinks";
+
+@use "layouts/stickyheader";
+
+@use "components/utilitybar";
+@use "components/utilities";
+
+@use "navigations/aids";
+@use "navigations/masthead";
+@use "navigations/mastfoot";

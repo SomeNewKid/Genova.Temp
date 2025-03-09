@@ -2,7 +2,7 @@
 //** Mixins
 //*****************************************************/
 
-@import "variables";
+@use "../abstracts/variables" as *;
 
 @mixin device-small() {
     @media (max-width: #{$breakpoint-small}) {
